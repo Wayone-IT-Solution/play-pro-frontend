@@ -94,7 +94,7 @@ const SignupPage: React.FC = () => {
       <div className="w-1/2 flex items-center justify-center p-10 relative">
         <div className="w-full max-w-md">
           {/* Form Header */}
-          <div className="mb-10 flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <h2 className="text-gray-800 text-3xl font-semibold mb-2">
               Create an account
             </h2>
@@ -107,8 +107,8 @@ const SignupPage: React.FC = () => {
             /> */}
           </div>
 
-          <div className="flex mb-6 gap-3 items-center">
-            <p className="text-gray-600 text-sm">
+          <div className="flex mt-2 mb-6 w-fit relative gap-3 items-center">
+            <p className="text-gray-600 text-lg font-semibold">
               Already have an account?{" "}
               <Link href="/login" className="text-purple-600 hover:underline">
                 Log in
@@ -119,13 +119,13 @@ const SignupPage: React.FC = () => {
               alt="Sports Illustration"
               width={80}
               height={80}
-              className="object-contain"
+              className="object-contain absolute -right-24"
             />
           </div>
 
           <form onSubmit={handleSubmit}>
             {/* First and Last Name */}
-            <div className="flex gap-4 mb-6">
+            <div className="flex gap-4 mb-4">
               <div className="flex-1">
                 <label
                   htmlFor="firstName"
@@ -138,7 +138,7 @@ const SignupPage: React.FC = () => {
                   id="firstName"
                   name="firstName"
                   placeholder="Enter first name"
-                  className="w-full px-4 py-4 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:border-purple-600 transition-colors"
+                  className="w-full px-4 py-4 rounded-lg text-sm bg-gray-200 focus:outline-none focus:border-purple-600 transition-colors"
                   value={formData.firstName}
                   onChange={handleInputChange}
                   required
@@ -156,7 +156,7 @@ const SignupPage: React.FC = () => {
                   id="lastName"
                   name="lastName"
                   placeholder="Enter last name"
-                  className="w-full px-4 py-4 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:border-purple-600 transition-colors"
+                  className="w-full px-4 py-4 rounded-lg text-sm bg-gray-200 focus:outline-none focus:border-purple-600 transition-colors"
                   value={formData.lastName}
                   onChange={handleInputChange}
                   required
@@ -165,7 +165,7 @@ const SignupPage: React.FC = () => {
             </div>
 
             {/* Role select */}
-            <div className="mb-6">
+            <div className="mb-4">
               <label
                 htmlFor="role"
                 className="block text-gray-800 text-sm font-medium mb-2"
@@ -175,7 +175,7 @@ const SignupPage: React.FC = () => {
               <select
                 id="role"
                 name="role"
-                className="w-full px-4 py-4 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:border-purple-600 transition-colors"
+                className="w-full px-4 py-4 rounded-lg text-sm bg-gray-200 focus:outline-none focus:border-purple-600 transition-colors"
                 value={formData.role}
                 onChange={handleInputChange}
                 required
@@ -190,7 +190,7 @@ const SignupPage: React.FC = () => {
             </div>
 
             {/* Email Field */}
-            <div className="mb-6 relative">
+            <div className="mb-4 relative">
               <label
                 htmlFor="email"
                 className="block text-gray-800 text-sm font-medium mb-2"
@@ -201,7 +201,7 @@ const SignupPage: React.FC = () => {
                 type="email"
                 id="email"
                 name="email"
-                className="w-full px-4 py-4 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:border-purple-600 transition-colors pr-28"
+                className="w-full px-4 py-4 rounded-lg text-sm bg-gray-200 focus:outline-none focus:border-purple-600 transition-colors pr-28"
                 placeholder="example@gmail.com"
                 value={formData.email}
                 onChange={handleInputChange}
@@ -210,7 +210,7 @@ const SignupPage: React.FC = () => {
             </div>
 
             {/* Password Field */}
-            <div className="mb-6 relative">
+            <div className="mb-4 relative">
               <label
                 htmlFor="password"
                 className="block text-gray-800 text-sm font-medium mb-2"
@@ -223,7 +223,7 @@ const SignupPage: React.FC = () => {
                     type={showPassword ? "text" : "password"}
                     id="password"
                     name="password"
-                    className="w-full px-4 py-4 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:border-purple-600 transition-colors pr-12"
+                    className="w-full px-4 py-4 rounded-lg text-sm bg-gray-200 focus:outline-none focus:border-purple-600 transition-colors pr-12"
                     placeholder="••••••••"
                     value={formData.password}
                     onChange={handleInputChange}
@@ -248,7 +248,7 @@ const SignupPage: React.FC = () => {
             </div>
 
             {/* Terms Checkbox */}
-            <div className="flex items-start gap-3 mb-6">
+            <div className="flex items-start gap-3 mb-4">
               <div
                 className={`w-5 h-5 border-2 rounded cursor-pointer flex-shrink-0 mt-0.5 transition-all ${
                   formData.agreeToTerms

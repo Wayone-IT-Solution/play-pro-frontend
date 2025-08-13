@@ -4,7 +4,7 @@ import { FaBell, FaMicrophone, FaRegBell } from "react-icons/fa";
 
 export default function Navbar() {
   return (
-    <nav className="bg-[#f6f6f6] px-6 py-4 flex items-center justify-between shadow-sm">
+    <nav className="bg-[#f6f6f6] fixed w-full top-0 z-50 px-6 py-4 flex items-center justify-between shadow-sm">
       {/* Left Group */}
       <div></div>
       <div className="flex items-center bg-white rounded-full shadow-md px-4 py-2 gap-4">

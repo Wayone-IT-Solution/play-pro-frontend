@@ -25,6 +25,16 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-[#013F5E] relative text-white mt-20">
       {/* Top banner */}
+      {/* Boot Image at bottom right */}
+      <div className="absolute -top-[132px] right-0 z-20">
+        <Image
+          src="/assets/boot.png"
+          alt="Football"
+          width={150}
+          height={150}
+          className="object-contain"
+        />
+      </div>
       <div className="bg-[#E5E5E5] w-[80%] absolute top-[-3.25rem] left-1/2 transform -translate-x-1/2 text-[#013F5E] py-4">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <h2 className="text-xl font-semibold">
