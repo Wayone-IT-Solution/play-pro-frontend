@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
         />
       </div>
       <div className="bg-[#E5E5E5] z-20 w-[90%] lg:w-[80%] absolute top-[-4rem] md:top-[-3.25rem] left-1/2 transform -translate-x-1/2 text-[#013F5E] py-4">
-        <div className="max-w-7xl mx-auto px-3 md:px-6 md:py-4 md:flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-3 md:px-6 md:py-4 md:flex items-center justify-between">
           <h2 className="text-xl font-semibold">
             PlayPro simplifies sports for everyone
           </h2>
@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Main footer content */}
-      <div className="max-w-7xl mx-auto px-6 pb-16 pt-24">
+      <div className="max-w-6xl mx-auto px-6 pb-16 pt-24">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12">
           {/* Logo and tagline */}
           <div className="space-y-6">
@@ -224,7 +224,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
       <div className="border-t pb-20 md:pb-0 border-white lg:flex justify-between items-center">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-center gap-2 md:gap-6 text-gray-300 text-sm">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-wrap justify-center gap-2 md:gap-6 text-gray-300 text-sm">
           <Link
             href="/privacy-policy"
             className="hover:text-white transition-colors"
@@ -250,7 +250,7 @@ const Footer: React.FC = () => {
             Site Map
           </Link> */}
         </div>
-        <div className="max-w-7xl mx-auto px-6 py-4 text-gray-400 text-center text-sm">
+        <div className="max-w-6xl mx-auto px-6 py-4 text-gray-400 text-center text-sm">
           © {new Date().getFullYear()} All Rights Reserved
         </div>
       </div>

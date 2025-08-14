@@ -63,7 +63,7 @@ const RecommendedField = () => {
   };
 
   return (
-    <div className="w-screen md:max-w-7xl mx-auto px-4">
+    <div className="w-screen md:max-w-6xl mx-auto px-4">
       <div className="">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">

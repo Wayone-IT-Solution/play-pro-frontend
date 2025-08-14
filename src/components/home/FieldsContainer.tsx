@@ -6,7 +6,7 @@ import Image from "next/image";
 const FieldsContainer: React.FC = () => {
   return (
     <div className="bg-white w-full px-4 sm:px-8 py-8 sm:py-16">
-      <div className="max-w-7xl mx-auto text-center">
+      <div className="max-w-6xl mx-auto text-center">
         {/* Heading */}
         <h1
           className="font-inter font-bold text-2xl sm:text-4xl lg:text-[49px] leading-snug sm:leading-tight text-black"

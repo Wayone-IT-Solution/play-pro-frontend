@@ -96,7 +96,7 @@ const Testimonials = () => {
   };
 
   return (
-    <div className="w-screen md:max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+    <div className="w-screen md:max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
         <h2

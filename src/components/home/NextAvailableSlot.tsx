@@ -62,7 +62,7 @@ const NextAvailableSlot = () => {
   };
 
   return (
-    <div className="w-screen lg:max-w-7xl mx-auto px-4">
+    <div className="w-screen lg:max-w-6xl mx-auto px-4">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
         <div>
