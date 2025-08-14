@@ -6,8 +6,12 @@ import PlayProBanner from "@/components/home/PlayProBanner";
 import ProductsForYou from "@/components/home/ProductsForYou";
 import RecommendedField from "@/components/home/RecommendedField";
 import Testimonials from "@/components/home/Testimonial";
+import { Get as ApiGet } from "@/utils/Server";
 
 export default async function Page() {
+  // const bannerResponse = await Get("api/banner");
+  // const banners = bannerResponse?.data?.result ?? [];
+
   return (
     <div>
       <PlayProBanner />
@@ -21,4 +25,7 @@ export default async function Page() {
       <Testimonials />
     </div>
   );
+}
+function Get(arg0: string) {
+  throw new Error("Function not implemented.");
 }

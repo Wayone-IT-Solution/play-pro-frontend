@@ -3,8 +3,6 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -52,17 +50,8 @@ const Testimonials = () => {
     },
   ];
 
-  const handlePrev = () => {
-    if (swiperRef.current) {
-      swiperRef.current.slidePrev();
-    }
-  };
-
-  const handleNext = () => {
-    if (swiperRef.current) {
-      swiperRef.current.slideNext();
-    }
-  };
+  const handlePrev = () => swiperRef.current?.slidePrev();
+  const handleNext = () => swiperRef.current?.slideNext();
 
   const renderStars = ({ rating }: { rating: number }) => {
     const fullStars = Math.floor(rating ?? 5);
@@ -73,7 +62,7 @@ const Testimonials = () => {
         {[...Array(fullStars)].map((_, index) => (
           <svg
             key={index}
-            className="w-4 h-4 text-yellow-400 fill-current"
+            className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 fill-current"
             viewBox="0 0 20 20"
           >
             <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
@@ -81,7 +70,7 @@ const Testimonials = () => {
         ))}
         {hasHalfStar && (
           <svg
-            className="w-4 h-4 text-yellow-400 fill-current"
+            className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 fill-current"
             viewBox="0 0 20 20"
           >
             <defs>
@@ -96,7 +85,10 @@ const Testimonials = () => {
             />
           </svg>
         )}
-        <span className="ml-2 text-sm font-medium" style={{ color: "#013F5E" }}>
+        <span
+          className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium"
+          style={{ color: "#013F5E" }}
+        >
           {rating} Rating
         </span>
       </div>
@@ -104,28 +96,20 @@ const Testimonials = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-16">
-      <div className="flex justify-between items-center mb-4">
-        {/* Header */}
-        <div>
-          <h2
-            className="text-4xl font-bold mb-2"
-            style={{
-              fontFamily: "Poppins, sans-serif",
-              lineHeight: "100%",
-              letterSpacing: "0%",
-            }}
-          >
-            What Players Say
-          </h2>
-        </div>
-
-        {/* Navigation Arrows */}
-        <div className="flex gap-3">
-          {/* Left Arrow */}
+    <div className="w-screen md:max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
+        <h2
+          className="text-2xl sm:text-4xl font-bold text-center sm:text-left"
+          style={{ fontFamily: "Poppins, sans-serif" }}
+        >
+          What Players Say
+        </h2>
+        {/* Arrows */}
+        <div className="flex gap-2 sm:gap-3">
           <button
             onClick={handlePrev}
-            className="w-[45px] h-[35px] flex items-center justify-center transition-colors bg-white shadow-sm rounded-lg"
+            className="w-9 h-8 sm:w-[45px] sm:h-[35px] flex items-center justify-center transition-colors bg-white shadow-sm rounded-lg"
             style={{
               borderWidth: "1px",
               borderStyle: "dashed",
@@ -134,11 +118,9 @@ const Testimonials = () => {
           >
             <LiaLongArrowAltLeftSolid size={18} color="#013F5E" />
           </button>
-
-          {/* Right Arrow */}
           <button
             onClick={handleNext}
-            className="w-[45px] h-[35px] flex items-center justify-center transition-colors bg-white shadow-sm rounded-lg"
+            className="w-9 h-8 sm:w-[45px] sm:h-[35px] flex items-center justify-center transition-colors bg-white shadow-sm rounded-lg"
             style={{
               borderWidth: "1px",
               borderStyle: "dashed",
@@ -150,116 +132,77 @@ const Testimonials = () => {
         </div>
       </div>
 
-      {/* Swiper Container */}
-      <div className="relative">
-        <Swiper
-          ref={swiperRef}
-          modules={[Navigation, Pagination, Autoplay]}
-          spaceBetween={32}
-          slidesPerView={3}
-          slidesPerGroup={1}
-          speed={800}
-          loop={true}
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-          }}
-          breakpoints={{
-            320: {
-              slidesPerView: 1,
-              spaceBetween: 16,
-            },
-            768: {
-              slidesPerView: 2,
-              spaceBetween: 24,
-            },
-            1024: {
-              slidesPerView: 3,
-              spaceBetween: 32,
-            },
-          }}
-          className="testimonials-swiper"
-        >
-          {testimonials.map((testimonial: any) => (
-            <SwiperSlide key={testimonial.id}>
-              <div className="relative mt-10">
-                {/* Card */}
-                <div
-                  className="rounded-2xl p-5 shadow-sm relative bg-white border border-gray-200 flex flex-col"
-                  style={{ aspectRatio: "1.4/1" }}
-                >
-                  {/* Quote Icon (inside card, top-left) */}
-                  <div className="absolute -top-3 left-8">
-                    <Comma />
-                  </div>
+      {/* Swiper */}
+      <Swiper
+        ref={swiperRef}
+        modules={[Navigation, Pagination, Autoplay]}
+        spaceBetween={16}
+        slidesPerView={1}
+        slidesPerGroup={1}
+        speed={800}
+        loop={true}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        breakpoints={{
+          640: { slidesPerView: 2, spaceBetween: 24 },
+          1024: { slidesPerView: 3, spaceBetween: 32 },
+        }}
+      >
+        {testimonials.map((t) => (
+          <SwiperSlide key={t.id}>
+            <div className="relative mt-10 px-2 sm:px-0">
+              <div
+                className="rounded-2xl p-4 sm:p-5 shadow-sm relative bg-white border border-gray-200 flex flex-col"
+                style={{ aspectRatio: "1.4/1" }}
+              >
+                {/* Quote icon */}
+                <div className="absolute -top-3 left-4 sm:left-8">
+                  <Comma />
+                </div>
 
-                  {/* Profile Image (center, overlapping top border) */}
-                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 z-20">
-                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gray-200 bg-white shadow-md">
-                      <Image
-                        src={testimonial.profileImage}
-                        alt={testimonial.name}
-                        width={64}
-                        height={64}
-                        className="object-cover w-full h-full"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Review Text */}
-                  <div className="mt-8 mb-3 bg-[#F4F4F4] p-3 rounded-2xl flex-1">
-                    <p
-                      className="leading-relaxed text-sm font-semibold"
-                      style={{
-                        fontFamily: "Poppins, sans-serif",
-                        fontSize: "13px",
-                        lineHeight: "1.4",
-                        color: "#4a5568",
-                      }}
-                    >
-                      {testimonial.review}
-                    </p>
-                  </div>
-
-                  {/* Name and Rating */}
-                  <div className="flex flex-row justify-between items-center gap-1 mt-auto">
-                    <h4
-                      className="font-semibold text-sm"
-                      style={{
-                        fontFamily: "Poppins, sans-serif",
-                        fontWeight: 600,
-                        fontSize: "15px",
-                        color: "#013F5E",
-                      }}
-                    >
-                      {testimonial.name}
-                    </h4>
-                    {renderStars({ rating: testimonial.rating })}
+                {/* Profile Image */}
+                <div className="absolute -top-6 sm:-top-8 left-1/2 -translate-x-1/2 z-20">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-gray-200 bg-white shadow-md">
+                    <Image
+                      src={t.profileImage}
+                      alt={t.name}
+                      width={64}
+                      height={64}
+                      className="object-cover w-full h-full"
+                    />
                   </div>
                 </div>
+
+                {/* Review */}
+                <div className="mt-8 mb-3 bg-[#F4F4F4] p-3 rounded-2xl flex-1">
+                  <p
+                    className="text-sm font-semibold leading-relaxed"
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      color: "#4a5568",
+                    }}
+                  >
+                    {t.review}
+                  </p>
+                </div>
+
+                {/* Name & Rating */}
+                <div className="flex justify-between items-center gap-1 mt-auto">
+                  <h4
+                    className="font-semibold text-xs sm:text-sm"
+                    style={{
+                      fontFamily: "Poppins, sans-serif",
+                      color: "#013F5E",
+                    }}
+                  >
+                    {t.name}
+                  </h4>
+                  {renderStars({ rating: t.rating })}
+                </div>
               </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-
-      {/* Custom Styles */}
-      <style jsx global>{`
-        .testimonials-swiper .swiper-slide {
-          height: auto;
-        }
-
-        .testimonials-swiper {
-          padding-bottom: 2rem;
-        }
-
-        .line-clamp-4 {
-          display: -webkit-box;
-          -webkit-line-clamp: 4;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-      `}</style>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 };

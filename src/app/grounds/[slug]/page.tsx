@@ -6,25 +6,26 @@ import Testimonials from "@/components/home/Testimonial";
 const CyberHubDetail = () => {
   return (
     <div>
-      <div className="bg-white px-20 pt-10 mt-24">
+      <div className="bg-white px-4 md:px-8 lg:px-20 md:pt-10 mt-24">
         <div className="max-w-6xl mx-auto">
-          <div className="flex gap-8">
+          <div className="flex flex-col lg:flex-row gap-8">
             {/* Left side - Image */}
-            <div className="flex-shrink-0 w-2/5">
+            <div className="flex-shrink-0 w-full lg:w-2/5">
               <div className="relative w-full h-full rounded-[48px] border-6 border-[#013F5E] overflow-hidden">
                 <Image
                   src="/assets/ground.png"
                   alt="Cyber Hub Football Field"
-                  fill
-                  className="object-cover"
+                  width={500}
+                  height={500}
+                  className="object-cover w-full aspect-square lg:aspect-auto"
                 />
               </div>
             </div>
 
             {/* Right side - Content */}
-            <div className="flex-1 pl-4 w-3/5">
+            <div className="flex-1 lg:pl-4 w-full lg:w-3/5">
               {/* Header */}
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex flex-wrap gap-4 items-center justify-between mb-6">
                 <div className="flex items-center gap-4">
                   <h1
                     className="text-4xl font-bold"
@@ -145,7 +146,7 @@ const CyberHubDetail = () => {
 
               {/* Pricing */}
               <div className="mb-6 border-t-2 border-gray-300 border-dashed w-full pt-4">
-                <div className="flex justify-between items-center">
+                <div className="flex flex-wrap justify-between items-center">
                   <h3
                     className="text-3xl font-semibold mb-4"
                     style={{

@@ -14,11 +14,46 @@ const RecommendedField = () => {
   const swiperRef = useRef<any>(null);
 
   const fields = [
-    { id: 1, name: "Cyber Hub", location: "Sohna Road, Gurugram...", distance: "3.5 km", image: "/assets/stadium1.png", alt: "Stadium field" },
-    { id: 2, name: "Cyber Hub", location: "Sohna Road, Gurugram...", distance: "3.5 km", image: "/assets/turf.png", alt: "Outdoor sports field" },
-    { id: 3, name: "Cyber Hub", location: "Sohna Road, Gurugram...", distance: "3.5 km", image: "/assets/turf2.png", alt: "Basketball court" },
-    { id: 4, name: "Cyber Hub", location: "Sohna Road, Gurugram...", distance: "3.5 km", image: "/assets/stadium1.png", alt: "Football field" },
-    { id: 5, name: "Cyber Hub", location: "Sohna Road, Gurugram...", distance: "3.5 km", image: "/assets/turf.png", alt: "Tennis court" },
+    {
+      id: 1,
+      name: "Cyber Hub",
+      location: "Sohna Road, Gurugram...",
+      distance: "3.5 km",
+      image: "/assets/stadium1.png",
+      alt: "Stadium field",
+    },
+    {
+      id: 2,
+      name: "Cyber Hub",
+      location: "Sohna Road, Gurugram...",
+      distance: "3.5 km",
+      image: "/assets/turf.png",
+      alt: "Outdoor sports field",
+    },
+    {
+      id: 3,
+      name: "Cyber Hub",
+      location: "Sohna Road, Gurugram...",
+      distance: "3.5 km",
+      image: "/assets/turf2.png",
+      alt: "Basketball court",
+    },
+    {
+      id: 4,
+      name: "Cyber Hub",
+      location: "Sohna Road, Gurugram...",
+      distance: "3.5 km",
+      image: "/assets/stadium1.png",
+      alt: "Football field",
+    },
+    {
+      id: 5,
+      name: "Cyber Hub",
+      location: "Sohna Road, Gurugram...",
+      distance: "3.5 km",
+      image: "/assets/turf.png",
+      alt: "Tennis court",
+    },
   ];
 
   const handleNext = () => {
@@ -28,7 +63,7 @@ const RecommendedField = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="w-screen md:max-w-7xl mx-auto px-4">
       <div className="">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">

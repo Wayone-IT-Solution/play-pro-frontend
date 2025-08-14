@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import Link from "next/link";
 import {
   FaCalendarAlt,
   FaHome,
@@ -10,13 +13,31 @@ import {
 
 const Sidebar = () => {
   return (
-    <div className="fixed top-1/2 -translate-y-1/2 left-4 flex flex-col items-center gap-5 bg-white rounded-full p-4 shadow-2xl z-20">
-      <FaHome className="text-[#013F5E] text-xl cursor-pointer" />
-      <FaSearch className="text-[#013F5E] text-xl cursor-pointer" />
-      <FaUsers className="text-[#013F5E] text-xl cursor-pointer" />
-      <FaMapMarkerAlt className="text-[#013F5E] text-xl cursor-pointer" />
-      <FaCalendarAlt className="text-[#013F5E] text-xl cursor-pointer" />
-      <FaUser className="text-[#013F5E] text-xl cursor-pointer" />
+    <div
+      className="
+        fixed z-50 flex items-center justify-center gap-10 md:gap-5 bg-white rounded-full p-4 shadow-2xl
+        sm:flex-col sm:top-1/2 sm:-translate-y-1/2 sm:left-4
+        bottom-4 left-1/2 -translate-x-1/2 sm:translate-x-0
+      "
+    >
+      <Link href="/">
+        <FaHome className="text-[#013F5E] text-xl cursor-pointer" />
+      </Link>
+      <Link href="/grounds">
+        <FaSearch className="text-[#013F5E] text-xl cursor-pointer" />
+      </Link>
+      <Link href="/update-profile">
+        <FaUsers className="text-[#013F5E] text-xl cursor-pointer" />
+      </Link>
+      <Link href="/grounds">
+        <FaMapMarkerAlt className="text-[#013F5E] text-xl cursor-pointer" />
+      </Link>
+      <Link href="/grounds">
+        <FaCalendarAlt className="text-[#013F5E] text-xl cursor-pointer" />
+      </Link>
+      <Link href="/login">
+        <FaUser className="text-[#013F5E] text-xl cursor-pointer" />
+      </Link>
     </div>
   );
 };

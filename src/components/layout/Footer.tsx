@@ -35,14 +35,14 @@ const Footer: React.FC = () => {
           className="object-contain"
         />
       </div>
-      <div className="bg-[#E5E5E5] w-[80%] absolute top-[-3.25rem] left-1/2 transform -translate-x-1/2 text-[#013F5E] py-4">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="bg-[#E5E5E5] z-20 w-[90%] lg:w-[80%] absolute top-[-4rem] md:top-[-3.25rem] left-1/2 transform -translate-x-1/2 text-[#013F5E] py-4">
+        <div className="max-w-7xl mx-auto px-3 md:px-6 md:py-4 md:flex items-center justify-between">
           <h2 className="text-xl font-semibold">
             PlayPro simplifies sports for everyone
           </h2>
           <div className="flex items-center gap-4">
             <span className="text-lg font-medium">Let's do it! —</span>
-            <button className="bg-[#013F5E] text-white px-6 py-2 rounded-full font-medium hover:bg-[#024a73] transition-colors">
+            <button className="bg-[#013F5E] whitespace-nowrap text-white px-6 py-2 rounded-full font-medium hover:bg-[#024a73] transition-colors">
               Get started
             </button>
           </div>
@@ -51,7 +51,7 @@ const Footer: React.FC = () => {
 
       {/* Main footer content */}
       <div className="max-w-7xl mx-auto px-6 pb-16 pt-24">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12">
           {/* Logo and tagline */}
           <div className="space-y-6">
             <div className="flex items-center mt-10 space-x-3">
@@ -71,36 +71,36 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li>
                 <Link
-                  href="/ground-booking"
+                  href="/history"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Ground Booking
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href="/products"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Products
                 </Link>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <Link
                   href="/play-match"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Play Match
                 </Link>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <Link
                   href="/demo"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Demo
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -110,13 +110,13 @@ const Footer: React.FC = () => {
             <ul className="space-y-3">
               <li>
                 <Link
-                  href="/about"
+                  href="/about-us"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   About Us
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href="/careers"
                   className="text-gray-300 hover:text-white transition-colors"
@@ -131,18 +131,18 @@ const Footer: React.FC = () => {
                 >
                   FAQs
                 </Link>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <Link
                   href="/teams"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Teams
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
-                  href="/contact"
+                  href="/contact-us"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Contact Us
@@ -223,26 +223,35 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="border-t border-white flex justify-between items-center">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-center gap-6 text-gray-300 text-sm">
-          <Link href="#" className="hover:text-white transition-colors">
+      <div className="border-t pb-20 md:pb-0 border-white lg:flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-center gap-2 md:gap-6 text-gray-300 text-sm">
+          <Link
+            href="/privacy-policy"
+            className="hover:text-white transition-colors"
+          >
             Privacy Policy
           </Link>
-          <Link href="#" className="hover:text-white transition-colors">
+          <Link
+            href="/terms-and-condition"
+            className="hover:text-white transition-colors"
+          >
             Terms of Use
           </Link>
-          <Link href="#" className="hover:text-white transition-colors">
+          <Link
+            href="/refund-policy"
+            className="hover:text-white transition-colors"
+          >
             Sales and Refunds
           </Link>
-          <Link href="#" className="hover:text-white transition-colors">
+          {/* <Link href="#" className="hover:text-white transition-colors">
             Legal
           </Link>
           <Link href="#" className="hover:text-white transition-colors">
             Site Map
-          </Link>
+          </Link> */}
         </div>
         <div className="max-w-7xl mx-auto px-6 py-4 text-gray-400 text-center text-sm">
-          © 2021 All Rights Reserved
+          © {new Date().getFullYear()} All Rights Reserved
         </div>
       </div>
     </footer>
