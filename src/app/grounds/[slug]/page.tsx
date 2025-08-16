@@ -1,25 +1,28 @@
-"use client";
 import React from "react";
 import Image from "next/image";
 import Testimonials from "@/components/home/Testimonial";
+import { Fetch } from "@/utils/Server";
+import GroundImageSwiper from "../GroundImageSwiper";
 
-const CyberHubDetail = () => {
+export default async function Page({ params }: { params: any }) {
+  const { slug } = await params;
+  const groundResponse = await Fetch(`/api/ground/public/${slug}`);
+  const groundData = groundResponse?.data ?? {};
+  console.log(groundData);
+  const testimonialResponse = await Fetch("/api/testimonial/public");
+  const testimonials = testimonialResponse?.data?.result ?? [];
+
   return (
     <div>
-      <div className="bg-white px-4 md:px-8 lg:px-20 md:pt-10 mt-24">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-8">
+      <div className="bg-white">
+        <div className="max-w-6xl mx-auto px-4 md:px-8 lg:px-20 md:pt-10 mt-24">
+          <div className="flex flex-col lg:flex-row w-full gap-8">
             {/* Left side - Image */}
-            <div className="flex-shrink-0 w-full lg:w-2/5">
-              <div className="relative w-full h-full rounded-[48px] border-6 border-[#013F5E] overflow-hidden">
-                <Image
-                  src="/assets/ground.png"
-                  alt="Cyber Hub Football Field"
-                  width={500}
-                  height={500}
-                  className="object-cover w-full aspect-square lg:aspect-auto"
-                />
-              </div>
+            <div className="w-full lg:w-2/5">
+              <GroundImageSwiper
+                images={groundData.images}
+                name={groundData.name}
+              />
             </div>
 
             {/* Right side - Content */}
@@ -36,7 +39,7 @@ const CyberHubDetail = () => {
                       color: "#000000",
                     }}
                   >
-                    Cyber Hub
+                    {groundData.name}
                   </h1>
                   <div className="flex items-center gap-1">
                     <span className="text-yellow-500">⭐</span>
@@ -44,11 +47,13 @@ const CyberHubDetail = () => {
                       className="text-sm font-medium"
                       style={{ color: "#000000" }}
                     >
+                      {/* Placeholder rating until backend provides it */}
                       4.5 Rating
                     </span>
                   </div>
                 </div>
                 <div className="flex gap-3">
+                  {/* Distance placeholder */}
                   <button
                     className="px-4 py-2 rounded-full border text-sm font-medium"
                     style={{
@@ -56,7 +61,7 @@ const CyberHubDetail = () => {
                       color: "#013F5E",
                     }}
                   >
-                    Distance: 3.5 km
+                    Distance: -- km
                   </button>
                   <button
                     className="px-4 py-2 rounded-full text-white text-sm font-medium"
@@ -82,7 +87,7 @@ const CyberHubDetail = () => {
                   className="text-sm font-semibold"
                   style={{ color: "#000000" }}
                 >
-                  Sohna Road, Gurugram...Sohna Road, Gurugram...
+                  {groundData.address}
                 </span>
               </div>
 
@@ -94,54 +99,23 @@ const CyberHubDetail = () => {
                   lineHeight: "1.5",
                 }}
               >
-                A standard football (soccer) field, also known as a pitch, is a
-                rectangular area defined by touchlines (longer sides) and goal
-                lines (shorter sides). The length of the field can range from 90
-                to 120 meters (100 to 130 yards), while the width can range from
-                45 to 90 meters (50 to 100 yards). For international matches,
-                FIFA recommends a length of 100–110 meters (110-120 yards) and a
-                width of 64-75 meters (70-80 yards). A standard size often used
-                is 105 meters
+                {groundData.description}
               </p>
 
-              {/* Filter Options */}
+              {/* Facilities */}
               <div className="flex flex-wrap gap-3 mb-6">
-                <button
-                  className="px-4 py-2 rounded-full text-white text-sm font-medium"
-                  style={{ backgroundColor: "#013F5E" }}
-                >
-                  Turf
-                </button>
-                <button
-                  className="px-4 py-2 rounded-full border text-sm font-medium"
-                  style={{
-                    borderColor: "#013F5E",
-                    color: "#013F5E",
-                  }}
-                >
-                  Grass
-                </button>
-                <button
-                  className="px-4 py-2 rounded-full border text-sm font-medium"
-                  style={{
-                    borderColor: "#013F5E",
-                    color: "#013F5E",
-                  }}
-                >
-                  Indoor
-                </button>
-              </div>
-
-              <div className="mb-6">
-                <button
-                  className="px-4 py-2 rounded-full border text-sm font-medium"
-                  style={{
-                    borderColor: "#013F5E",
-                    color: "#013F5E",
-                  }}
-                >
-                  130 yards
-                </button>
+                {groundData.facilities?.map((facility: string, i: number) => (
+                  <button
+                    key={i}
+                    className="px-4 py-2 rounded-full border text-sm font-medium"
+                    style={{
+                      borderColor: "#013F5E",
+                      color: "#013F5E",
+                    }}
+                  >
+                    {facility}
+                  </button>
+                ))}
               </div>
 
               {/* Pricing */}
@@ -153,10 +127,10 @@ const CyberHubDetail = () => {
                       fontFamily: "Poppins",
                     }}
                   >
-                    Dhs 300/hr
+                    ₹{groundData.pricePerHour}/hr
                   </h3>
 
-                  {/* Time Selection */}
+                  {/* Example: static time selection until API provides slots */}
                   <div className="flex items-center gap-3 mb-4">
                     <button
                       className="px-4 py-2 rounded-full border text-sm font-medium"
@@ -194,7 +168,7 @@ const CyberHubDetail = () => {
                   </div>
                 </div>
 
-                {/* Duration and Total */}
+                {/* Duration & Total - static until calculation logic is added */}
                 <div
                   className="border-2 border-dashed rounded-4xl p-4 mb-6"
                   style={{ borderColor: "#013F5E" }}
@@ -211,7 +185,7 @@ const CyberHubDetail = () => {
                       className="text-sm whitespace-nowrap font-medium"
                       style={{ color: "#013F5E" }}
                     >
-                      Dhs 600
+                      ₹{groundData.pricePerHour * 2}
                     </span>
                   </div>
                 </div>
@@ -228,6 +202,8 @@ const CyberHubDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Testimonials Section */}
       <div className="relative mb-16">
         <Image
           src="/assets/vector2.png"
@@ -236,11 +212,9 @@ const CyberHubDetail = () => {
           className="object-cover z-0"
         />
         <div className="z-20">
-          <Testimonials />
+          <Testimonials testimonials={testimonials} />
         </div>
       </div>
     </div>
   );
-};
-
-export default CyberHubDetail;
+}

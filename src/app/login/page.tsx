@@ -4,32 +4,51 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaEye } from "react-icons/fa";
-
-interface FormData {
-  email: string;
-  password: string;
-  agreeToTerms: boolean;
-}
+import { Post } from "@/utils/axios";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const LoginPage: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const router = useRouter();
+  const [formData, setFormData] = useState<any>({
     email: "",
     password: "",
     agreeToTerms: false,
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // ✅ Updated handleSubmit with POST /api/user/login
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+    if (!formData.agreeToTerms) {
+      toast.warn("Please agree to the Terms & Conditions");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const res: any = await Post("/api/user/login", formData);
+      if (res.success) {
+        return router.replace("/");
+      } else {
+        toast.warn(res.message || "Invalid email or password");
+      }
+    } catch (error) {
+      console.error("❌ Login error:", error);
+      toast.warn("Invalid email or password");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGetOTP = () => {
@@ -41,7 +60,7 @@ const LoginPage: React.FC = () => {
   };
 
   const toggleCheckbox = () => {
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       agreeToTerms: !prev.agreeToTerms,
     }));
@@ -181,11 +200,13 @@ const LoginPage: React.FC = () => {
             {/* Submit */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-br from-[#6D54B5] to-[#6D54B5] text-white border-none py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold cursor-pointer hover:-translate-y-0.5 transition-transform"
+              disabled={loading}
+              className="w-full bg-gradient-to-br from-[#6D54B5] to-[#6D54B5] text-white border-none py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold cursor-pointer hover:-translate-y-0.5 transition-transform disabled:opacity-50"
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
           </form>
+
           <div className="mt-4 sm:mt-6">
             <Image
               src="/assets/ball.png"

@@ -12,44 +12,8 @@ import {
   LiaLongArrowAltRightSolid,
 } from "react-icons/lia";
 
-const Testimonials = () => {
+const Testimonials = ({ testimonials }: { testimonials?: any }) => {
   const swiperRef = useRef<any>(null);
-
-  const testimonials = [
-    {
-      id: 1,
-      name: "Anshu Jangra",
-      rating: 4.5,
-      review:
-        "BGT Ventures General Trading LLC is a distinguished distributor of cutting-edge security surveillance. BGT Ventures General Trading LLC is a distinguished distributor of cutting-edge security surveillance",
-      profileImage: "/assets/profile.png",
-    },
-    {
-      id: 2,
-      name: "Anshu Jangra",
-      rating: 4.5,
-      review:
-        "BGT Ventures General Trading LLC is a distinguished distributor of cutting-edge security surveillance. BGT Ventures General Trading LLC is a distinguished distributor of cutting-edge security surveillance",
-      profileImage: "/assets/profile.png", // Replace with your profile image
-    },
-    {
-      id: 3,
-      name: "Anshu Jangra",
-      rating: 4.5,
-      review:
-        "BGT Ventures General Trading LLC is a distinguished distributor of cutting-edge security surveillance. BGT Ventures General Trading LLC is a distinguished distributor of cutting-edge security surveillance",
-      profileImage: "/assets/profile.png", // Replace with your profile image
-    },
-    {
-      id: 4,
-      name: "Anshu Jangra",
-      rating: 4.5,
-      review:
-        "BGT Ventures General Trading LLC is a distinguished distributor of cutting-edge security surveillance. BGT Ventures General Trading LLC is a distinguished distributor of cutting-edge security surveillance",
-      profileImage: "/assets/profile.png", // Replace with your profile image
-    },
-  ];
-
   const handlePrev = () => swiperRef.current?.slidePrev();
   const handleNext = () => swiperRef.current?.slideNext();
 
@@ -147,7 +111,7 @@ const Testimonials = () => {
           1024: { slidesPerView: 3, spaceBetween: 32 },
         }}
       >
-        {testimonials.map((t) => (
+        {testimonials.map((t: any) => (
           <SwiperSlide key={t.id}>
             <div className="relative mt-10 px-2 sm:px-0">
               <div
@@ -163,7 +127,7 @@ const Testimonials = () => {
                 <div className="absolute -top-6 sm:-top-8 left-1/2 -translate-x-1/2 z-20">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-gray-200 bg-white shadow-md">
                     <Image
-                      src={t.profileImage}
+                      src={t.image}
                       alt={t.name}
                       width={64}
                       height={64}
@@ -181,7 +145,7 @@ const Testimonials = () => {
                       color: "#4a5568",
                     }}
                   >
-                    {t.review}
+                    {t.feedback}
                   </p>
                 </div>
 

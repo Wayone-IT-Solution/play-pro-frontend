@@ -1,18 +1,24 @@
 "use client";
+import { Post } from "@/utils/axios";
 import React, { useState } from "react";
 import { Phone, Mail, Headphones, MessageCircle } from "lucide-react";
 
 const ContactUsPage: React.FC = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-    category: "general",
+    senderName: "",
+    senderEmail: "",
+    senderMobile: "",
+    query: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
+
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -21,17 +27,38 @@ const ContactUsPage: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Thank you for your message! We'll get back to you soon.");
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-      category: "general",
-    });
+    setLoading(true);
+    setStatus(null);
+
+    try {
+      const response: any = await Post("/api/contact/raise-query", formData);
+      if (response.success) {
+        setStatus({
+          type: "success",
+          message: "Thank you! We’ll get back to you soon.",
+        });
+        setFormData({
+          senderName: "",
+          senderEmail: "",
+          senderMobile: "",
+          query: "",
+        });
+      } else {
+        setStatus({
+          type: "error",
+          message: response.message || "Something went wrong!",
+        });
+      }
+    } catch (error) {
+      setStatus({
+        type: "error",
+        message: "Failed to send message. Please try again later.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,91 +76,68 @@ const ContactUsPage: React.FC = () => {
 
       {/* Contact Methods */}
       <section className="bg-white text-gray-900 py-16 px-6">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-8">
-          {[
-            {
-              icon: <Phone className="w-8 h-8 text-white" />,
-              title: "Phone Support",
-              desc: "Speak directly with our support team",
-              details: ["+91 98765 43210", "Mon-Fri: 9 AM - 8 PM IST", "Sat-Sun: 10 AM - 6 PM IST"],
-            },
-            {
-              icon: <Mail className="w-8 h-8 text-white" />,
-              title: "Email Support",
-              desc: "Send us a detailed message",
-              details: ["support@playpro.com", "Response within 2-4 hours", "24/7 email monitoring"],
-            },
-            {
-              icon: <Headphones className="w-8 h-8 text-white" />,
-              title: "Live Chat",
-              desc: "Instant help through our app",
-              details: ["In-App Chat", "Available 24/7", "Average response: 2 minutes"],
-            },
-          ].map((item, idx) => (
-            <div
-              key={idx}
-              className="p-8 rounded-2xl border border-gray-200 hover:shadow-lg transition-all bg-gradient-to-br from-gray-50 to-gray-100 text-center"
-            >
-              <div className="w-16 h-16 mx-auto mb-4 p-4 rounded-full" style={{ backgroundColor: "#013F5E" }}>
-                {item.icon}
-              </div>
-              <h3 className="text-2xl font-bold mb-2">{item.title}</h3>
-              <p className="text-gray-600 mb-4">{item.desc}</p>
-              <div className="space-y-1">
-                {item.details.map((line, i) => (
-                  <p key={i} className="text-sm text-gray-700">
-                    {line}
-                  </p>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
         {/* Contact Form */}
         <div className="max-w-3xl mx-auto mt-16 bg-white p-8 rounded-2xl shadow-lg">
-          <h2 className="text-3xl font-bold mb-6 text-center">Send Us a Message</h2>
+          <h2 className="text-3xl font-bold mb-6 text-center">
+            Send Us a Message
+          </h2>
+
+          {status && (
+            <div
+              className={`mb-4 p-3 rounded-lg text-center ${
+                status.type === "success"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {status.message}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <input
               type="text"
-              name="name"
+              name="senderName"
               placeholder="Your Name"
-              value={formData.name}
+              value={formData.senderName}
               onChange={handleInputChange}
               required
               className="w-full p-3 border border-gray-300 rounded-lg"
             />
             <input
               type="email"
-              name="email"
+              name="senderEmail"
               placeholder="Your Email"
-              value={formData.email}
+              value={formData.senderEmail}
               onChange={handleInputChange}
               required
               className="w-full p-3 border border-gray-300 rounded-lg"
             />
             <input
-              type="text"
-              name="subject"
-              placeholder="Subject"
-              value={formData.subject}
+              type="tel"
+              name="senderMobile"
+              placeholder="Your Mobile Number"
+              value={formData.senderMobile}
               onChange={handleInputChange}
+              required
               className="w-full p-3 border border-gray-300 rounded-lg"
             />
             <textarea
-              name="message"
+              name="query"
               placeholder="Your Message"
-              value={formData.message}
+              value={formData.query}
               onChange={handleInputChange}
               rows={5}
               required
               className="w-full p-3 border border-gray-300 rounded-lg"
             />
+
             <button
               type="submit"
-              className="w-full bg-[#013F5E] text-white py-3 rounded-lg font-semibold hover:bg-[#02577A] transition-all"
+              disabled={loading}
+              className="w-full bg-[#013F5E] text-white py-3 rounded-lg font-semibold hover:bg-[#02577A] transition-all disabled:opacity-70"
             >
-              Send Message
+              {loading ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>

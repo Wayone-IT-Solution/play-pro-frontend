@@ -1,12 +1,13 @@
 import React from "react";
 import Image from "next/image";
 
-const PlayProBanner = () => {
+const PlayProBanner = ({ banners }: { banners?: any }) => {
+  // console.log(banners);
   return (
     <div className="relative w-full lg:h-[140vh] overflow-hidden">
       {/* Background image full width */}
       <Image
-        src="/assets/banner.png"
+        src={banners[0]?.image}
         alt="Blue background with football player"
         // fill
         unoptimized

@@ -2,16 +2,15 @@ import { toast, Id, TypeOptions } from "react-toastify";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 // Define API base URL
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-// ✅ Export the axios instance so it can be imported elsewhere
-export const axiosInstance = axios.create({
+const api = axios.create({
   baseURL: BASE_URL,
   timeout: 10000, // Default timeout in milliseconds
 });
 
 // Axios request interceptor for Authorization
-axiosInstance.interceptors.request.use(
+api.interceptors.request.use(
   (config) => {
     const token =
       typeof window !== "undefined" && localStorage.getItem("accessToken");
@@ -19,7 +18,9 @@ axiosInstance.interceptors.request.use(
     if (token) config.headers["Authorization"] = `Bearer ${token}`;
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => {
+    return Promise.reject(error);
+  }
 );
 
 // Helper function to make Axios requests
@@ -31,6 +32,7 @@ export const request = async <T>(
   const timeoutId = setTimeout(() => controller.abort(), timeout);
 
   try {
+    // Handle multipart form data
     if (config.data instanceof FormData) {
       config.headers = {
         ...config.headers,
@@ -38,37 +40,50 @@ export const request = async <T>(
       };
     }
 
-    const response = await axiosInstance.request({
+    const response = await api.request({
       ...config,
       signal: controller.signal,
     });
+    // Handle token storage if response contains a token
+    if (response?.data?.success) {
+      const token =
+        response?.data?.token ||
+        response?.data?.data?.token ||
+        response?.data?.user?.token;
+      if (token) localStorage.setItem("accessToken", token);
+    }
 
     clearTimeout(timeoutId);
     return response;
   } catch (error: any) {
     clearTimeout(timeoutId);
 
+    // Handle AbortError (timeout)
     if (error.name === "AbortError") {
       throw new Error(`⏱️ Request timed out after ${timeout / 1000}s`);
     }
 
+    // Handle Axios error
     if (error.response) {
-      const message =
-        error.response.data?.message ||
-        error.response.data?.error ||
-        "Server responded with an error.";
-      throw new Error(`❌ ${message}`);
+      // const message =
+      //   error.response.data?.message ||
+      //   error.response.data?.error ||
+      //   "Server responded with an error.";
+      // throw new Error(`❌ ${message}`);
+      throw error.response.data;
     }
 
+    // Handle no response (network issues, CORS)
     if (error.request) {
       throw new Error("📡 No response from server. Please check your network.");
     }
 
+    // Fallback for unknown error
     throw new Error(`⚠️ Unexpected error: ${error.message || "Unknown error"}`);
   }
 };
 
-// Toast helper
+// Handle toast notifications
 const handleToast = (
   id: Id | null,
   status: "loading" | "success" | "error",
@@ -76,6 +91,7 @@ const handleToast = (
   dismissToast: boolean
 ): void => {
   if (id === null) return;
+
   if (dismissToast) return toast.dismiss(id);
 
   let toastType: TypeOptions = "default";
@@ -93,17 +109,23 @@ const handleToast = (
   });
 };
 
-// Utility functions
+// Fetch utility function
 export const Fetch = async <T>(
   url: string,
   params?: Record<string, unknown>,
   timeout?: number,
-  dismissToast = false,
-  showToast = true
+  dismissToast: boolean = false,
+  showToast: boolean = true
 ): Promise<T> => {
   const toastId = showToast ? toast.loading("Please wait...") : null;
+
   try {
-    const response = await request<T>({ method: "GET", url, params, timeout });
+    const response = await request<T>({
+      method: "GET",
+      url,
+      params,
+      timeout,
+    });
     handleToast(
       toastId,
       "success",
@@ -119,15 +141,22 @@ export const Fetch = async <T>(
   }
 };
 
+// Post utility function
 export const Post = async <T>(
   url: string,
   data: Record<string, unknown> | FormData,
   timeout?: number,
-  dismissToast = false
+  dismissToast: boolean = false
 ): Promise<T> => {
   const toastId = toast.loading("Please wait...");
+
   try {
-    const response = await request<T>({ method: "POST", url, data, timeout });
+    const response = await request<T>({
+      method: "POST",
+      url,
+      data,
+      timeout,
+    });
     handleToast(
       toastId,
       "success",
@@ -143,15 +172,22 @@ export const Post = async <T>(
   }
 };
 
+// Put utility function
 export const Put = async <T>(
   url: string,
   data: Record<string, unknown> | FormData,
   timeout?: number,
-  dismissToast = false
+  dismissToast: boolean = false
 ): Promise<T> => {
   const toastId = toast.loading("Updating data...");
+
   try {
-    const response = await request<T>({ method: "PUT", url, data, timeout });
+    const response = await request<T>({
+      method: "PUT",
+      url,
+      data,
+      timeout,
+    });
     handleToast(
       toastId,
       "success",
@@ -167,14 +203,16 @@ export const Put = async <T>(
   }
 };
 
+// Delete utility function
 export const Delete = async <T>(
   url: string,
   data?: Record<string, unknown>,
   params?: Record<string, unknown>,
   timeout?: number,
-  dismissToast = false
+  dismissToast: boolean = false
 ): Promise<T> => {
   const toastId = toast.loading("Deleting data...");
+
   try {
     const response = await request<T>({
       method: "DELETE",
@@ -198,15 +236,22 @@ export const Delete = async <T>(
   }
 };
 
+// Put utility function
 export const Patch = async <T>(
   url: string,
   data: Record<string, unknown> | FormData,
   timeout?: number,
-  dismissToast = false
+  dismissToast: boolean = false
 ): Promise<T> => {
   const toastId = toast.loading("Updating data...");
+
   try {
-    const response = await request<T>({ method: "PATCH", url, data, timeout });
+    const response = await request<T>({
+      method: "PATCH",
+      url,
+      data,
+      timeout,
+    });
     handleToast(
       toastId,
       "success",

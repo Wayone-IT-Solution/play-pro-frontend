@@ -2,17 +2,20 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { FiEdit2, FiChevronDown } from "react-icons/fi";
+import {  Put } from "@/utils/axios";
 
 export default function EditProfile() {
   const [formData, setFormData] = useState({
-    firstName1: "",
-    firstName2: "",
+    firstName: "",
+    lastName: "",
     role: "",
     email: "example@gmail.com",
-    phone: "000000000000",
+    phoneNumber: "000000000000",
   });
 
-  const handleInputChange = (e: { target: { name: any; value: any } }) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -22,10 +25,29 @@ export default function EditProfile() {
 
   const handleImageChange = () => {
     console.log("Change image clicked");
+    // later you can add image upload here
   };
 
-  const handleSaveChanges = () => {
-    console.log("Save changes clicked", formData);
+  const handleSaveChanges = async () => {
+    try {
+      setLoading(true);
+
+      const res:any = await Put("/api/user/profile", formData )
+        
+
+      if (!res.ok) {
+        throw new Error("Failed to update profile");
+      }
+
+      const data = await res.json();
+      console.log("✅ Profile updated:", data);
+      alert("Profile updated successfully!");
+    } catch (err) {
+      console.error("❌ Error updating profile:", err);
+      alert("Error updating profile");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -43,7 +65,6 @@ export default function EditProfile() {
         {/* Profile Image Section */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5 mb-8">
           <div className="relative">
-            {/* Profile Image */}
             <div className="w-20 h-20 rounded-2xl overflow-hidden">
               <Image
                 src="/assets/profile2.png"
@@ -53,14 +74,11 @@ export default function EditProfile() {
                 className="w-full h-full object-cover rounded-2xl"
               />
             </div>
-
-            {/* Edit Icon */}
             <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center cursor-pointer hover:border-gray-300 transition-colors">
               <FiEdit2 className="w-3 h-3 text-gray-600" />
             </div>
           </div>
 
-          {/* Change Image Button */}
           <button
             onClick={handleImageChange}
             className="bg-[#6D54B5] hover:bg-[#5b4498] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm font-medium transition-colors duration-200 shadow-sm w-full sm:w-auto"
@@ -71,7 +89,6 @@ export default function EditProfile() {
 
         {/* Form Fields */}
         <div className="space-y-5">
-          {/* First Name Fields */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-800 mb-2">
@@ -79,11 +96,11 @@ export default function EditProfile() {
               </label>
               <input
                 type="text"
-                name="firstName1"
-                value={formData.firstName1}
+                name="firstName"
+                value={formData.firstName}
                 onChange={handleInputChange}
                 placeholder="Enter first name"
-                className="w-full px-4 py-3.5 bg-gray-100 border-0 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-0 focus:bg-gray-100 transition-colors"
+                className="w-full px-4 py-3.5 bg-gray-100 border-0 rounded-lg text-sm placeholder-gray-400"
               />
             </div>
             <div>
@@ -92,16 +109,16 @@ export default function EditProfile() {
               </label>
               <input
                 type="text"
-                name="firstName2"
-                value={formData.firstName2}
+                name="lastName"
+                value={formData.lastName}
                 onChange={handleInputChange}
                 placeholder="Enter last name"
-                className="w-full px-4 py-3.5 bg-gray-100 border-0 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-0 focus:bg-gray-100 transition-colors"
+                className="w-full px-4 py-3.5 bg-gray-100 border-0 rounded-lg text-sm placeholder-gray-400"
               />
             </div>
           </div>
 
-          {/* Select Role */}
+          {/* Role */}
           <div>
             <label className="block text-sm font-medium text-gray-800 mb-2">
               Select your Role
@@ -111,20 +128,20 @@ export default function EditProfile() {
                 name="role"
                 value={formData.role}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-400 focus:outline-none focus:ring-0 focus:bg-gray-100 transition-colors appearance-none cursor-pointer pr-10"
+                className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-400 pr-10"
               >
                 <option value="" disabled>
-                  eg. Admin, Owner, Player
+                  eg.  Owner, Player
                 </option>
-                <option value="admin">Admin</option>
+                {/* <option value="admin">Admin</option> */}
                 <option value="owner">Owner</option>
                 <option value="player">Player</option>
               </select>
-              <FiChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <FiChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             </div>
           </div>
 
-          {/* Email and Phone */}
+          {/* Email & Phone */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-800 mb-2">
@@ -135,7 +152,7 @@ export default function EditProfile() {
                 name="email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-600 focus:outline-none focus:ring-0 focus:bg-gray-100 transition-colors"
+                className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-600"
               />
             </div>
             <div>
@@ -145,9 +162,9 @@ export default function EditProfile() {
               <input
                 type="tel"
                 name="phone"
-                value={formData.phone}
+                value={formData.phoneNumber}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-600 focus:outline-none focus:ring-0 focus:bg-gray-100 transition-colors"
+                className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-600"
               />
             </div>
           </div>
@@ -156,9 +173,10 @@ export default function EditProfile() {
         {/* Save Changes Button */}
         <button
           onClick={handleSaveChanges}
-          className="w-full sm:w-[600px] mx-auto flex items-center justify-center bg-[#6D54B5] hover:bg-[#5b4498] text-white py-3 sm:py-4 rounded-xl text-sm font-medium mt-8 transition-colors shadow-sm"
+          disabled={loading}
+          className="w-full sm:w-[600px] mx-auto flex items-center justify-center bg-[#6D54B5] hover:bg-[#5b4498] text-white py-3 sm:py-4 rounded-xl text-sm font-medium mt-8 disabled:opacity-60"
         >
-          Save Changes
+          {loading ? "Saving..." : "Save Changes"}
         </button>
       </div>
     </div>

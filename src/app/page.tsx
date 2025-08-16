@@ -1,3 +1,4 @@
+import { Fetch } from "@/utils/Server";
 import CenterImagePage from "@/components/home/CenterImage";
 import FieldsContainer from "@/components/home/FieldsContainer";
 import FindMatch from "@/components/home/FindMatch";
@@ -6,23 +7,26 @@ import PlayProBanner from "@/components/home/PlayProBanner";
 import ProductsForYou from "@/components/home/ProductsForYou";
 import RecommendedField from "@/components/home/RecommendedField";
 import Testimonials from "@/components/home/Testimonial";
-import { Get as ApiGet } from "@/utils/Server";
 
 export default async function Page() {
-  // const bannerResponse = await Get("api/banner");
-  // const banners = bannerResponse?.data?.result ?? [];
+  const bannerResponse = await Fetch("/api/banner/public");
+  const testimonialResponse = await Fetch("/api/testimonial/public");
+  const nextSLotResponse = await Fetch("/api/ground/public");
+  const banners = bannerResponse?.data?.result ?? [];
+  const testimonials = testimonialResponse?.data?.result ?? [];
+  const nextSlots = nextSLotResponse?.data?.result ?? [];
 
   return (
     <div>
-      <PlayProBanner />
+      <PlayProBanner banners={banners} />
       <FieldsContainer />
-      <NextAvailableSlot />
+      <NextAvailableSlot nextSlots={nextSlots} />
       <FindMatch />
       <CenterImagePage />
-      <RecommendedField />
+      <RecommendedField nextSlots={nextSlots} />
       <CenterImagePage />
-      <ProductsForYou />
-      <Testimonials />
+      {/* <ProductsForYou /> */}
+      <Testimonials testimonials={testimonials} />
     </div>
   );
 }

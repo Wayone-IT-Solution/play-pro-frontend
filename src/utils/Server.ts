@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export const Get = async (url: string) => {
+export const Fetch = async (url: string) => {
   try {
     const response = await axios.get(BASE_URL + url);
     return response.data;

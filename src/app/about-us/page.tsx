@@ -1,12 +1,14 @@
-"use client";
-import PlayProBanner from "@/components/home/PlayProBanner";
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
+import { Fetch } from "@/utils/Server";
+import PlayProBanner from "@/components/home/PlayProBanner";
 
-const AboutUs = () => {
+export default async function Page() {
+  const bannerResponse = await Fetch("/api/banner/public");
+  const banners = bannerResponse?.data?.result ?? [];
   return (
     <div>
-      <PlayProBanner />
+      <PlayProBanner banners={banners} />
       <div className="flex justify-center items-center bg-white p-6 md:p-20">
         <div className="flex flex-col md:flex-row w-full justify-between gap-10 md:gap-20">
           {/* Left Text div */}
@@ -78,6 +80,4 @@ const AboutUs = () => {
       </div>
     </div>
   );
-};
-
-export default AboutUs;
+}

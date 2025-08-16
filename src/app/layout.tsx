@@ -4,6 +4,8 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Sidebar from "@/components/layout/Sidebar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Existing fonts
 const geistSans = Geist({
@@ -57,6 +59,14 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
         </div>
         <Footer />
+        <div id="modal-root"></div>
+        <ToastContainer
+          rtl={false}
+          autoClose={2000}
+          newestOnTop={true}
+          position="top-right"
+          hideProgressBar={false}
+        />
       </body>
     </html>
   );

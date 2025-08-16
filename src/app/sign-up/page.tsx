@@ -4,18 +4,10 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaEye } from "react-icons/fa";
-
-interface FormData {
-  firstName: string;
-  lastName: string;
-  role: string;
-  email: string;
-  password: string;
-  agreeToTerms: boolean;
-}
+import { Post } from "@/utils/axios";
 
 const SignupPage: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<any>({
     firstName: "",
     lastName: "",
     role: "",
@@ -24,24 +16,71 @@ const SignupPage: React.FC = () => {
     agreeToTerms: false,
   });
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [status, setStatus] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value, type, checked }: any = e.target;
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+    if (!formData.agreeToTerms) {
+      setStatus({
+        type: "error",
+        message: "Please agree to the Terms & Conditions.",
+      });
+      return;
+    }
+
+    setLoading(true);
+    setStatus(null);
+
+    try {
+      const data = formData;
+      const response: any = await Post("/api/user", data);
+      if (response.success) {
+        setStatus({
+          type: "success",
+          message: "Account created successfully!",
+        });
+        setFormData({
+          firstName: "",
+          lastName: "",
+          role: "",
+          email: "",
+          password: "",
+          agreeToTerms: false,
+        });
+      } else {
+        setStatus({
+          type: "error",
+          message: data.message || "Signup failed. Try again.",
+        });
+      }
+    } catch (error: any) {
+      setStatus({
+        type: "error",
+        message: error.message,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGetOTP = () => {
     console.log("Get OTP clicked for:", formData.email);
+    // You can add OTP API call here later
   };
 
   const togglePasswordVisibility = () => {
@@ -49,14 +88,14 @@ const SignupPage: React.FC = () => {
   };
 
   const toggleCheckbox = () => {
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       agreeToTerms: !prev.agreeToTerms,
     }));
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-full md:h-screen p-4 md:p-10 relative overflow-hidden mt-20 ">
+    <div className="flex flex-col md:flex-row h-full p-4 md:p-10 relative overflow-hidden mt-20 ">
       {/* Left Section */}
       <div className="w-full md:w-1/2 relative rounded-2xl overflow-hidden flex-shrink-0 h-64 md:h-auto">
         <Image
@@ -110,6 +149,18 @@ const SignupPage: React.FC = () => {
             />
           </div>
 
+          {status && (
+            <div
+              className={`mb-4 p-3 rounded-lg text-center ${
+                status.type === "success"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
+            >
+              {status.message}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit}>
             {/* Name Fields */}
             <div className="flex flex-col sm:flex-row gap-4 mb-4">
@@ -156,9 +207,9 @@ const SignupPage: React.FC = () => {
                 required
               >
                 <option value="" disabled>
-                  eg: Admin, Owner, Player
+                  eg: Owner, Player
                 </option>
-                <option value="Admin">Admin</option>
+                {/* <option value="Admin">Admin</option> */}
                 <option value="Owner">Owner</option>
                 <option value="Player">Player</option>
               </select>
@@ -204,13 +255,13 @@ const SignupPage: React.FC = () => {
                     <FaEye />
                   </button>
                 </div>
-                <button
+                {/* <button
                   type="button"
                   className="bg-[#6D54B5] text-white px-4 py-2 rounded-md text-xs sm:text-sm font-medium hover:bg-purple-700 transition-colors"
                   onClick={handleGetOTP}
                 >
                   Get OTP
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -241,9 +292,10 @@ const SignupPage: React.FC = () => {
             {/* Submit */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-br from-[#6D54B5] to-[#6D54B5] text-white py-3 rounded-lg text-base font-semibold hover:-translate-y-0.5 transition-transform"
+              disabled={loading}
+              className="w-full bg-gradient-to-br from-[#6D54B5] to-[#6D54B5] text-white py-3 rounded-lg text-base font-semibold hover:-translate-y-0.5 transition-transform disabled:opacity-70"
             >
-              Create account
+              {loading ? "Creating..." : "Create account"}
             </button>
           </form>
         </div>
