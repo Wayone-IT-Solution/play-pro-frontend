@@ -10,14 +10,14 @@ export default async function Page() {
 
   const fields = nextSlots;
   return (
-    <div className="bg-white min-h-screen relative mt-20">
+    <div className="bg-white min-h-screen relative">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-16 py-8 sm:py-16">
         {/* Header */}
         <div className="text-center mt-8 sm:mt-16 mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-inter font-bold text-gray-900 mb-2 leading-none">
+          <h1 className="text-2xl sm:text-3xl xl:text-5xl font-inter font-bold text-gray-900 mb-2 leading-none">
             Next Available Slot
           </h1>
-          <p className="text-gray-500 text-base sm:text-lg font-normal">
+          <p className="text-gray-500 text-base sm:text-lg lg:text-2xl font-normal">
             Exclusive showcase of Fields
           </p>
         </div>

@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaEye } from "react-icons/fa";
 import { Post } from "@/utils/axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import emitter from "@/utils/eventEmitter";
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
@@ -18,6 +19,14 @@ const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
 
+  // ✅ Check if user is already logged in
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      router.replace("/");
+    }
+  }, [router]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev: any) => ({
@@ -26,7 +35,7 @@ const LoginPage: React.FC = () => {
     }));
   };
 
-  // ✅ Updated handleSubmit with POST /api/user/login
+  // ✅ handle login
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -39,7 +48,8 @@ const LoginPage: React.FC = () => {
       setLoading(true);
       const res: any = await Post("/api/user/login", formData);
       if (res.success) {
-        return router.replace("/");
+        emitter.emit("login", res.data);
+        router.replace("/"); // redirect after login
       } else {
         toast.warn(res.message || "Invalid email or password");
       }
@@ -51,23 +61,8 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  const handleGetOTP = () => {
-    console.log("Get OTP clicked for:", formData.email);
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const toggleCheckbox = () => {
-    setFormData((prev: any) => ({
-      ...prev,
-      agreeToTerms: !prev.agreeToTerms,
-    }));
-  };
-
   return (
-    <div className="flex flex-col md:flex-row h-full p-4 sm:p-6 md:p-10 relative overflow-hidden mt-20">
+    <div className="flex flex-col md:flex-row h-full p-4 sm:p-6 md:p-10 relative overflow-hidden lg:px-24 mt-20">
       {/* Left Section */}
       <div className="w-full md:w-1/2 mb-20 relative rounded-2xl overflow-hidden flex-shrink-0 h-64 md:h-auto">
         <Image
@@ -79,7 +74,10 @@ const LoginPage: React.FC = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-black/60" />
 
-        <button className="absolute top-5 right-5 bg-white/20 text-white border-none px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm cursor-pointer backdrop-blur-sm hover:bg-white/30 transition-colors flex items-center gap-1 sm:gap-2">
+        <button
+          onClick={() => router.push("/")}
+          className="absolute top-5 right-5 bg-white/20 text-white border-none px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm cursor-pointer backdrop-blur-sm hover:bg-white/30 transition-colors flex items-center gap-1 sm:gap-2"
+        >
           Back To Website →
         </button>
 
@@ -96,10 +94,9 @@ const LoginPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Right Section */}
+      {/* Right Section (Form) */}
       <div className="w-full md:w-1/2 flex items-center justify-center p-4 sm:p-6 md:p-10 relative">
         <div className="w-full max-w-md">
-          {/* Form Header */}
           <div className="flex items-center gap-2 mb-4 sm:mb-6">
             <h2 className="text-gray-800 text-2xl sm:text-3xl font-semibold">
               Login to your account
@@ -158,7 +155,7 @@ const LoginPage: React.FC = () => {
                   <button
                     type="button"
                     className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-none border-none cursor-pointer text-gray-600 hover:text-gray-800 text-sm sm:text-base p-1"
-                    onClick={togglePasswordVisibility}
+                    onClick={() => setShowPassword(!showPassword)}
                   >
                     <FaEye />
                   </button>
@@ -166,7 +163,6 @@ const LoginPage: React.FC = () => {
                 <button
                   type="button"
                   className="whitespace-nowrap bg-[#6D54B5] text-white border-none px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium cursor-pointer hover:bg-purple-700 transition-colors"
-                  onClick={handleGetOTP}
                 >
                   Get OTP
                 </button>
@@ -181,7 +177,12 @@ const LoginPage: React.FC = () => {
                     ? " bg-[#6D54B5]  border-[#6D54B5] text-white"
                     : "border-gray-600"
                 }`}
-                onClick={toggleCheckbox}
+                onClick={() =>
+                  setFormData((prev: any) => ({
+                    ...prev,
+                    agreeToTerms: !prev.agreeToTerms,
+                  }))
+                }
               >
                 {formData.agreeToTerms && (
                   <span className="block text-white text-xs leading-4 text-center">

@@ -4,9 +4,9 @@ import FieldsContainer from "@/components/home/FieldsContainer";
 import FindMatch from "@/components/home/FindMatch";
 import NextAvailableSlot from "@/components/home/NextAvailableSlot";
 import PlayProBanner from "@/components/home/PlayProBanner";
-import ProductsForYou from "@/components/home/ProductsForYou";
 import RecommendedField from "@/components/home/RecommendedField";
 import Testimonials from "@/components/home/Testimonial";
+import SlotSelection from "@/components/home/SlotSelection";
 
 export default async function Page() {
   const bannerResponse = await Fetch("/api/banner/public");

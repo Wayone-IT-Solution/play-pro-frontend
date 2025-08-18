@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FiEdit2, FiChevronDown } from "react-icons/fi";
-import {  Put } from "@/utils/axios";
+import { Fetch, Put } from "@/utils/axios";
 
 export default function EditProfile() {
   const [formData, setFormData] = useState({
@@ -15,7 +15,43 @@ export default function EditProfile() {
 
   const [loading, setLoading] = useState(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        setLoading(true);
+
+        const res: any = await Fetch(
+          "/api/user",
+          {},
+          5000,
+          true,
+          false
+        );
+        console.log(res);
+        if (res.success) {
+        setFormData({
+          firstName: res.data.firstName || "",
+          lastName: res.data.lastName || "",
+          role: res.data.role || "",
+          email: res.data.email || "",
+          phoneNumber: res.data.phoneNumber || "",
+        });
+      } else {
+        console.error("❌ API returned error:", res.message);
+      }
+      } catch (err) {
+        console.error("❌ Error fetching user data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -32,8 +68,7 @@ export default function EditProfile() {
     try {
       setLoading(true);
 
-      const res:any = await Put("/api/user/profile", formData )
-        
+      const res: any = await Put("/api/user", formData);
 
       if (!res.ok) {
         throw new Error("Failed to update profile");
@@ -63,7 +98,7 @@ export default function EditProfile() {
 
       <div className="bg-white rounded-4xl relative z-10 shadow-sm border border-gray-100 p-4 sm:p-6 lg:p-10 w-full max-w-4xl">
         {/* Profile Image Section */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5 mb-8">
+        {/* <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5 mb-8">
           <div className="relative">
             <div className="w-20 h-20 rounded-2xl overflow-hidden">
               <Image
@@ -85,7 +120,7 @@ export default function EditProfile() {
           >
             Change Image
           </button>
-        </div>
+        </div> */}
 
         {/* Form Fields */}
         <div className="space-y-5">
@@ -131,11 +166,11 @@ export default function EditProfile() {
                 className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-400 pr-10"
               >
                 <option value="" disabled>
-                  eg.  Owner, Player
+                  eg. Owner, Player
                 </option>
                 {/* <option value="admin">Admin</option> */}
                 <option value="owner">Owner</option>
-                <option value="player">Player</option>
+                <option value="Player">Player</option>
               </select>
               <FiChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             </div>
@@ -161,7 +196,7 @@ export default function EditProfile() {
               </label>
               <input
                 type="tel"
-                name="phone"
+                name="phoneNumber"
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
                 className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-600"
@@ -169,6 +204,7 @@ export default function EditProfile() {
             </div>
           </div>
         </div>
+        
 
         {/* Save Changes Button */}
         <button
@@ -181,4 +217,11 @@ export default function EditProfile() {
       </div>
     </div>
   );
+}
+function Get(arg0: string): any {
+  throw new Error("Function not implemented.");
+}
+
+function fetchUserData() {
+  throw new Error("Function not implemented.");
 }

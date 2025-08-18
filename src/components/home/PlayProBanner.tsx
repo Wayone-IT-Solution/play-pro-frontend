@@ -4,7 +4,7 @@ import Image from "next/image";
 const PlayProBanner = ({ banners }: { banners?: any }) => {
   // console.log(banners);
   return (
-    <div className="relative w-full lg:h-[140vh] overflow-hidden">
+    <div className="relative w-full lg:h-full overflow-hidden">
       {/* Background image full width */}
       <Image
         src={banners[0]?.image}

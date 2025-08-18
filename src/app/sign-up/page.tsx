@@ -95,7 +95,7 @@ const SignupPage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row h-full p-4 md:p-10 relative overflow-hidden mt-20 ">
+    <div className="flex flex-col md:flex-row h-full p-4 md:p-10 relative overflow-hidden lg:p-24 lg:pt-10 mt-20 ">
       {/* Left Section */}
       <div className="w-full md:w-1/2 relative rounded-2xl overflow-hidden flex-shrink-0 h-64 md:h-auto">
         <Image

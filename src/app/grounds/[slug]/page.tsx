@@ -3,6 +3,7 @@ import Image from "next/image";
 import Testimonials from "@/components/home/Testimonial";
 import { Fetch } from "@/utils/Server";
 import GroundImageSwiper from "../GroundImageSwiper";
+import PayModal from "../components/PayModal";
 
 export default async function Page({ params }: { params: any }) {
   const { slug } = await params;
@@ -189,14 +190,7 @@ export default async function Page({ params }: { params: any }) {
                     </span>
                   </div>
                 </div>
-
-                {/* Pay Now Button */}
-                <button
-                  className="w-full py-4 rounded-full text-white font-medium text-lg"
-                  style={{ backgroundColor: "#013F5E" }}
-                >
-                  Pay Now
-                </button>
+                <PayModal />
               </div>
             </div>
           </div>

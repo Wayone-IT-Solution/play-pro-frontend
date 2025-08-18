@@ -50,7 +50,7 @@ export const request = async <T>(
         response?.data?.token ||
         response?.data?.data?.token ||
         response?.data?.user?.token;
-      if (token) localStorage.setItem("accessToken", token);
+      if (token && token !== "undefined") localStorage.setItem("accessToken", token);
     }
 
     clearTimeout(timeoutId);
