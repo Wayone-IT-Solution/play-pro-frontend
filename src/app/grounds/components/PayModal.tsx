@@ -3,7 +3,7 @@ import SportsBookingModal from "@/components/home/SlotSelection";
 import Modal from "@/components/modals/Modal";
 import { useState } from "react";
 
-const PayModal = () => {
+const PayModal = ({ ground }: { ground: any }) => {
   const [payModal, setPayModel] = useState(false);
 
   const handleCloseModal = () => {
@@ -25,7 +25,7 @@ const PayModal = () => {
         isVisible={payModal}
         onClose={handleCloseModal}
       >
-        <SportsBookingModal />
+        <SportsBookingModal groundId={ground._id} ground={ground} />
       </Modal>
     </div>
   );

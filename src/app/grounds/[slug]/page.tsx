@@ -190,7 +190,7 @@ export default async function Page({ params }: { params: any }) {
                     </span>
                   </div>
                 </div>
-                <PayModal />
+                <PayModal ground={groundData} />
               </div>
             </div>
           </div>

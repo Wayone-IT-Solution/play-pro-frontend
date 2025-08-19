@@ -20,27 +20,21 @@ export default function EditProfile() {
       try {
         setLoading(true);
 
-        const res: any = await Fetch(
-          "/api/user",
-          {},
-          5000,
-          true,
-          false
-        );
+        const res: any = await Fetch("/api/user", {}, 5000, true, false);
         console.log(res);
         if (res.success) {
-        setFormData({
-          firstName: res.data.firstName || "",
-          lastName: res.data.lastName || "",
-          role: res.data.role || "",
-          email: res.data.email || "",
-          phoneNumber: res.data.phoneNumber || "",
-        });
-      } else {
-        console.error("❌ API returned error:", res.message);
-      }
+          setFormData({
+            firstName: res.data.firstName || "",
+            lastName: res.data.lastName || "",
+            role: res.data.role || "",
+            email: res.data.email || "",
+            phoneNumber: res.data.phoneNumber || "",
+          });
+        } else {
+          console.log("❌ API returned error:", res.message);
+        }
       } catch (err) {
-        console.error("❌ Error fetching user data:", err);
+        console.log("❌ Error fetching user data:", err);
       } finally {
         setLoading(false);
       }
@@ -78,7 +72,7 @@ export default function EditProfile() {
       console.log("✅ Profile updated:", data);
       alert("Profile updated successfully!");
     } catch (err) {
-      console.error("❌ Error updating profile:", err);
+      console.log("❌ Error updating profile:", err);
       alert("Error updating profile");
     } finally {
       setLoading(false);
@@ -204,7 +198,6 @@ export default function EditProfile() {
             </div>
           </div>
         </div>
-        
 
         {/* Save Changes Button */}
         <button

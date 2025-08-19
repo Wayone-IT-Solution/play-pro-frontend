@@ -70,12 +70,12 @@ export default function Navbar() {
         setIsLoggedIn(false);
         setFormData({ firstName: "" });
         userDataRef.current = null;
-        console.error("❌ API returned error:", res.message);
+        console.log("❌ API returned error:", res.message);
       }
     } catch (err: any) {
       // Don't log abort errors
       if (err.name !== "AbortError") {
-        console.error("❌ Error fetching user data:", err);
+        console.log("❌ Error fetching user data:", err);
         setIsLoggedIn(false);
         setFormData({ firstName: "" });
         userDataRef.current = null;

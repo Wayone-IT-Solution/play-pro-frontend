@@ -54,7 +54,7 @@ const LoginPage: React.FC = () => {
         toast.warn(res.message || "Invalid email or password");
       }
     } catch (error) {
-      console.error("❌ Login error:", error);
+      console.log("❌ Login error:", error);
       toast.warn("Invalid email or password");
     } finally {
       setLoading(false);
