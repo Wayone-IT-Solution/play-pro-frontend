@@ -59,7 +59,7 @@ export default function Navbar() {
         const userData = {
           firstName: res.data.firstName || "",
         };
-
+        emitter.emit("isLoggedIn", res.data);
         // Update cache
         userDataRef.current = userData;
         lastFetchTimeRef.current = now;
@@ -227,13 +227,13 @@ export default function Navbar() {
       {/* Language Selector */}
       <div className="hidden sm:flex place-content-end gap-2 bg-white rounded-full px-3 py-1 shadow-md">
         <span className="text-gray-600 text-sm">En</span>
-        <Image
+        {/* <Image
           src="/us-flag.png"
           alt="English"
           width={20}
           height={20}
           className="rounded-full"
-        />
+        /> */}
       </div>
     </nav>
   );

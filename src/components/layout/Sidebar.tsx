@@ -28,12 +28,14 @@ const Sidebar = () => {
 
     // ✅ listen for login/logout events
     emitter.on("login", fetchUserData);
+    emitter.on("isLoggedIn", fetchUserData);
     emitter.on("logout", () => {
       setIsLoggedIn(false);
     });
 
     return () => {
       emitter.off("login", fetchUserData);
+      emitter.off("isLoggedIn", fetchUserData);
       emitter.off("logout", () => {
         setIsLoggedIn(false);
       });

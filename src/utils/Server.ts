@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export const Fetch = async (url: string) => {
+export const Fetch = async (url: string, orderData?: string | null) => {
   try {
     const response = await axios.get(BASE_URL + url);
     return response.data;

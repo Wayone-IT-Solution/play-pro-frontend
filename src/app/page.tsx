@@ -26,7 +26,7 @@ export default async function Page() {
       <RecommendedField nextSlots={nextSlots} />
       <CenterImagePage />
       {/* <ProductsForYou /> */}
-      
+
       <Testimonials testimonials={testimonials} />
     </div>
   );
