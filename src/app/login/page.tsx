@@ -160,12 +160,12 @@ const LoginPage: React.FC = () => {
                     <FaEye />
                   </button>
                 </div>
-                <button
+                {/* <button
                   type="button"
                   className="whitespace-nowrap bg-[#6D54B5] text-white border-none px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium cursor-pointer hover:bg-purple-700 transition-colors"
                 >
                   Get OTP
-                </button>
+                </button> */}
               </div>
             </div>
 

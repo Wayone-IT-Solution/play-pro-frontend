@@ -3,6 +3,13 @@ import { Fetch } from "@/utils/axios";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
+interface Slot {
+  date: string;
+  startTime: string;
+  endTime: string;
+  amount: number;
+}
+
 interface Booking {
   _id: string;
   groundId: {
@@ -11,12 +18,7 @@ interface Booking {
     location?: { type: string; coordinates: number[] };
     pricePerHour?: number;
   };
-  slots: {
-    date: string;
-    startTime: string;
-    endTime: string;
-    amount: number;
-  }[];
+  slots: Slot[];
   numberOfGuests: number;
   status: string;
   paymentStatus: string;
@@ -40,9 +42,20 @@ const BookingHistory = () => {
           false
         );
         if (res.success) {
-          const data = res.data;
-          console.log("✅ User bookings:", data);
-          setBookings(data || []);
+          let data = res.data || [];
+
+          // Fallback: get slots from localStorage if API returns empty
+          data = data.map((b: Booking) => {
+            if (!b.slots || b.slots.length === 0) {
+              const storedSlots = localStorage.getItem(`bookingSlots_${b._id}`);
+              if (storedSlots) {
+                b.slots = JSON.parse(storedSlots);
+              }
+            }
+            return b;
+          });
+
+          setBookings(data);
         }
       } catch (error) {
         console.error("❌ Error fetching bookings:", error);
@@ -80,149 +93,133 @@ const BookingHistory = () => {
           {bookings.length === 0 ? (
             <p className="text-center text-gray-500">No bookings found.</p>
           ) : (
-            bookings.map((booking) => (
-              <div
-                key={booking._id}
-                className="flex flex-col lg:flex-row items-start lg:items-center justify-between bg-white rounded-[24px] border-2 border-amber-100 w-full"
-                style={{
-                  padding: "16px",
-                  boxShadow: "0px 0px 4px 0px #00000040",
-                }}
-              >
-                {/* Left Section */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 w-full">
-                  <div
-                    className="relative rounded-[16px] overflow-hidden w-full sm:w-[182px] sm:h-[182px]"
-                    style={{
-                      height: "auto",
-                      minHeight: "182px",
-                    }}
-                  >
-                    <Image
-                      src="/assets/ground.png"
-                      alt={booking.groundId?.name || "Ground"}
-                      fill
-                      className="object-cover"
-                    />
+            bookings.map((booking) => {
+              const slot = booking.slots[0]; // first slot (if exists)
+              return (
+                <div
+                  key={booking._id}
+                  className="flex flex-col lg:flex-row items-start lg:items-center justify-between bg-white rounded-[24px] border-2 border-amber-100 w-full"
+                  style={{
+                    padding: "16px",
+                    boxShadow: "0px 0px 4px 0px #00000040",
+                  }}
+                >
+                  {/* Left Section */}
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 w-full">
+                    <div
+                      className="relative rounded-[16px] overflow-hidden w-full sm:w-[182px] sm:h-[182px]"
+                      style={{ height: "auto", minHeight: "142px" }}
+                    >
+                      <Image
+                        src="/assets/ground.png"
+                        alt={booking.groundId?.name || "Ground"}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+
+                    {/* Details */}
+                    <div className="flex flex-col justify-center w-full">
+                      {/* Title & Guests */}
+                      <div className="flex items-center flex-wrap gap-2">
+                        <h2
+                          className="font-bold"
+                          style={{
+                            fontFamily: "Inter",
+                            fontSize: "20px",
+                            color: "#000000",
+                          }}
+                        >
+                          {booking.groundId?.name || "Unknown Ground"}
+                        </h2>
+                        <span className="text-yellow-500">⭐</span>
+                        <span
+                          className="text-sm font-medium"
+                          style={{ color: "#000000" }}
+                        >
+                          {booking.numberOfGuests} Guests
+                        </span>
+                      </div>
+
+                      {/* Location */}
+                      <div className="flex items-center gap-2 mt-1 flex-wrap">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 12 12"
+                          fill="#000000"
+                          className="flex-shrink-0"
+                        >
+                          <path d="M6 0C3.515 0 1.5 2.015 1.5 4.5c0 3.375 4.5 7.5 4.5 7.5s4.5-4.125 4.5-7.5C10.5 2.015 8.485 0 6 0zm0 6.75c-1.243 0-2.25-1.007-2.25-2.25S4.757 2.25 6 2.25s2.25 1.007 2.25 2.25S7.243 6.75 6 6.75z" />
+                        </svg>
+                        <span
+                          className="text-lg font-semibold truncate"
+                          style={{ color: "#000000" }}
+                        >
+                          {booking.groundId?.address || "Unknown Address"}
+                        </span>
+                      </div>
+
+                      {/* Turf Type */}
+                      <div className="mt-3">
+                        <button
+                          className="px-10 py-2.5 rounded-full text-white text-xs font-medium"
+                          style={{ backgroundColor: "#013F5E" }}
+                        >
+                          Turf
+                        </button>
+                      </div>
+
+                      {/* Date & Time */}
+                      {/* <div className="flex flex-wrap items-center gap-5">
+                        <button className="px-4 py-2.5 rounded-full text-[#013F5E] text-sm font-medium">
+                          {slot?.date ? new Date(slot.date).toLocaleDateString() : "No Date"}
+                        </button>
+                        <button
+                          className="px-4 py-2.5 rounded-full border text-xs font-medium"
+                          style={{ borderColor: "#013F5E", color: "#013F5E" }}
+                        >
+                          {slot?.startTime || "--:--"}
+                        </button>
+                        <span className="text-xs font-medium" style={{ color: "#013F5E" }}>
+                          To
+                        </span>
+                        <button
+                          className="px-4 py-2.5 rounded-full border text-sm font-medium"
+                          style={{ borderColor: "#013F5E", color: "#013F5E" }}
+                        >
+                          {slot?.endTime || "--:--"}
+                        </button>
+                      </div> */}
+                    </div>
                   </div>
 
-                  {/* Details */}
-                  <div className="flex flex-col justify-center w-full">
-                    {/* Title & Rating */}
-                    <div className="flex items-center flex-wrap gap-2">
-                      <h2
-                        className="font-bold"
-                        style={{
-                          fontFamily: "Inter",
-                          fontSize: "20px",
-                          color: "#000000",
-                        }}
-                      >
-                        {booking.groundId?.name || "Unknown Ground"}
-                      </h2>
-                      <span className="text-yellow-500">⭐</span>
-                      <span
-                        className="text-sm font-medium"
-                        style={{ color: "#000000" }}
-                      >
-                        {booking.numberOfGuests} Guests
-                      </span>
-                    </div>
-
-                    {/* Location */}
-                    <div className="flex items-center gap-2 mt-1 flex-wrap">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 12 12"
-                        fill="#000000"
-                        className="flex-shrink-0"
-                      >
-                        <path d="M6 0C3.515 0 1.5 2.015 1.5 4.5c0 3.375 4.5 7.5 4.5 7.5s4.5-4.125 4.5-7.5C10.5 2.015 8.485 0 6 0zm0 6.75c-1.243 0-2.25-1.007-2.25-2.25S4.757 2.25 6 2.25s2.25 1.007 2.25 2.25S7.243 6.75 6 6.75z" />
-                      </svg>
-                      <span
-                        className="text-lg font-semibold truncate"
-                        style={{ color: "#000000" }}
-                      >
-                        {booking.groundId?.address || "Unknown Address"}
-                      </span>
-                    </div>
-
-                    {/* Turf Type */}
-                    <div className="mt-3">
+                  {/* Right Section */}
+                  <div className="flex flex-col items-start lg:items-end justify-between w-full lg:w-auto mt-4 lg:mt-0 gap-4 lg:gap-10">
+                    <div className="flex flex-wrap lg:flex-nowrap gap-3 w-full lg:w-auto justify-start lg:justify-end">
                       <button
-                        className="px-10 py-2.5 rounded-full text-white text-xs font-medium"
+                        className="px-4 py-2 rounded-full border text-sm font-medium flex-shrink-0"
+                        style={{ borderColor: "#013F5E", color: "#013F5E" }}
+                      >
+                        Status:{" "}
+                        {booking.paymentStatus === "pending"
+                          ? "Pending Payment"
+                          : booking.paymentStatus}
+                      </button>
+                      <button
+                        className="px-4 py-2 rounded-full text-white text-sm font-medium flex-shrink-0"
                         style={{ backgroundColor: "#013F5E" }}
                       >
-                        Turf
+                        See On Map
                       </button>
                     </div>
-
-                    {/* Date & Time */}
-                    <div className="flex flex-wrap items-center gap-5">
-                      <button className="px-4 py-2.5 rounded-full text-[#013F5E] text-sm font-medium">
-                        {new Date(booking.slots[0]?.date).toLocaleDateString()}
-                      </button>
-                      <button
-                        className="px-4 py-2.5 rounded-full border text-xs font-medium"
-                        style={{
-                          borderColor: "#013F5E",
-                          color: "#013F5E",
-                        }}
-                      >
-                        {booking.slots[0]?.startTime}
-                      </button>
-                      <span
-                        className="text-xs font-medium"
-                        style={{ color: "#013F5E" }}
-                      >
-                        To
-                      </span>
-                      <button
-                        className="px-4 py-2.5 rounded-full border text-sm font-medium"
-                        style={{
-                          borderColor: "#013F5E",
-                          color: "#013F5E",
-                        }}
-                      >
-                        {booking.slots[0]?.endTime}
-                      </button>
-                    </div>
+                    {/* <div className="text-lg font-medium lg:mt-2" style={{ color: "#000000" }}>
+                      Paid: {booking.finalAmount} ₹
+                    </div> */}
                   </div>
                 </div>
-
-                {/* Right Section */}
-                {/* Right Section */}
-                <div className="flex flex-col items-start lg:items-end justify-between w-full lg:w-auto mt-4 lg:mt-0 gap-4 lg:gap-10">
-                  <div className="flex flex-wrap lg:flex-nowrap gap-3 w-full lg:w-auto justify-start lg:justify-end">
-                    <button
-                      className="px-4 py-2 rounded-full border text-sm font-medium flex-shrink-0"
-                      style={{
-                        borderColor: "#013F5E",
-                        color: "#013F5E",
-                      }}
-                    >
-                      Status:{" "}
-                      {booking.paymentStatus === "pending"
-                        ? "Pending Payment"
-                        : booking.paymentStatus}
-                    </button>
-                    <button
-                      className="px-4 py-2 rounded-full text-white text-sm font-medium flex-shrink-0"
-                      style={{ backgroundColor: "#013F5E" }}
-                    >
-                      See On Map
-                    </button>
-                  </div>
-                  <div
-                    className="text-lg font-medium lg:mt-2"
-                    style={{ color: "#000000" }}
-                  >
-                    Paid: {booking.finalAmount} ₹
-                  </div>
-                </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>
