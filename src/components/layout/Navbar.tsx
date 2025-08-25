@@ -221,12 +221,15 @@ export default function Navbar() {
               Login
             </Link>
           )}
+          <div className="translate-container">
+            <div id="google_translate_element"></div>
+          </div>
         </div>
       </div>
 
       {/* Language Selector */}
-      <div className="hidden sm:flex place-content-end gap-2 bg-white rounded-full px-3 py-1 shadow-md">
-        <span className="text-gray-600 text-sm">En</span>
+      <div className="hidden sm:flex place-content-end gap-2 bg-white rounded-full px-3 py-1">
+        {/* <span classNamex="text-gray-600 text-sm">En</span> */}
         {/* <Image
           src="/us-flag.png"
           alt="English"

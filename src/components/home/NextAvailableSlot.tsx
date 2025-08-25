@@ -167,7 +167,7 @@ const NextAvailableSlot = ({ nextSlots }: { nextSlots?: any }) => {
                 {/* Bottom Section */}
                 <div className="bg-white p-3 sm:p-4 flex justify-between items-center">
                   <div className="text-xs sm:text-sm font-medium text-gray-700">
-                    ₹{field.pricePerHour} / hour
+                    SAR{field.pricePerHour} / hour
                   </div>
                   <button
                     className="px-4 py-1.5 sm:px-6 sm:py-2 text-white font-medium rounded-lg text-xs sm:text-sm hover:opacity-90 transition-opacity"

@@ -256,7 +256,7 @@ export const formatIndianCurrency = (amount: number) => {
     formattedAmount = amount.toFixed(2); // Normal amount
   }
 
-  return `₹${formattedAmount}`;
+  return `SAR${formattedAmount}`;
 };
 
 export const formatCurrency = (value: number | undefined) =>
@@ -266,7 +266,7 @@ export const formatCurrency = (value: number | undefined) =>
       currency: "INR",
       minimumFractionDigits: 2,
     }).format(value)
-    : "₹0.00";
+    : "SAR0.00";
 
 export const convertTo24Hour = (time: string): string => {
   console.log(time);

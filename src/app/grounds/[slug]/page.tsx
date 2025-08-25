@@ -128,7 +128,7 @@ export default async function Page({ params }: { params: any }) {
                       fontFamily: "Poppins",
                     }}
                   >
-                    ₹{groundData.pricePerHour}/hr
+                    SAR{groundData.pricePerHour}/hr
                   </h3>
 
                   {/* Example: static time selection until API provides slots */}
@@ -186,7 +186,7 @@ export default async function Page({ params }: { params: any }) {
                       className="text-sm whitespace-nowrap font-medium"
                       style={{ color: "#013F5E" }}
                     >
-                      ₹{groundData.pricePerHour * 2}
+                      SAR{groundData.pricePerHour * 2}
                     </span>
                   </div>
                 </div>
