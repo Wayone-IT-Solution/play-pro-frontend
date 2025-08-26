@@ -150,11 +150,11 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="shrink-0">
           <Image
-            src="/assets/playproLogo.png"
+            src="/assets/logo/logo.png"
             alt="Play Pro Logo"
             width={150}
             height={150}
-            className="object-contain"
+            className="w-20 object-contain"
             priority
           />
         </Link>
