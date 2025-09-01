@@ -1,63 +1,83 @@
 "use client";
-import React, { useRef } from "react";
 import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { LiaLongArrowAltRightSolid } from "react-icons/lia"; // ✅ Import icon
+import { LiaLongArrowAltRightSolid } from "react-icons/lia";
 
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+const products = [
+  {
+    id: 1,
+    brand: "Nike",
+    name: "Shoes",
+    rating: "4.5",
+    description: "Nike shoes provide best comfort and confidence",
+    price: "300 AED",
+    image: "/assets/shoes.png",
+  },
+  {
+    id: 2,
+    brand: "Nike",
+    name: "Shoes",
+    rating: "4.5",
+    description: "Nike shoes provide best comfort and confidence",
+    price: "300 AED",
+    image: "/assets/shoes2.png",
+  },
+  {
+    id: 3,
+    brand: "Nike",
+    name: "Shoes",
+    rating: "4.5",
+    description: "Nike shoes provide best comfort and confidence",
+    price: "300 AED",
+    image: "/assets/product.png",
+  },
+  {
+    id: 4,
+    brand: "Nike",
+    name: "Shoes",
+    rating: "4.5",
+    description: "Nike shoes provide best comfort and confidence",
+    price: "300 AED",
+    image: "/assets/product1.png",
+  },
+  {
+    id: 5,
+    brand: "Nike",
+    name: "Shoes",
+    rating: "4.5",
+    description: "Nike shoes provide best comfort and confidence",
+    price: "300 AED",
+    image: "/assets/product2.png",
+  },
+  {
+    id: 6,
+    brand: "Nike",
+    name: "Shoes",
+    rating: "4.5",
+    description: "Nike shoes provide best comfort and confidence",
+    price: "300 AED",
+    image: "/assets/product3.png",
+  },
+  {
+    id: 7,
+    brand: "Nike",
+    name: "Shoes",
+    rating: "4.5",
+    description: "Nike shoes provide best comfort and confidence",
+    price: "300 AED",
+    image: "/assets/product4.png",
+  },
+  {
+    id: 8,
+    brand: "Nike",
+    name: "Shoes",
+    rating: "4.5",
+    description: "Nike shoes provide best comfort and confidence",
+    price: "300 AED",
+    image: "/assets/product2.png",
+  },
+];
 
 const ProductsForYou = () => {
-  const swiperRef = useRef<any>(null);
-
-  const products = [
-    {
-      id: 1,
-      brand: "Nike",
-      name: "Shoes",
-      rating: "4.5",
-      description: "Nike shoes provide best comfort and confidence",
-      price: "300 دولار",
-      image: "/assets/shoes.png",
-    },
-    {
-      id: 2,
-      brand: "Nike",
-      name: "Shoes",
-      rating: "4.5",
-      description: "Nike shoes provide best comfort and confidence",
-      price: "300 دولار",
-      image: "/assets/shoes2.png",
-    },
-    {
-      id: 3,
-      brand: "Nike",
-      name: "Shoes",
-      rating: "4.5",
-      description: "Nike shoes provide best comfort and confidence",
-      price: "300 دولار",
-      image: "/assets/shirts.png",
-    },
-    {
-      id: 4,
-      brand: "Nike",
-      name: "Shoes",
-      rating: "4.5",
-      description: "Nike shoes provide best comfort and confidence",
-      price: "300 دولار",
-      image: "/assets/shoes2.png",
-    },
-  ];
-
-  const handleNext = () => {
-    if (swiperRef.current) {
-      swiperRef.current.slideNext();
-    }
-  };
-
   return (
     <div className="w-screen md:max-w-6xl mx-auto px-4">
       {/* Header */}
@@ -68,124 +88,78 @@ const ProductsForYou = () => {
           </h2>
           <p className="text-gray-600 text-lg">Exclusive showcase of Fields</p>
         </div>
-
-        {/* Right Arrow - styled same as Testimonials */}
         <button
-          onClick={handleNext}
-          className="w-[45px] h-[35px] flex items-center justify-center transition-colors bg-white shadow-sm rounded-lg"
+          className="w-[45px] h-[35px] flex items-center justify-center bg-white shadow-sm rounded-lg"
           style={{
             borderWidth: "1px",
             borderStyle: "dashed",
-            borderColor: "#013F5E",
+            borderColor: "#6D0E82",
           }}
         >
-          <LiaLongArrowAltRightSolid size={18} color="#013F5E" />
+          <LiaLongArrowAltRightSolid size={18} color="#6D0E82" />
         </button>
       </div>
-
-      {/* Swiper */}
-      <Swiper
-        onSwiper={(swiper) => (swiperRef.current = swiper)} // ✅ Store swiper instance
-        modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={24}
-        slidesPerView={3}
-        slidesPerGroup={1}
-        speed={800}
-        loop={true}
-        autoplay={{
-          delay: 4000,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-          bulletClass:
-            "swiper-pagination-bullet !w-2 !h-2 !bg-gray-300 !opacity-100",
-          bulletActiveClass: "swiper-pagination-bullet-active !bg-gray-800",
-        }}
-        breakpoints={{
-          320: {
-            slidesPerView: 1,
-            spaceBetween: 16,
-          },
-          768: {
-            slidesPerView: 2,
-            spaceBetween: 20,
-          },
-          1024: {
-            slidesPerView: 3.5,
-            spaceBetween: 24,
-          },
-        }}
-        className="!pb-12"
-      >
+      {/* Products Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <SwiperSlide key={product.id}>
-            <div className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white">
-              {/* Product Image */}
-              <div className="relative h-80 w-full">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                />
-
-                {/* Nike Tag */}
-                <div
-                  className="absolute top-3 right-3 bg-white text-gray-800 px-2 py-1 rounded-full shadow-sm"
-                  style={{
-                    fontFamily: "Poppins",
-                    fontWeight: 400,
-                    fontStyle: "italic",
-                    fontSize: "12px",
-                    lineHeight: "100%",
-                    letterSpacing: "0%",
-                  }}
-                >
-                  {product.brand}
-                </div>
-
-                {/* Gradient Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-4 text-white">
-                  <h3 className="text-lg font-semibold">{product.name}</h3>
-                  <p className="text-xs text-gray-200 mb-2">
-                    {product.description}
-                  </p>
-                  <div className="flex items-center text-sm">
-                    ⭐ {product.rating} Rating
-                  </div>
-                </div>
+          <div
+            key={product.id}
+            className="rounded-2xl overflow-hidden shadow-lg bg-white flex flex-col"
+          >
+            {/* Product Image */}
+            <div className="relative h-56 w-full">
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                className="object-cover"
+              />
+              {/* Nike Tag */}
+              <div
+                className="absolute top-3 right-3 bg-white text-gray-800 px-2 py-1 rounded-full shadow-sm"
+                style={{
+                  fontFamily: "Poppins",
+                  fontWeight: 400,
+                  fontStyle: "italic",
+                  fontSize: "12px",
+                  lineHeight: "100%",
+                  letterSpacing: "0%",
+                }}
+              >
+                {product.brand}
               </div>
-
-              {/* Price & Button */}
-              <div className="bg-white p-4 flex justify-between items-center rounded-b-2xl">
-                <div className="text-sm font-medium text-gray-700">
-                  {product.price}
+            </div>
+            {/* Details */}
+            <div className="p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-semibold text-lg text-gray-800">
+                    {product.name}
+                  </span>
+                  <span className="flex items-center text-xs text-gray-700 gap-1">
+                    <span className="mr-1">⭐</span>
+                    {product.rating} Rating
+                  </span>
                 </div>
+                <p className="text-xs text-gray-500 mb-2">
+                  {product.description}
+                </p>
+              </div>
+              <div className="flex justify-between items-center mt-2">
+                <span className="text-base font-medium text-gray-900">
+                  {product.price}
+                </span>
                 <button
-                  className="px-6 py-2 text-white font-medium rounded-lg text-sm hover:opacity-90 transition-opacity"
-                  style={{ background: "#013F5E" }}
+                  className="px-4 py-2 text-white font-medium rounded-lg text-sm"
+                  style={{ background: "#6D0E82" }}
                 >
                   Add To Cart
                 </button>
               </div>
             </div>
-          </SwiperSlide>
+          </div>
         ))}
-      </Swiper>
-
-      {/* Custom Pagination Styles */}
-      <style jsx global>{`
-        .swiper-pagination {
-          bottom: 0 !important;
-        }
-        .swiper-pagination-bullet {
-          margin: 0 4px !important;
-        }
-        .swiper-slide {
-          height: auto;
-        }
-      `}</style>
+      </div>
     </div>
   );
 };

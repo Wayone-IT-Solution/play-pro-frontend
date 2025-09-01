@@ -164,7 +164,7 @@ const BookingHistory = () => {
                       <div className="mt-3">
                         <button
                           className="px-10 py-2.5 rounded-full text-white text-xs font-medium"
-                          style={{ backgroundColor: "#013F5E" }}
+                          style={{ backgroundColor: "#6D0E82" }}
                         >
                           Turf
                         </button>
@@ -172,21 +172,21 @@ const BookingHistory = () => {
 
                       {/* Date & Time */}
                       {/* <div className="flex flex-wrap items-center gap-5">
-                        <button className="px-4 py-2.5 rounded-full text-[#013F5E] text-sm font-medium">
+                        <button className="px-4 py-2.5 rounded-full text-[#6D0E82] text-sm font-medium">
                           {slot?.date ? new Date(slot.date).toLocaleDateString() : "No Date"}
                         </button>
                         <button
                           className="px-4 py-2.5 rounded-full border text-xs font-medium"
-                          style={{ borderColor: "#013F5E", color: "#013F5E" }}
+                          style={{ borderColor: "#6D0E82", color: "#6D0E82" }}
                         >
                           {slot?.startTime || "--:--"}
                         </button>
-                        <span className="text-xs font-medium" style={{ color: "#013F5E" }}>
+                        <span className="text-xs font-medium" style={{ color: "#6D0E82" }}>
                           To
                         </span>
                         <button
                           className="px-4 py-2.5 rounded-full border text-sm font-medium"
-                          style={{ borderColor: "#013F5E", color: "#013F5E" }}
+                          style={{ borderColor: "#6D0E82", color: "#6D0E82" }}
                         >
                           {slot?.endTime || "--:--"}
                         </button>
@@ -199,7 +199,7 @@ const BookingHistory = () => {
                     <div className="flex flex-wrap lg:flex-nowrap gap-3 w-full lg:w-auto justify-start lg:justify-end">
                       <button
                         className="px-4 py-2 rounded-full border text-sm font-medium flex-shrink-0"
-                        style={{ borderColor: "#013F5E", color: "#013F5E" }}
+                        style={{ borderColor: "#6D0E82", color: "#6D0E82" }}
                       >
                         Status:{" "}
                         {booking.paymentStatus === "pending"
@@ -208,7 +208,7 @@ const BookingHistory = () => {
                       </button>
                       <button
                         className="px-4 py-2 rounded-full text-white text-sm font-medium flex-shrink-0"
-                        style={{ backgroundColor: "#013F5E" }}
+                        style={{ backgroundColor: "#6D0E82" }}
                       >
                         See On Map
                       </button>

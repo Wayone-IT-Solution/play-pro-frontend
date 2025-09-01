@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: any }) {
   const { slug } = await params;
   const groundResponse = await Fetch(`/api/ground/public/${slug}`);
   const groundData = groundResponse?.data ?? {};
-  console.log(groundData);
+  // console.log(groundData);
   const testimonialResponse = await Fetch("/api/testimonial/public");
   const testimonials = testimonialResponse?.data?.result ?? [];
 
@@ -58,15 +58,15 @@ export default async function Page({ params }: { params: any }) {
                   <button
                     className="px-4 py-2 rounded-full border text-sm font-medium"
                     style={{
-                      borderColor: "#013F5E",
-                      color: "#013F5E",
+                      borderColor: "#6D0E82",
+                      color: "#6D0E82",
                     }}
                   >
                     Distance: -- km
                   </button>
                   <button
                     className="px-4 py-2 rounded-full text-white text-sm font-medium"
-                    style={{ backgroundColor: "#013F5E" }}
+                    style={{ backgroundColor: "#6D0E82" }}
                   >
                     See On Map
                   </button>
@@ -110,8 +110,8 @@ export default async function Page({ params }: { params: any }) {
                     key={i}
                     className="px-4 py-2 rounded-full border text-sm font-medium"
                     style={{
-                      borderColor: "#013F5E",
-                      color: "#013F5E",
+                      borderColor: "#6D0E82",
+                      color: "#6D0E82",
                     }}
                   >
                     {facility}
@@ -136,8 +136,8 @@ export default async function Page({ params }: { params: any }) {
                     <button
                       className="px-4 py-2 rounded-full border text-sm font-medium"
                       style={{
-                        borderColor: "#013F5E",
-                        color: "#013F5E",
+                        borderColor: "#6D0E82",
+                        color: "#6D0E82",
                       }}
                     >
                       08/11/2025
@@ -145,23 +145,23 @@ export default async function Page({ params }: { params: any }) {
                     <button
                       className="px-4 py-2 rounded-full border text-sm font-medium"
                       style={{
-                        borderColor: "#013F5E",
-                        color: "#013F5E",
+                        borderColor: "#6D0E82",
+                        color: "#6D0E82",
                       }}
                     >
                       11:30am
                     </button>
                     <span
                       className="text-sm font-medium"
-                      style={{ color: "#013F5E" }}
+                      style={{ color: "#6D0E82" }}
                     >
                       To
                     </span>
                     <button
                       className="px-4 py-2 rounded-full border text-sm font-medium"
                       style={{
-                        borderColor: "#013F5E",
-                        color: "#013F5E",
+                        borderColor: "#6D0E82",
+                        color: "#6D0E82",
                       }}
                     >
                       01:30pm
@@ -172,19 +172,19 @@ export default async function Page({ params }: { params: any }) {
                 {/* Duration & Total - static until calculation logic is added */}
                 <div
                   className="border-2 border-dashed rounded-4xl p-4 mb-6"
-                  style={{ borderColor: "#013F5E" }}
+                  style={{ borderColor: "#6D0E82" }}
                 >
                   <div className="flex justify-between gap-4 items-center">
                     <span
                       className="text-sm whitespace-nowrap font-medium"
-                      style={{ color: "#013F5E" }}
+                      style={{ color: "#6D0E82" }}
                     >
                       2 Hours
                     </span>
-                    <span className="border-t-2 border-[#013F5E] border-dashed w-full"></span>
+                    <span className="border-t-2 border-[#6D0E82] border-dashed w-full"></span>
                     <span
                       className="text-sm whitespace-nowrap font-medium"
-                      style={{ color: "#013F5E" }}
+                      style={{ color: "#6D0E82" }}
                     >
                       ₹{groundData.pricePerHour * 2}
                     </span>

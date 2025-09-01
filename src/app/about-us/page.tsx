@@ -27,7 +27,7 @@ export default async function Page() {
             </p>
             <button
               style={{
-                background: "#013F5E",
+                background: "#6D0E82",
                 boxShadow:
                   "0px 2.38px 4.05px 0px #44444406, 0px 10.49px 8.39px 0px #4444440A, 0px 25.74px 16.73px 0px #4444440D, 0px 49.58px 32.8px 0px #4444440F, 0px 83.42px 60.3px 0px #44444413, 0px 128.7px 102.96px 0px #4444441A",
               }}
@@ -70,7 +70,7 @@ export default async function Page() {
               </div> */}
 
             {/* 10+ Places Tag */}
-            {/* <div className="absolute z-10 -bottom-14 md:-bottom-20 left-40 md:left-[230px] p-4 md:p-6 bg-[#013F5E] rounded-2xl flex flex-col justify-center items-center text-white font-bold text-xl md:text-3xl">
+            {/* <div className="absolute z-10 -bottom-14 md:-bottom-20 left-40 md:left-[230px] p-4 md:p-6 bg-[#6D0E82] rounded-2xl flex flex-col justify-center items-center text-white font-bold text-xl md:text-3xl">
                 <span className="text-3xl md:text-5xl">10+</span>
                 <span className="text-xl md:text-3xl font-medium">Places</span>
               </div>

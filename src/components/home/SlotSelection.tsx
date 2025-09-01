@@ -21,6 +21,7 @@ interface Slot {
   isBooked: boolean;
   date: string;
   duration: string;
+  amount: number;
 }
 
 export default function SportsBookingModal({
@@ -84,13 +85,14 @@ export default function SportsBookingModal({
       groundId,
       groundName: ground.name,
       location: ground.address,
-      price: ground.pricePerHour,
       date: formatDate(selectedDate),
       slots: selectedSlots.map((s) => ({
         _id: s._id,
         endTime: s.endTime,
         startTime: s.startTime,
+        amount: s.amount,
       })),
+      totalAmount: selectedSlots.reduce((sum, s) => sum + s.amount, 0),
     };
 
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
@@ -165,6 +167,7 @@ export default function SportsBookingModal({
                       }}
                     >
                       {slot.startTime} - {slot.endTime}
+                      <div className="text-xs mt-1">₹{slot.amount}</div>
                     </button>
                   );
                 })}
@@ -180,10 +183,14 @@ export default function SportsBookingModal({
                 <ul className="list-disc pl-5 text-gray-800">
                   {selectedSlots.map((s) => (
                     <li key={s._id}>
-                      {s.startTime} - {s.endTime}
+                      {s.startTime} - {s.endTime} → ₹{s.amount}
                     </li>
                   ))}
                 </ul>
+                {/* ✅ Total Amount */}
+                <p className="mt-3 font-semibold">
+                  Total: ₹{selectedSlots.reduce((sum, s) => sum + s.amount, 0)}
+                </p>
               </div>
             )}
 

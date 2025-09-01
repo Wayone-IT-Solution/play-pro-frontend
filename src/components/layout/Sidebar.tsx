@@ -66,7 +66,7 @@ const Sidebar = () => {
       "
     >
       <Link href="/">
-        <FaHome className="text-[#013F5E] text-lg sm:text-xl cursor-pointer" />
+        <FaHome className="text-[#6D0E82] text-lg sm:text-xl cursor-pointer" />
       </Link>
       <Modal isVisible={openModal} onClose={handleCloseModal}>
         <LogoutModal
@@ -75,18 +75,18 @@ const Sidebar = () => {
         />
       </Modal>
       <Link href="/grounds">
-        <FaSearch className="text-[#013F5E] text-lg sm:text-xl cursor-pointer" />
+        <FaSearch className="text-[#6D0E82] text-lg sm:text-xl cursor-pointer" />
       </Link>
       <Link href="/grounds">
-        <FaMapMarkerAlt className="text-[#013F5E] text-lg sm:text-xl cursor-pointer" />
+        <FaMapMarkerAlt className="text-[#6D0E82] text-lg sm:text-xl cursor-pointer" />
       </Link>
       <Link href="/grounds">
-        <FaCalendarAlt className="text-[#013F5E] text-lg sm:text-xl cursor-pointer" />
+        <FaCalendarAlt className="text-[#6D0E82] text-lg sm:text-xl cursor-pointer" />
       </Link>
 
       {!isLoggedIn ? (
         <Link href="/login">
-          <FaUser className="text-[#013F5E] text-lg sm:text-xl cursor-pointer" />
+          <FaUser className="text-[#6D0E82] text-lg sm:text-xl cursor-pointer" />
         </Link>
       ) : (
         <button onClick={() => setOpenModal(true)}>

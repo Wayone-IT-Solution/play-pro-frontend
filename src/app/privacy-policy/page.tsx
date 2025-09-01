@@ -4,7 +4,7 @@ import { Shield, Lock, Eye, Users, Database, FileText } from "lucide-react";
 
 const PrivacyPolicyPage: React.FC = () => {
   return (
-    <div className="min-h-screen mt-20" style={{ backgroundColor: "#013F5E" }}>
+    <div className="min-h-screen mt-20" style={{ backgroundColor: "#6D0E82" }}>
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-teal-600/20"></div>
@@ -37,7 +37,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <Database className="w-6 h-6 text-white" />
               </div>
@@ -58,7 +58,7 @@ const PrivacyPolicyPage: React.FC = () => {
                   <li className="flex items-start">
                     <span
                       className="w-2 h-2 rounded-full mt-2 mr-3"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     ></span>
                     <span>
                       Name, email address, and phone number when you create an
@@ -68,21 +68,21 @@ const PrivacyPolicyPage: React.FC = () => {
                   <li className="flex items-start">
                     <span
                       className="w-2 h-2 rounded-full mt-2 mr-3"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     ></span>
                     <span>Profile information and preferences</span>
                   </li>
                   <li className="flex items-start">
                     <span
                       className="w-2 h-2 rounded-full mt-2 mr-3"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     ></span>
                     <span>Payment information for field bookings</span>
                   </li>
                   <li className="flex items-start">
                     <span
                       className="w-2 h-2 rounded-full mt-2 mr-3"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     ></span>
                     <span>Location data when you search for nearby fields</span>
                   </li>
@@ -101,21 +101,21 @@ const PrivacyPolicyPage: React.FC = () => {
                   <li className="flex items-start">
                     <span
                       className="w-2 h-2 rounded-full mt-2 mr-3"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     ></span>
                     <span>Device information and operating system</span>
                   </li>
                   <li className="flex items-start">
                     <span
                       className="w-2 h-2 rounded-full mt-2 mr-3"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     ></span>
                     <span>App usage patterns and preferences</span>
                   </li>
                   <li className="flex items-start">
                     <span
                       className="w-2 h-2 rounded-full mt-2 mr-3"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     ></span>
                     <span>Booking history and field interactions</span>
                   </li>
@@ -129,7 +129,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <Eye className="w-6 h-6 text-white" />
               </div>
@@ -142,7 +142,7 @@ const PrivacyPolicyPage: React.FC = () => {
               <div className="grid md:grid-cols-2 gap-4">
                 <div
                   className="bg-blue-50 p-4 rounded-lg border-l-4"
-                  style={{ borderColor: "#013F5E" }}
+                  style={{ borderColor: "#6D0E82" }}
                 >
                   <h4 className="font-semibold text-gray-900 mb-2">
                     Service Provision
@@ -154,7 +154,7 @@ const PrivacyPolicyPage: React.FC = () => {
                 </div>
                 <div
                   className="bg-blue-50 p-4 rounded-lg border-l-4"
-                  style={{ borderColor: "#013F5E" }}
+                  style={{ borderColor: "#6D0E82" }}
                 >
                   <h4 className="font-semibold text-gray-900 mb-2">
                     Communication
@@ -166,7 +166,7 @@ const PrivacyPolicyPage: React.FC = () => {
                 </div>
                 <div
                   className="bg-blue-50 p-4 rounded-lg border-l-4"
-                  style={{ borderColor: "#013F5E" }}
+                  style={{ borderColor: "#6D0E82" }}
                 >
                   <h4 className="font-semibold text-gray-900 mb-2">
                     Improvement
@@ -178,7 +178,7 @@ const PrivacyPolicyPage: React.FC = () => {
                 </div>
                 <div
                   className="bg-blue-50 p-4 rounded-lg border-l-4"
-                  style={{ borderColor: "#013F5E" }}
+                  style={{ borderColor: "#6D0E82" }}
                 >
                   <h4 className="font-semibold text-gray-900 mb-2">
                     Marketing
@@ -197,7 +197,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <Lock className="w-6 h-6 text-white" />
               </div>
@@ -215,7 +215,7 @@ const PrivacyPolicyPage: React.FC = () => {
                   <div className="text-center">
                     <div
                       className="w-12 h-12 mx-auto mb-3 p-3 rounded-full"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     >
                       <Lock className="w-6 h-6 text-white" />
                     </div>
@@ -230,7 +230,7 @@ const PrivacyPolicyPage: React.FC = () => {
                   <div className="text-center">
                     <div
                       className="w-12 h-12 mx-auto mb-3 p-3 rounded-full"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     >
                       <Shield className="w-6 h-6 text-white" />
                     </div>
@@ -245,7 +245,7 @@ const PrivacyPolicyPage: React.FC = () => {
                   <div className="text-center">
                     <div
                       className="w-12 h-12 mx-auto mb-3 p-3 rounded-full"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     >
                       <Database className="w-6 h-6 text-white" />
                     </div>
@@ -267,7 +267,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <Users className="w-6 h-6 text-white" />
               </div>
@@ -314,7 +314,7 @@ const PrivacyPolicyPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <FileText className="w-6 h-6 text-white" />
               </div>

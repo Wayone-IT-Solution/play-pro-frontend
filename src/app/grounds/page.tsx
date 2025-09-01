@@ -75,7 +75,7 @@ export default async function Page() {
                     </div>
                     <button
                       className="px-4 py-1.5 sm:px-6 sm:py-2 text-white font-medium rounded-lg text-xs sm:text-sm hover:opacity-90 transition-opacity"
-                      style={{ background: "#013F5E" }}
+                      style={{ background: "#6D0E82" }}
                     >
                       Book Now
                     </button>

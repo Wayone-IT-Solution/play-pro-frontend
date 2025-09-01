@@ -64,7 +64,7 @@ const NextAvailableSlot = ({ nextSlots }: { nextSlots?: any }) => {
   };
 
   return (
-    <div className="w-screen lg:max-w-6xl mx-auto px-4">
+    <div className="w-screen lg:max-w-6xl mx-auto px-4 mt-20">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
         <div>
@@ -83,10 +83,10 @@ const NextAvailableSlot = ({ nextSlots }: { nextSlots?: any }) => {
           style={{
             borderWidth: "1px",
             borderStyle: "dashed",
-            borderColor: "#013F5E",
+            borderColor: "#6D0E82",
           }}
         >
-          <LiaLongArrowAltRightSolid size={18} color="#013F5E" />
+          <LiaLongArrowAltRightSolid size={18} color="#6D0E82" />
         </button>
       </div>
 
@@ -171,7 +171,7 @@ const NextAvailableSlot = ({ nextSlots }: { nextSlots?: any }) => {
                   </div>
                   <button
                     className="px-4 py-1.5 sm:px-6 sm:py-2 text-white font-medium rounded-lg text-xs sm:text-sm hover:opacity-90 transition-opacity"
-                    style={{ background: "#013F5E" }}
+                    style={{ background: "#6D0E82" }}
                   >
                     Book Now
                   </button>

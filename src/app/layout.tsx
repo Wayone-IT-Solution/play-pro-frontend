@@ -53,9 +53,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${inter.className} relative font-sans antialiased`}
       >
         <Navbar />
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div className="min-h-screen flex">
-          <Sidebar />
+          {/* <Sidebar /> */}
           <main className="flex-1">{children}</main>
         </div>
         <Footer />

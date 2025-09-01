@@ -62,7 +62,7 @@ const ContactUsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen mt-20 bg-[#013F5E] text-white">
+    <div className="min-h-screen mt-20 bg-[#6D0E82] text-white">
       {/* Hero */}
       <section className="text-center py-16 px-6">
         <div className="p-4 bg-white/10 rounded-full w-fit mx-auto backdrop-blur-sm mb-6">
@@ -135,7 +135,7 @@ const ContactUsPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#013F5E] text-white py-3 rounded-lg font-semibold hover:bg-[#02577A] transition-all disabled:opacity-70"
+              className="w-full bg-[#6D0E82] text-white py-3 rounded-lg font-semibold hover:bg-[#02577A] transition-all disabled:opacity-70"
             >
               {loading ? "Sending..." : "Send Message"}
             </button>

@@ -11,7 +11,7 @@ import {
 
 const TermsConditionsPage: React.FC = () => {
   return (
-    <div className="min-h-screen mt-20" style={{ backgroundColor: "#013F5E" }}>
+    <div className="min-h-screen mt-20" style={{ backgroundColor: "#6D0E82" }}>
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-teal-600/20"></div>
@@ -44,7 +44,7 @@ const TermsConditionsPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <CheckCircle className="w-6 h-6 text-white" />
               </div>
@@ -60,7 +60,7 @@ const TermsConditionsPage: React.FC = () => {
               </p>
               <div
                 className="bg-blue-50 p-4 rounded-lg border-l-4"
-                style={{ borderColor: "#013F5E" }}
+                style={{ borderColor: "#6D0E82" }}
               >
                 <p className="text-sm font-medium">
                   These terms constitute a legally binding agreement between you
@@ -75,7 +75,7 @@ const TermsConditionsPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <Users className="w-6 h-6 text-white" />
               </div>
@@ -131,7 +131,7 @@ const TermsConditionsPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <FileText className="w-6 h-6 text-white" />
               </div>
@@ -183,7 +183,7 @@ const TermsConditionsPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <XCircle className="w-6 h-6 text-white" />
               </div>
@@ -236,7 +236,7 @@ const TermsConditionsPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <AlertTriangle className="w-6 h-6 text-white" />
               </div>

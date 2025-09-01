@@ -80,11 +80,11 @@ export default function JoinNearbyGame() {
                     onClick={() => setSelectedSkill(level)}
                     className={`px-3 md:px-4 lg:px-6 py-2 md:py-2.5 lg:py-3 rounded-full font-medium transition duration-200 text-xs md:text-sm lg:text-base ${
                       selectedSkill === level
-                        ? "bg-[#013F5E] text-white border-[#013F5E]"
-                        : "text-[#013F5E] bg-transparent border-[#013F5E]"
+                        ? "bg-[#6D0E82] text-white border-[#6D0E82]"
+                        : "text-[#6D0E82] bg-transparent border-[#6D0E82]"
                     }`}
                     style={{
-                      border: "1px dashed #013F5E",
+                      border: "1px dashed #6D0E82",
                     }}
                   >
                     {level}
@@ -105,11 +105,11 @@ export default function JoinNearbyGame() {
                     onClick={() => setSelectedCourt(court)}
                     className={`px-3 md:px-4 lg:px-6 py-2 md:py-2.5 lg:py-3 rounded-full font-medium transition duration-200 text-xs md:text-sm lg:text-base ${
                       selectedCourt === court
-                        ? "bg-[#013F5E] text-white border-[#013F5E]"
-                        : "text-[#013F5E] bg-transparent border-[#013F5E]"
+                        ? "bg-[#6D0E82] text-white border-[#6D0E82]"
+                        : "text-[#6D0E82] bg-transparent border-[#6D0E82]"
                     }`}
                     style={{
-                      border: "1px dashed #013F5E",
+                      border: "1px dashed #6D0E82",
                     }}
                   >
                     {court}
@@ -124,7 +124,7 @@ export default function JoinNearbyGame() {
             <button
               className="text-white font-bold py-2.5 md:py-3 px-6 md:px-8 lg:px-10 rounded-lg text-sm md:text-base lg:text-lg transition duration-200 hover:opacity-90"
               style={{
-                backgroundColor: "#013F5E",
+                backgroundColor: "#6D0E82",
                 borderRadius: "11.15px",
                 boxShadow:
                   "0px 3px 8.1px 2px rgba(255,255,255,0.7) inset, 0px 4px 4px 0px rgba(0,0,0,0.25)",

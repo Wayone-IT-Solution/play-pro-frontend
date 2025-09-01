@@ -1,69 +1,66 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const PlayProBanner = ({ banners }: { banners?: any }) => {
-  // console.log(banners);
   return (
-    <div className="relative w-full lg:h-full overflow-hidden">
-      {/* Background image full width */}
-      <Image
-        src={banners[0]?.image}
-        alt="Blue background with football player"
-        // fill
-        unoptimized
-        width={100}
-        height={100}
-        className="object-contain h-full mt-72 md:mt-0 w-full lg:object-cover"
-        priority
-      />
+    <div className="relative w-full bg-white font-[Poppins] overflow-hidden">
+      {/* Left Player Image */}
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[300px] sm:w-[380px] lg:w-[460px] h-auto">
+        <Image
+          src="/assets/player1.png"
+          alt="Football Player Left"
+          width={460}
+          height={460}
+          priority
+        />
+      </div>
 
-      {/* Right side booking card */}
-      <div className="absolute top-28 left-1/2 transform -translate-x-1/2 md:left-auto md:right-12 md:translate-x-0 md:top-auto md:bottom-28 border border-[#013F5E] bg-white h-fit rounded-2xl md:rounded-[40px] p-4 md:p-6 w-[90%] md:w-72 shadow-xl z-20">
+      {/* Right Player Image */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[300px] sm:w-[380px] lg:w-[460px] h-auto">
+        <Image
+          src="/assets/player2.png"
+          alt="Football Player Right"
+          width={460}
+          height={460}
+          priority
+        />
+      </div>
+
+      {/* Center Content */}
+      <div className="relative z-10 max-w-5xl mx-auto text-center px-4 py-16 sm:py-24">
         {/* Title */}
-        <h3 className="text-lg font-bold text-gray-800 text-center mb-4">
-          Book Field
-        </h3>
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-snug mb-28 text-[#2F0D46]">
+          PlayPro simplifies <span className="text-[#2F0D46]">sp</span>
+          <span className="text-gray-300">ort</span>
+          <span className="text-[#2F0D46]">s</span>
+          <br />
+          for <span className="text-[#2F0D46]">everyon</span>
+          <span className="text-gray-300">e</span>
+        </h1>
 
-        {/* Form */}
-        <div className="space-y-4">
-          {/* Zip Code Field */}
-          <div className="flex md:block gap-4 lg:space-y-2">
-            <div className="w-1/2 md:w-full lg:space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Enter Zip Code
-              </label>
-              <input
-                type="text"
-                placeholder="e.g. 452001"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        {/* Middle Card */}
+        <div className="inline-block bg-white p-2 rounded-[48px] border-2 border-dashed border-gray-200 shadow-2xl">
+          <div className="inline-block bg-white rounded-[44px] shadow-md border-2 border-dashed border-[#6D0E82] px-16 py-8">
+            {/* Logo */}
+            <div className="flex justify-center mb-6">
+              <Image
+                src="/assets/newLogo.png"
+                alt="PlayPro Logo"
+                width={120}
+                height={120}
+                priority
               />
             </div>
-            <div className="w-1/2 md:w-full lg:space-y-2">
-              {/* Field Type Select */}
-              <label className="block text-sm font-medium text-gray-700">
-                Select Field Type
-              </label>
-              <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="">Choose type</option>
-                <option>Football</option>
-                <option>Basketball</option>
-                <option>Tennis</option>
-                <option>Cricket</option>
-              </select>
-            </div>
-          </div>
 
-          {/* Button */}
-          <button
-            className="w-full text-white font-bold py-2.5 px-4 rounded-lg text-base cursor-pointer hover:opacity-90 transition-opacity"
-            style={{
-              background: "#013F5E",
-              boxShadow:
-                "0px 3px 8.1px 2px #FFFFFFB2 inset, 0px 4px 4px 0px #00000040",
-            }}
-          >
-            Search Field
-          </button>
+            {/* Button */}
+            <Link
+              href="/grounds"
+              className="inline-block bg-[#6D0E82] text-white px-8 py-3 rounded-full font-medium text-sm sm:text-base hover:opacity-90 transition"
+            >
+              Check Play pro fields
+            </Link>
+          </div>
         </div>
       </div>
     </div>

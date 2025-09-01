@@ -15,7 +15,7 @@ const PayModal = ({ ground }: { ground: any }) => {
       <button
         onClick={() => setPayModel(true)}
         className="w-full cursor-pointer py-4 rounded-full text-white font-medium text-lg"
-        style={{ backgroundColor: "#013F5E" }}
+        style={{ backgroundColor: "#6D0E82" }}
       >
         Pay Now
       </button>

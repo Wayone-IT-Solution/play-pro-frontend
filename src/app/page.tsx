@@ -7,6 +7,11 @@ import PlayProBanner from "@/components/home/PlayProBanner";
 import RecommendedField from "@/components/home/RecommendedField";
 import Testimonials from "@/components/home/Testimonial";
 import SlotSelection from "@/components/home/SlotSelection";
+import StadiumBrowser from "@/components/home/StadiumBrowser";
+import PlayProFields from "@/components/home/PlayProField";
+import ProductsForYou from "@/components/home/ProductsForYou";
+
+import SearchField from "@/components/home/SearchField";
 
 export default async function Page() {
   const bannerResponse = await Fetch("/api/banner/public");
@@ -18,14 +23,17 @@ export default async function Page() {
 
   return (
     <div>
+      <SearchField/>
       <PlayProBanner banners={banners} />
-      <FieldsContainer />
+      {/* <FieldsContainer /> */}
+      <PlayProFields/>
+      <StadiumBrowser/>
       <NextAvailableSlot nextSlots={nextSlots} />
-      <FindMatch />
-      <CenterImagePage />
+      {/* <FindMatch /> */}
+      {/* <CenterImagePage /> */}
       <RecommendedField nextSlots={nextSlots} />
-      <CenterImagePage />
-      {/* <ProductsForYou /> */}
+      {/* <CenterImagePage /> */}
+      <ProductsForYou />
 
       <Testimonials testimonials={testimonials} />
     </div>

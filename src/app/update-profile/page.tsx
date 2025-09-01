@@ -61,19 +61,10 @@ export default function EditProfile() {
   const handleSaveChanges = async () => {
     try {
       setLoading(true);
-
       const res: any = await Put("/api/user", formData);
-
-      if (!res.ok) {
-        throw new Error("Failed to update profile");
-      }
-
-      const data = await res.json();
-      console.log("✅ Profile updated:", data);
-      alert("Profile updated successfully!");
+      if (res?.success) window.location.reload();
     } catch (err) {
       console.log("❌ Error updating profile:", err);
-      alert("Error updating profile");
     } finally {
       setLoading(false);
     }

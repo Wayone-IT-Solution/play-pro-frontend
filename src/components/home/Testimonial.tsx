@@ -51,7 +51,7 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
         )}
         <span
           className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium"
-          style={{ color: "#013F5E" }}
+          style={{ color: "#6D0E82" }}
         >
           {rating} Rating
         </span>
@@ -77,10 +77,10 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
             style={{
               borderWidth: "1px",
               borderStyle: "dashed",
-              borderColor: "#013F5E",
+              borderColor: "#6D0E82",
             }}
           >
-            <LiaLongArrowAltLeftSolid size={18} color="#013F5E" />
+            <LiaLongArrowAltLeftSolid size={18} color="#6D0E82" />
           </button>
           <button
             onClick={handleNext}
@@ -88,10 +88,10 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
             style={{
               borderWidth: "1px",
               borderStyle: "dashed",
-              borderColor: "#013F5E",
+              borderColor: "#6D0E82",
             }}
           >
-            <LiaLongArrowAltRightSolid size={18} color="#013F5E" />
+            <LiaLongArrowAltRightSolid size={18} color="#6D0E82" />
           </button>
         </div>
       </div>
@@ -142,7 +142,7 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
                     className="text-sm font-semibold leading-relaxed"
                     style={{
                       fontFamily: "Poppins, sans-serif",
-                      color: "#4a5568",
+                      color: "#6D0E82",
                     }}
                   >
                     {t.feedback}
@@ -155,7 +155,7 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
                     className="font-semibold text-xs sm:text-sm"
                     style={{
                       fontFamily: "Poppins, sans-serif",
-                      color: "#013F5E",
+                      color: "#6D0E82",
                     }}
                   >
                     {t.name}

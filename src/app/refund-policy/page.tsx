@@ -11,7 +11,7 @@ import {
 
 const RefundPolicyPage: React.FC = () => {
   return (
-    <div className="min-h-screen mt-20" style={{ backgroundColor: "#013F5E" }}>
+    <div className="min-h-screen mt-20" style={{ backgroundColor: "#6D0E82" }}>
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-teal-600/20"></div>
@@ -44,7 +44,7 @@ const RefundPolicyPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <CheckCircle2 className="w-6 h-6 text-white" />
               </div>
@@ -89,7 +89,7 @@ const RefundPolicyPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <Clock className="w-6 h-6 text-white" />
               </div>
@@ -106,7 +106,7 @@ const RefundPolicyPage: React.FC = () => {
                   <div className="text-center">
                     <div
                       className="w-12 h-12 mx-auto mb-3 p-3 rounded-full"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     >
                       <span className="text-white font-bold">1</span>
                     </div>
@@ -121,7 +121,7 @@ const RefundPolicyPage: React.FC = () => {
                   <div className="text-center">
                     <div
                       className="w-12 h-12 mx-auto mb-3 p-3 rounded-full"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     >
                       <span className="text-white font-bold">2</span>
                     </div>
@@ -136,7 +136,7 @@ const RefundPolicyPage: React.FC = () => {
                   <div className="text-center">
                     <div
                       className="w-12 h-12 mx-auto mb-3 p-3 rounded-full"
-                      style={{ backgroundColor: "#013F5E" }}
+                      style={{ backgroundColor: "#6D0E82" }}
                     >
                       <span className="text-white font-bold">3</span>
                     </div>
@@ -153,7 +153,7 @@ const RefundPolicyPage: React.FC = () => {
 
               <div
                 className="bg-blue-50 p-4 rounded-lg border-l-4"
-                style={{ borderColor: "#013F5E" }}
+                style={{ borderColor: "#6D0E82" }}
               >
                 <p className="text-sm font-medium text-gray-800">
                   <strong>Processing Time:</strong> Refunds typically appear in
@@ -170,7 +170,7 @@ const RefundPolicyPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <AlertCircle className="w-6 h-6 text-white" />
               </div>
@@ -224,7 +224,7 @@ const RefundPolicyPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <CreditCard className="w-6 h-6 text-white" />
               </div>
@@ -273,7 +273,7 @@ const RefundPolicyPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <AlertCircle className="w-6 h-6 text-white" />
               </div>
@@ -319,7 +319,7 @@ const RefundPolicyPage: React.FC = () => {
             <div className="flex items-center mb-6">
               <div
                 className="p-3 rounded-lg mr-4"
-                style={{ backgroundColor: "#013F5E" }}
+                style={{ backgroundColor: "#6D0E82" }}
               >
                 <RefreshCw className="w-6 h-6 text-white" />
               </div>
@@ -399,7 +399,7 @@ const RefundPolicyPage: React.FC = () => {
               <div className="mt-6 text-center">
                 <div
                   className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium text-white"
-                  style={{ backgroundColor: "#013F5E" }}
+                  style={{ backgroundColor: "#6D0E82" }}
                 >
                   <Clock className="w-4 h-4 mr-2" />
                   Average Response Time: 2-4 Hours
