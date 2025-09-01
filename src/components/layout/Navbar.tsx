@@ -9,14 +9,13 @@ import emitter from "@/utils/eventEmitter";
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: "",
-  });
+  const [formData, setFormData] = useState({ firstName: "" });
 
   const abortControllerRef: any = useRef(null);
   const userDataRef: any = useRef(null);
   const lastFetchTimeRef = useRef(0);
-  const CACHE_DURATION = 5 * 60 * 1000;
+
+  const CACHE_DURATION = 5 * 60 * 1000; // 5 min
 
   const fetchUserData = useCallback(async (forceRefresh = false) => {
     try {
@@ -28,6 +27,7 @@ export default function Navbar() {
       }
 
       const now = Date.now();
+
       if (
         !forceRefresh &&
         userDataRef.current &&
@@ -41,6 +41,7 @@ export default function Navbar() {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
+
       abortControllerRef.current = new AbortController();
       setLoading(true);
 
@@ -49,8 +50,10 @@ export default function Navbar() {
       if (res.success) {
         const userData = { firstName: res.data.firstName || "" };
         emitter.emit("isLoggedIn", res.data);
+
         userDataRef.current = userData;
         lastFetchTimeRef.current = now;
+
         setFormData(userData);
         setIsLoggedIn(true);
       } else {
@@ -89,9 +92,11 @@ export default function Navbar() {
   useEffect(() => {
     emitter.on("login", handleLogin);
     emitter.on("logout", handleLogout);
+
     return () => {
       emitter.off("login", handleLogin);
       emitter.off("logout", handleLogout);
+
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
@@ -101,6 +106,7 @@ export default function Navbar() {
   useEffect(() => {
     const interval = setInterval(() => {
       const token = localStorage.getItem("accessToken");
+
       if (token && isLoggedIn) {
         const now = Date.now();
         if (now - lastFetchTimeRef.current > CACHE_DURATION) {
@@ -108,6 +114,7 @@ export default function Navbar() {
         }
       }
     }, 10 * 60 * 1000);
+
     return () => clearInterval(interval);
   }, [isLoggedIn, fetchUserData]);
 
@@ -161,8 +168,13 @@ export default function Navbar() {
           </div>
         </div>
 
+        {/* Google Translate */}
+        <div className="translate-container">
+          <div id="google_translate_element"></div>
+        </div>
+
         {/* Right Section */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 mr-10">
           {loading ? (
             <div
               className="px-6 py-2 rounded-lg text-white font-inter text-sm font-bold animate-pulse"
