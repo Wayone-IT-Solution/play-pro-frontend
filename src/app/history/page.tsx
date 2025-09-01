@@ -214,7 +214,7 @@ const BookingHistory = () => {
                       </button>
                     </div>
                     {/* <div className="text-lg font-medium lg:mt-2" style={{ color: "#000000" }}>
-                      Paid: {booking.finalAmount} ₹
+                      Paid: {booking.finalAmount} SAR
                     </div> */}
                   </div>
                 </div>

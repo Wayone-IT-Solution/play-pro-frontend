@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12">
           {/* Logo */}
           <div className="space-y-6">
-            <div className="flex items-center mt-10 space-x-3">
+            <div className="flex items-center space-x-3">
               <Image
                 src="/assets/footerLogo.png"
                 alt="PlayPro Logo"
