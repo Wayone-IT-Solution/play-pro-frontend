@@ -21,7 +21,6 @@ export default function EditProfile() {
         setLoading(true);
 
         const res: any = await Fetch("/api/user", {}, 5000, true, false);
-        console.log(res);
         if (res.success) {
           setFormData({
             firstName: res.data.firstName || "",

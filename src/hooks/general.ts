@@ -108,14 +108,14 @@ export const populateFormFields = (
           : field.isDisabled;
       return product.hasOwnProperty(field.name)
         ? {
-          ...field,
-          value: product[field.name],
-          isDisabled,
-        }
+            ...field,
+            value: product[field.name],
+            isDisabled,
+          }
         : {
-          ...field,
-          isDisabled,
-        };
+            ...field,
+            isDisabled,
+          };
     });
 };
 
@@ -130,7 +130,7 @@ export const flattenOneLevelPreserveKeys = (obj: Record<string, any>) => {
     }
   }
   return result;
-}
+};
 
 export const populateFormData = (fields: any, product: any) => {
   const object = {};
@@ -262,14 +262,13 @@ export const formatIndianCurrency = (amount: number) => {
 export const formatCurrency = (value: number | undefined) =>
   value && !isNaN(value)
     ? new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-      minimumFractionDigits: 2,
-    }).format(value)
+        style: "currency",
+        currency: "INR",
+        minimumFractionDigits: 2,
+      }).format(value)
     : "SAR0.00";
 
 export const convertTo24Hour = (time: string): string => {
-  console.log(time);
   const [timePart, period] = time.split(" ");
   let [hours] = timePart.split(":").map(Number);
   const [, minutes] = timePart.split(":").map(Number);
