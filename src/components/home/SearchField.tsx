@@ -17,7 +17,7 @@ export default function FieldSearchBar() {
   };
 
   return (
-    <div className="w-full flex justify-center items-center mt-12">
+    <div className="w-full flex justify-center items-center mt-20">
       <div className="flex items-center gap-4 px-4 py-2 bg-[#E6E7FC] rounded-full w-full max-w-4xl shadow-sm">
         {/* Search Input */}
         <div className="flex-1 relative">
