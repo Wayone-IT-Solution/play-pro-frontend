@@ -9,7 +9,7 @@ export default async function Page({ params }: { params: any }) {
   const { slug } = await params;
   const groundResponse = await Fetch(`/api/ground/public/${slug}`);
   const groundData = groundResponse?.data ?? {};
-  // console.log(groundData);
+  console.log(groundData);
   const testimonialResponse = await Fetch("/api/testimonial/public");
   const testimonials = testimonialResponse?.data?.result ?? [];
 
@@ -19,12 +19,15 @@ export default async function Page({ params }: { params: any }) {
         <div className="max-w-6xl mx-auto px-4 md:px-8 lg:px-20 md:pt-10 mt-24">
           <div className="flex flex-col lg:flex-row w-full gap-8">
             {/* Left side - Image */}
-            <div className="w-full lg:w-2/5">
-              <GroundImageSwiper
-                images={groundData.images}
-                name={groundData.name}
-              />
-            </div>
+            {Array.isArray(groundData.images) &&
+              groundData.images.length > 0 && (
+                <div className="w-full lg:w-2/5">
+                  <GroundImageSwiper
+                    images={groundData.images}
+                    name={groundData.name}
+                  />
+                </div>
+              )}
 
             {/* Right side - Content */}
             <div className="flex-1 lg:pl-4 w-full lg:w-3/5">

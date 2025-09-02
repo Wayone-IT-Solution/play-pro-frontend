@@ -10,6 +10,7 @@ export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ firstName: "" });
+  const[mounted, setMounted] = useState(false)
 
   const abortControllerRef: any = useRef(null);
   const userDataRef: any = useRef(null);
@@ -86,6 +87,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    setMounted(true);
     fetchUserData();
   }, [fetchUserData]);
 
@@ -194,12 +196,15 @@ export default function Navbar() {
               </span>
             </Link>
           ) : (
+            <Link href="/login">
             <button
               className="px-6 py-2 rounded-lg text-white font-inter text-sm font-bold hover:opacity-90 transition-opacity"
               style={{ backgroundColor: "#6D0E82" }}
+              onClick={handleLogin}
             >
               Login
             </button>
+            </Link>
           )}
 
           {/* List Field */}
