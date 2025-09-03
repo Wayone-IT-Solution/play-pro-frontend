@@ -9,7 +9,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Link from "next/link";
 
-const CricketFields = ({ nextSlots }: { nextSlots?: any }) => {
+const HighRankingField = ({ nextSlots }: { nextSlots?: any }) => {
   const fields = nextSlots ?? [];
   const swiperRef = useRef<any>(null);
 
@@ -20,26 +20,16 @@ const CricketFields = ({ nextSlots }: { nextSlots?: any }) => {
   };
 
   return (
-    <div
-      className="w-screen "
-      style={{ background: "#0F0B2E1A" }}
-    >
+    <div className="w-screen bg-white mt-10" style={{ borderRadius: 24 }}>
       <div className="lg:max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 pt-8">
           <div>
             <h2 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-              <Image
-                src="/assets/cricket.png"
-                alt="Cricket Icon"
-                width={32}
-                height={32}
-                className="inline-block"
-              />
-              Cricket Fields
+              Heigh ranking fields
             </h2>
             <p className="text-gray-600 text-base sm:text-lg">
-              Aliquam lacinia diam quis lacus euismod
+              Exclusive showcase of Fields{" "}
             </p>
           </div>
 
@@ -149,19 +139,6 @@ const CricketFields = ({ nextSlots }: { nextSlots?: any }) => {
           </Swiper>
         </div>
 
-        {/* View More Button */}
-        <div className="w-full flex justify-center mt-4 pb-8">
-          <button
-            className="px-8 py-3 rounded-xl text-white font-semibold text-lg"
-            style={{
-              background: "#6D0E82",
-              boxShadow: "0px 2px 5px 0px #00000024",
-            }}
-          >
-            View More
-          </button>
-        </div>
-
         <style jsx global>{`
           .swiper-pagination {
             bottom: 0 !important;
@@ -178,4 +155,4 @@ const CricketFields = ({ nextSlots }: { nextSlots?: any }) => {
   );
 };
 
-export default CricketFields;
+export default HighRankingField;

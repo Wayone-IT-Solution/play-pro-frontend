@@ -1,82 +1,101 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Plus, Minus, Trash } from "lucide-react";
+import { Delete, Fetch, Put } from "@/utils/axios";
 
-type CartItemProps = {
-  index: number;
-  imageSrc: string;
-  onDelete: (index: number) => void;
+type CartItemType = {
+  brand: string;
+  name: string;
+  price: number;
+  image: string;
+  productId: string;
+  category: string;
+  quantity: number;
+  description: string;
 };
+``;
 
-const ShoeCartComponent = ({ cart }: { cart: any }) => {
-  const [quantities, setQuantities] = useState<number[]>([1, 1]);
-  const [items, setItems] = useState([
-    { imageSrc: "/assets/cart1.png" },
-    { imageSrc: "/assets/cart1.png" },
-  ]);
+const ShoeCartComponent = ({
+  items,
+  setItems,
+  fetchCartItems,
+}: {
+  items: any;
+  setItems: any;
+  fetchCartItems: any;
+}) => {
+  const updateQuantity = async (index: number, change: number) => {
+    const newQty = Math.max(1, items[index].quantity + change);
 
-  const updateQuantity = (index: number, change: number) => {
-    setQuantities((prev) => {
-      const newQuantities = [...prev];
-      newQuantities[index] = Math.max(1, newQuantities[index] + change);
-      return newQuantities;
-    });
+    try {
+      await Put("/api/cart", {
+        productId: items[index].productId,
+        quantity: newQty,
+      });
+      setItems((prev: any) => {
+        const copy = [...prev];
+        copy[index].quantity = newQty;
+        return copy;
+      });
+    } catch (err) {
+      console.error("Error updating cart quantity:", err);
+    }
   };
 
-  // Remove item from both items and quantities arrays
-  const handleDelete = (index: number) => {
-    setItems((prev) => prev.filter((_, i) => i !== index));
-    setQuantities((prev) => prev.filter((_, i) => i !== index));
+  // ------------------ Delete Item ------------------
+  const handleDelete = async (productId: string, index: number) => {
+    try {
+      await Delete("/api/cart/" + productId);
+      setItems((prev: any) => prev.filter((_: any, i: any) => i !== index));
+    } catch (err) {
+      console.error("Error deleting from cart:", err);
+    }
   };
 
-  const calculateTotal = (): number => {
-    return quantities.reduce((total, qty) => total + qty * 300, 0);
+  // ------------------ Calculate Total ------------------
+  const calculateTotal = () => {
+    return items.reduce(
+      (total: any, item: any) => total + item.price * item.quantity,
+      0
+    );
   };
 
-  const CartItem: React.FC<CartItemProps> = ({ index, imageSrc, onDelete }) => (
+  // ------------------ Cart Item Component ------------------
+  const CartItem: React.FC<{ item: CartItemType; index: number }> = ({
+    item,
+    index,
+  }) => (
     <div className="flex items-center gap-4 bg-white rounded-lg mb-4 w-full">
-      {/* Product Image */}
       <div className="w-40 h-40 rounded-lg flex-shrink-0 overflow-hidden">
         <Image
-          src={imageSrc}
-          alt="Classic White Shoes"
+          src={item.image}
+          alt={item.name}
           width={200}
           height={200}
           className="w-full h-full object-cover rounded-lg"
         />
       </div>
-      {/* Product Details */}
       <div className="flex-1 flex flex-col">
         <div className="flex items-start justify-between">
           <div>
             <h3 className="font-medium text-gray-900 mb-1">
-              Classic White Shoes{" "}
+              {item.brand} {item.name}{" "}
               <span className="text-gray-400 font-normal">(NEW)</span>
             </h3>
             <p className="text-sm text-gray-600 mb-2 leading-relaxed">
-              A shoe is an item of footwear intended to protect and comfort the
-              human foot. Though the human foot can adapt to varied terrain and
-              climate conditions, it is vulnerable, and shoes p...
+              {item.description}
             </p>
-            <p className="text-sm text-gray-500">#123456789</p>
+            <p className="text-sm text-gray-500">#{item.productId}</p>
           </div>
         </div>
-        {/* Price and Quantity Controls */}
         <div className="flex items-center justify-between mt-3">
           <div className="flex items-center gap-2">
             <span className="text-lg font-semibold text-gray-900">
-              ج.م{quantities[index] * 300}
-            </span>
-            <span className="text-sm text-gray-500 line-through">
-              ج.م{quantities[index] * 500}
-            </span>
-            <span className="text-sm text-green-600 font-medium">
-              (53% Off)
+              SAR {item.price * item.quantity}
             </span>
           </div>
           <div className="flex items-center gap-2">
-            {/* Quantity Controls */}
             <div className="flex items-center border border-[#932AAA] rounded-lg overflow-hidden h-8">
               <button
                 onClick={() => updateQuantity(index, -1)}
@@ -86,7 +105,7 @@ const ShoeCartComponent = ({ cart }: { cart: any }) => {
                 <Minus size={16} />
               </button>
               <span className="w-10 text-center font-medium bg-white text-gray-900">
-                {String(quantities[index]).padStart(2, "0")}
+                {String(item.quantity).padStart(2, "0")}
               </span>
               <button
                 onClick={() => updateQuantity(index, 1)}
@@ -96,9 +115,8 @@ const ShoeCartComponent = ({ cart }: { cart: any }) => {
                 <Plus size={16} />
               </button>
             </div>
-            {/* Delete Icon */}
             <button
-              onClick={() => onDelete(index)}
+              onClick={() => handleDelete(item.productId, index)}
               className="w-8 h-8 flex items-center justify-center text-white"
               style={{ backgroundColor: "#932AAA" }}
             >
@@ -110,20 +128,14 @@ const ShoeCartComponent = ({ cart }: { cart: any }) => {
     </div>
   );
 
+  // ------------------ Render ------------------
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-8 bg-white rounded-3xl border-4 border-gray-200 flex flex-col mt-24">
       <div className="flex flex-col space-y-0 w-full">
-        {items.map((item, i) => (
-          <CartItem
-            key={i}
-            index={i}
-            imageSrc={item.imageSrc}
-            onDelete={handleDelete}
-          />
+        {items.map((item: any, i: any) => (
+          <CartItem key={i} item={item} index={i} />
         ))}
       </div>
-
-      {/* Grand Total row */}
       <div className="flex items-center justify-between mt-6 px-4 w-full border-t pt-4">
         <div className="flex items-center gap-3">
           <span className="text-gray-700 font-medium">Grand Total:</span>
@@ -131,7 +143,7 @@ const ShoeCartComponent = ({ cart }: { cart: any }) => {
             className="px-4 py-2 rounded-full text-white font-semibold"
             style={{ backgroundColor: "#932AAA" }}
           >
-            ₹ {calculateTotal()}
+            SAR {calculateTotal()}
           </div>
         </div>
         <button
@@ -144,4 +156,5 @@ const ShoeCartComponent = ({ cart }: { cart: any }) => {
     </div>
   );
 };
+
 export default ShoeCartComponent;

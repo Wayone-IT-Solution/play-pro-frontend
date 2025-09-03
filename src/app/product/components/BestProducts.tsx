@@ -6,65 +6,48 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { FiArrowRight } from "react-icons/fi";
 import { Swiper as SwiperType } from "swiper";
 
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import { Fetch, Post, Put } from "@/utils/axios";
+import { useRouter } from "next/navigation";
 
-const fields = [
-  {
-    img: "/assets/product1.png",
-    tag: "Nike",
-    title: "Shoes",
-    rating: 4.5,
-    price: 300,
-    currency: "AED",
-    desc: "Nike shoes provide best comfort and confidence",
-  },
-  {
-    img: "/assets/product2.png",
-    tag: "Nike",
-    title: "Shoes",
-    rating: 4.5,
-    price: 300,
-    currency: "AED",
-    desc: "Nike shoes provide best comfort and confidence",
-  },
-  {
-    img: "/assets/product3.png",
-    tag: "Nike",
-    title: "Shoes",
-    rating: 4.5,
-    price: 300,
-    currency: "AED",
-    desc: "Nike shoes provide best comfort and confidence",
-  },
-  {
-    img: "/assets/product4.png",
-    tag: "Nike",
-    title: "Shoes",
-    rating: 4.5,
-    price: 300,
-    currency: "AED",
-    desc: "Nike shoes provide best comfort and confidence",
-  },
-  {
-    img: "/assets/product3.png",
-    tag: "Nike",
-    title: "Shoes",
-    rating: 4.5,
-    price: 300,
-    currency: "AED",
-    desc: "Nike shoes provide best comfort and confidence",
-  },
-];
-
-const BestSellingProductSwiper = () => {
+const BestSellingProductSwiper = ({
+  product,
+  fetchCartItems,
+}: {
+  product?: any[];
+  fetchCartItems: any;
+}) => {
+  const router = useRouter();
   const swiperRef = useRef<SwiperType | null>(null);
-
+  // console.log(product);
   const handleNext = () => {
     if (swiperRef.current) {
-      swiperRef.current.slideNext(); // ✅ this now works
+      swiperRef.current.slideNext();
+    }
+  };
+
+  const products = product || [];
+  const handleAddToCart = async (item: any) => {
+    try {
+      const response: any = await Post(
+        "/api/cart",
+        {
+          productId: item._id,
+          quantity: 1,
+        },
+        5000,
+        true
+      );
+
+      if (response?.success) {
+        fetchCartItems();
+      } else {
+        console.log("Add to cart failed:", response?.message);
+      }
+    } catch (err) {
+      console.log("Error adding to cart:", err);
     }
   };
 
@@ -83,12 +66,13 @@ const BestSellingProductSwiper = () => {
               letterSpacing: "0%",
             }}
           >
-            Best selling Product
+            Best Selling Products
           </h2>
-          <p className="text-gray-600 text-lg">Exclusive showcase of Fields</p>
+          <p className="text-gray-600 text-lg">
+            Exclusive showcase of Products
+          </p>
         </div>
 
-        {/* Custom Navigation */}
         <div className="flex gap-2">
           <button
             className="flex items-center gap-2 px-6 py-2 rounded-lg border-1 border-dashed"
@@ -115,7 +99,6 @@ const BestSellingProductSwiper = () => {
       {/* Swiper Container */}
       <Swiper
         onSwiper={(swiper) => {
-          // ✅ assign the real instance
           swiperRef.current = swiper;
         }}
         modules={[Navigation, Pagination, Autoplay]}
@@ -124,10 +107,7 @@ const BestSellingProductSwiper = () => {
         slidesPerGroup={1}
         speed={800}
         loop={true}
-        autoplay={{
-          delay: 4000,
-          disableOnInteraction: false,
-        }}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
         pagination={{
           clickable: true,
           bulletClass:
@@ -141,7 +121,7 @@ const BestSellingProductSwiper = () => {
         }}
         className="!pb-12"
       >
-        {fields.map((field, idx) => (
+        {products.map((item, idx) => (
           <SwiperSlide key={idx} className="h-auto">
             <div
               className="bg-white rounded-xl shadow-sm p-3 flex flex-col items-start w-full border border-gray-200"
@@ -149,8 +129,8 @@ const BestSellingProductSwiper = () => {
             >
               <div className="w-full relative mb-3">
                 <Image
-                  src={field.img}
-                  alt={field.title}
+                  src={item.image || "/assets/product1.png"}
+                  alt={item.name || item.title}
                   width={400}
                   height={300}
                   className="rounded-xl w-full h-[180px] object-cover"
@@ -159,19 +139,22 @@ const BestSellingProductSwiper = () => {
                   className="absolute top-2 right-2 bg-white rounded-full px-4 py-1 text-sm font-semibold"
                   style={{ fontFamily: "Inter, sans-serif" }}
                 >
-                  {field.tag}
+                  {item.brand || item.tag}
                 </span>
               </div>
-              <h2 className="font-bold text-lg">{field.title}</h2>
+              <h2 className="font-bold text-lg">{item.name || item.title}</h2>
               <div className="flex items-center text-sm gap-2 mt-1 mb-2 text-gray-700">
                 <span className="text-yellow-500 font-medium">★</span>
-                <span>{field.rating} Rating</span>
+                <span>{item.rating || 4.5} Rating</span>
               </div>
-              <p className="text-sm text-gray-500 mb-3">{field.desc}</p>
+              <p className="text-sm text-gray-500 mb-3">
+                {item.description || item.desc}
+              </p>
               <div className="font-bold text-lg mb-2">
-                {field.price} {field.currency}
+                {item.price || 300} {item.currency || "SAR"}
               </div>
               <button
+                onClick={() => handleAddToCart(item)}
                 className="w-full py-2 rounded-full mt-auto"
                 style={{
                   background: "#6D0E82",

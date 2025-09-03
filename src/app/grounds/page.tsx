@@ -2,22 +2,28 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Fetch } from "@/utils/Server";
+import Testimonial from "@/components/home/Testimonial";
 
 export default async function Page() {
   const nextSLotResponse = await Fetch("/api/ground/public");
+  const testimonialResponse = await Fetch("/api/testimonial/public");
+
   const nextSlots = nextSLotResponse?.data?.result ?? [];
+  const testimonials = testimonialResponse?.data?.result ?? [];
 
   const fields = nextSlots;
+
   return (
     <div className="bg-white min-h-screen relative">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-16 py-8 sm:py-16">
         {/* Header */}
         <div className="text-center mt-8 sm:mt-16 mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl xl:text-5xl font-inter font-bold text-gray-900 mb-2 leading-none">
-            Next Available Slot
+          <h1 className="text-2xl sm:text-3xl xl:text-5xl font-inter font-bold mb-2 leading-none">
+            <span className="text-[#932AAA]">Play</span>
+            <span className="text-gray-900">Pro</span> Fields
           </h1>
-          <p className="text-gray-500 text-base sm:text-lg lg:text-2xl font-normal">
-            Exclusive showcase of Fields
+          <p className="text-gray-500 text-base sm:text-lg lg:text-xl font-normal">
+            Aliquam lacinia diam quis lacus euismod
           </p>
         </div>
 
@@ -70,11 +76,11 @@ export default async function Page() {
                   {/* Bottom Section */}
                   <div className="bg-white p-3 sm:p-4 flex justify-between items-center">
                     <div className="text-xs sm:text-sm font-medium text-gray-700">
-                      SAR{field.pricePerHour} / hour
+                      Distance: {field.distance ?? "3.5 km"}
                     </div>
                     <button
                       className="px-4 py-1.5 sm:px-6 sm:py-2 text-white font-medium rounded-lg text-xs sm:text-sm hover:opacity-90 transition-opacity"
-                      style={{ background: "#6D0E82" }}
+                      style={{ background: "#932AAA" }}
                     >
                       Book Now
                     </button>
@@ -83,6 +89,11 @@ export default async function Page() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Testimonials Section */}
+        <div className="pt-16 pb-8 sm:py-24">
+          <Testimonial testimonials={testimonials} />
         </div>
       </div>
     </div>

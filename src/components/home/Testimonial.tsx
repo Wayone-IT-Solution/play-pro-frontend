@@ -67,7 +67,7 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
           className="text-2xl sm:text-4xl font-bold text-center sm:text-left"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
-          What Players Say
+         Review & Testimonials
         </h2>
         {/* Arrows */}
         <div className="flex gap-2 sm:gap-3">

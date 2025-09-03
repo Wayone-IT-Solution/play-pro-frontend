@@ -41,7 +41,7 @@ const StadiumBrowser = () => {
   ];
 
   return (
-    <div className=" py-20 px-5" style={{ backgroundColor: '#0F0B2E1A' }}>
+    <div className=" py-20 px-5 border-b-1 " style={{ backgroundColor: '#0F0B2E1A' }}>
       <div className="max-w-6xl mx-auto">
         {/* Title */}
         <h1 className="text-3xl font-bold text-black text-center mb-12 font-inter">

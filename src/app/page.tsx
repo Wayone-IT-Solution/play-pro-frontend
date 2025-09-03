@@ -12,6 +12,8 @@ import PlayProFields from "@/components/home/PlayProField";
 import ProductsForYou from "@/components/home/ProductsForYou";
 
 import SearchField from "@/components/home/SearchField";
+import HighRankingField from "@/components/home/HighRanking";
+import NearByField from "@/components/home/NearByField";
 
 export default async function Page() {
   const bannerResponse = await Fetch("/api/banner/public");
@@ -20,20 +22,24 @@ export default async function Page() {
   const banners = bannerResponse?.data?.result ?? [];
   const testimonials = testimonialResponse?.data?.result ?? [];
   const nextSlots = nextSLotResponse?.data?.result ?? [];
+  const productResponse = await Fetch("/api/product/public");
+  const products = productResponse?.data?.result ?? [];
 
   return (
     <div>
-      <SearchField/>
+      <SearchField />
       <PlayProBanner banners={banners} />
       {/* <FieldsContainer /> */}
-      <PlayProFields/>
-      <StadiumBrowser/>
+      {/* <PlayProFields /> */}
+      <NearByField nextSlots={nextSlots} />
+      <StadiumBrowser />
       <NextAvailableSlot nextSlots={nextSlots} />
       {/* <FindMatch /> */}
       {/* <CenterImagePage /> */}
       <RecommendedField nextSlots={nextSlots} />
+      <HighRankingField nextSlots={nextSlots} />
       {/* <CenterImagePage /> */}
-      <ProductsForYou />
+      <ProductsForYou products={products} />
 
       <Testimonials testimonials={testimonials} />
     </div>

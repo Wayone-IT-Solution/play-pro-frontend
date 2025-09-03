@@ -130,7 +130,7 @@ export const Fetch = async <T>(
       toastId,
       "success",
       (response?.data as { message?: string })?.message ??
-      "Fetched successfully!",
+        "Fetched successfully!",
       dismissToast
     );
     return response.data;
@@ -161,7 +161,7 @@ export const Post = async <T>(
       toastId,
       "success",
       (response?.data as { message?: string })?.message ??
-      "Submitted successfully!",
+        "Submitted successfully!",
       dismissToast
     );
     return response.data;
@@ -192,7 +192,7 @@ export const Put = async <T>(
       toastId,
       "success",
       (response?.data as { message?: string })?.message ??
-      "Updated successfully!",
+        "Updated successfully!",
       dismissToast
     );
     return response.data;
@@ -225,7 +225,7 @@ export const Delete = async <T>(
       toastId,
       "success",
       (response?.data as { message?: string })?.message ??
-      "Deleted successfully!",
+        "Deleted successfully!",
       dismissToast
     );
     return response.data;
@@ -256,7 +256,7 @@ export const Patch = async <T>(
       toastId,
       "success",
       (response?.data as { message?: string })?.message ??
-      "Updated successfully!",
+        "Updated successfully!",
       dismissToast
     );
     return response.data;
