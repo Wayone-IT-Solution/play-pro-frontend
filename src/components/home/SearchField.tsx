@@ -24,7 +24,7 @@ export default function FieldSearchBar() {
   const [hasSearched, setHasSearched] = useState<boolean>(false);
   const [showGroundsList, setShowGroundsList] = useState<boolean>(false);
 
-  const groundsRef = useRef<HTMLDivElement>(null); // Ref for the dropdown
+  const groundsRef = useRef<HTMLDivElement>(null); 
 
   useEffect(() => {
     async function fetchFilters() {
@@ -67,7 +67,7 @@ export default function FieldSearchBar() {
         false
       );
       setFilteredGrounds(res?.success ? (res.data as Ground[]) || [] : []);
-      setShowGroundsList(true); // Show the list after fetching
+      setShowGroundsList(true);
     } catch {
       setFilteredGrounds([]);
       setShowGroundsList(false);
@@ -93,7 +93,7 @@ export default function FieldSearchBar() {
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Close dropdown on outside click
+   
     useEffect(() => {
       function handleClickOutside(event: MouseEvent) {
         if (

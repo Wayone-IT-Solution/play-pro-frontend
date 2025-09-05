@@ -19,6 +19,10 @@ export default async function Page() {
   const bannerResponse = await Fetch("/api/banner/public");
   const testimonialResponse = await Fetch("/api/testimonial/public");
   const nextSLotResponse = await Fetch("/api/ground/public");
+  const cricketResponse = await Fetch("/api/ground/public?type=Cricket");
+  const crickets = bannerResponse?.data?.result ?? [];
+  const footballResponse = await Fetch("/api/ground/public?type=Football");
+  const football = bannerResponse?.data?.result ?? [];
   const banners = bannerResponse?.data?.result ?? [];
   const testimonials = testimonialResponse?.data?.result ?? [];
   const nextSlots = nextSLotResponse?.data?.result ?? [];
@@ -33,10 +37,10 @@ export default async function Page() {
       {/* <PlayProFields /> */}
       <NearByField nextSlots={nextSlots} />
       <StadiumBrowser />
-      <NextAvailableSlot nextSlots={nextSlots} />
+      <NextAvailableSlot football={football} />
       {/* <FindMatch /> */}
       {/* <CenterImagePage /> */}
-      <RecommendedField nextSlots={nextSlots} />
+      <RecommendedField  crickets={ crickets} />
       <HighRankingField nextSlots={nextSlots} />
       {/* <CenterImagePage /> */}
       <ProductsForYou products={products} />

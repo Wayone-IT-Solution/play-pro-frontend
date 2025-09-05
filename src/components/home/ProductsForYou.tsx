@@ -9,7 +9,7 @@ const ProductsForYou = ({ products }: { products: any[] }) => {
 
   const handleAddToCart = async (item: any) => {
     try {
-      const response: any = await Put(
+      const response: any = await Post(
         "/api/cart",
         {
           productId: item._id,

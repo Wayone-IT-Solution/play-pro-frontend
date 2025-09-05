@@ -53,6 +53,11 @@ export default function Cart() {
       console.error("Error fetching cart items:", err);
     }
   }, []);
+
+  useEffect(() => {
+    fetchCartItems();
+  }, [fetchCartItems]);
+
   return (
     <div>
       <ShopCart
