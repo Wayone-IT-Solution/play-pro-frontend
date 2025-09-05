@@ -63,6 +63,7 @@ export default function Navbar() {
         userDataRef.current = null;
       }
     } catch (err: any) {
+      localStorage.removeItem("accessToken");
       if (err.name !== "AbortError") {
         setIsLoggedIn(false);
         setFormData({ firstName: "" });

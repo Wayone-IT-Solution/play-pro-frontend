@@ -50,6 +50,7 @@ const BookingForm = () => {
         if (res.success) setUser(res.data);
       } catch (error) {
         console.log("Error fetching user:", error);
+        localStorage.removeItem("accessToken")
       } finally {
         setLoading(false);
       }

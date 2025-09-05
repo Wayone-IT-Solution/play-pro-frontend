@@ -33,6 +33,7 @@ export default function EditProfile() {
           console.log("❌ API returned error:", res.message);
         }
       } catch (err) {
+        localStorage.removeItem("accessToken")
         console.log("❌ Error fetching user data:", err);
       } finally {
         setLoading(false);
