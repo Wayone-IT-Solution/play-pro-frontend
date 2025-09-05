@@ -1,48 +1,51 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 const StadiumBrowser = () => {
   const sports = [
     {
-      name: 'Football',
-      stadiumCount: '30 Stadium',
-      icon: '/assets/football1.png', 
-      alt: 'Football icon'
+      name: "Football",
+      stadiumCount: "30 Stadium",
+      icon: "/assets/football1.png",
+      alt: "Football icon",
     },
     {
-      name: 'Cricket',
-      stadiumCount: '300 Stadium',
-      icon: '/assets/cricket.png',
-      alt: 'Cricket icon'
+      name: "Cricket",
+      stadiumCount: "300 Stadium",
+      icon: "/assets/cricket.png",
+      alt: "Cricket icon",
     },
     {
-      name: 'Hocky',
-      stadiumCount: '567 Stadium',
-      icon: '/assets/field-hockey.png', 
-      alt: 'Hockey icon'
+      name: "Hocky",
+      stadiumCount: "567 Stadium",
+      icon: "/assets/field-hockey.png",
+      alt: "Hockey icon",
     },
     {
-      name: 'Badminton',
-      stadiumCount: '340 Stadium',
-      icon: '/assets/badminton.png', 
-      alt: 'Badminton icon'
+      name: "Badminton",
+      stadiumCount: "340 Stadium",
+      icon: "/assets/badminton.png",
+      alt: "Badminton icon",
     },
     {
-      name: 'Tennis',
-      stadiumCount: '765 Stadium',
-      icon: '/assets/tennis.png', 
-      alt: 'Tennis icon'
+      name: "Tennis",
+      stadiumCount: "765 Stadium",
+      icon: "/assets/tennis.png",
+      alt: "Tennis icon",
     },
     {
-      name: 'Volleyball',
-      stadiumCount: '788 Stadium',
-      icon: '/assets/volleyball.png', 
-      alt: 'Volleyball icon'
-    }
+      name: "Volleyball",
+      stadiumCount: "788 Stadium",
+      icon: "/assets/volleyball.png",
+      alt: "Volleyball icon",
+    },
   ];
 
   return (
-    <div className=" py-20 px-5 border-b-1 " style={{ backgroundColor: '#0F0B2E1A' }}>
-      <div className="max-w-6xl mx-auto">
+    <div
+      className=" py-20 px-5 border-b-1 "
+      style={{ backgroundColor: "#0F0B2E1A" }}
+    >
+      <div className="max-w-7xl mx-auto">
         {/* Title */}
         <h1 className="text-3xl font-bold text-black text-center mb-12 font-inter">
           Browse Stadiums By Sport
@@ -71,9 +74,7 @@ const StadiumBrowser = () => {
                 <h3 className="text-2xl font-semibold text-black mb-1 font-inter">
                   {sport.name}
                 </h3>
-                <p className="text-gray-600 font-inter">
-                  {sport.stadiumCount}
-                </p>
+                <p className="text-gray-600 font-inter">{sport.stadiumCount}</p>
               </div>
             </div>
           ))}

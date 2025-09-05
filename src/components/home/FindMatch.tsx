@@ -31,7 +31,7 @@ export default function JoinNearbyGame() {
         </div>
 
         {/* Form Container */}
-        <div className="bg-white rounded-3xl md:rounded-[50px] lg:rounded-[91px] px-4 md:px-8 lg:px-12 py-6 md:py-8 lg:py-10 shadow-sm mx-auto max-w-6xl">
+        <div className="bg-white rounded-3xl md:rounded-[50px] lg:rounded-[91px] px-4 md:px-8 lg:px-12 py-6 md:py-8 lg:py-10 shadow-sm mx-auto max-w-7xl">
           {/* First Row */}
           <div className="space-y-4 md:space-y-0 md:grid md:grid-cols-2 md:gap-6 lg:gap-12">
             {/* Game Type */}

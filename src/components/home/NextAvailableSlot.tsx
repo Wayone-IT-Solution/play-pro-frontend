@@ -20,17 +20,14 @@ const NextAvailableSlot = ({ nextSlots }: { nextSlots?: any }) => {
   };
 
   return (
-    <div
-      className="w-screen"
-      style={{ background: "#0F0B2E1A" }}
-    >
-      <div className="lg:max-w-6xl mx-auto px-4">
+    <div className="" style={{ background: "#0F0B2E1A" }}>
+      <div className="lg:max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 pt-8">
           <div>
             <h2 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2 flex items-center gap-2">
               <Image
-                src="/assets/football1.png" 
+                src="/assets/football1.png"
                 alt="Football Icon"
                 width={32}
                 height={32}
@@ -148,7 +145,6 @@ const NextAvailableSlot = ({ nextSlots }: { nextSlots?: any }) => {
             ))}
           </Swiper>
         </div>
-
 
         <style jsx global>{`
           .swiper-pagination {

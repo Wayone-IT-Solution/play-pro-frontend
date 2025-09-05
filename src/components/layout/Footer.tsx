@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
     <footer className="bg-[#6D0E8233] relative text-black mt-20">
       {/* Top Banner */}
       <div className="bg-gray-200 z-20 w-[90%] lg:w-[80%] absolute -top-12 left-1/2 transform -translate-x-1/2 rounded-lg shadow-md py-4">
-        <div className="max-w-6xl mx-auto px-3 md:px-6 md:py-4 flex flex-col md:flex-row items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 md:px-6 md:py-4 flex flex-col md:flex-row items-center justify-between">
           <h2 className="text-lg md:text-xl font-semibold text-black text-center md:text-left">
             PlayPro simplifies sports for everyone
           </h2>
@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Main Footer Content */}
-      <div className="max-w-6xl mx-auto px-6 pb-16 pt-24">
+      <div className="max-w-7xl mx-auto px-6 pb-16 pt-24">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12">
           {/* Logo */}
           <div className="space-y-6">
@@ -124,17 +124,22 @@ const Footer: React.FC = () => {
 
             {/* Social Icons */}
             <div className="flex gap-4 mb-8">
-              {[FaFacebookF, FaTwitter, FaGithub, FaTelegramPlane, FaInstagram, FaFigma].map(
-                (Icon, idx) => (
-                  <Link
-                    href="#"
-                    key={idx}
-                    className="w-10 h-10 border border-black rounded-lg flex items-center justify-center hover:bg-black hover:text-white transition"
-                  >
-                    <Icon className="text-black text-lg" />
-                  </Link>
-                )
-              )}
+              {[
+                FaFacebookF,
+                FaTwitter,
+                FaGithub,
+                FaTelegramPlane,
+                FaInstagram,
+                FaFigma,
+              ].map((Icon, idx) => (
+                <Link
+                  href="#"
+                  key={idx}
+                  className="w-10 h-10 border border-black rounded-lg flex items-center justify-center hover:bg-black hover:text-white transition"
+                >
+                  <Icon className="text-black text-lg" />
+                </Link>
+              ))}
             </div>
 
             {/* Subscribe */}
@@ -168,7 +173,7 @@ const Footer: React.FC = () => {
 
       {/* Bottom Footer */}
       <div className="border-t border-black pb-20 md:pb-0 lg:flex justify-between items-center">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-wrap justify-center gap-2 md:gap-6 text-black text-sm">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-center gap-2 md:gap-6 text-black text-sm">
           <Link href="/privacy-policy" className="hover:text-[#6D0E82]">
             Privacy Policy
           </Link>
@@ -179,7 +184,7 @@ const Footer: React.FC = () => {
             Sales and Refunds
           </Link>
         </div>
-        <div className="max-w-6xl mx-auto px-6 py-4 text-black text-center text-sm">
+        <div className="max-w-7xl mx-auto px-6 py-4 text-black text-center text-sm">
           © {new Date().getFullYear()} All Rights Reserved
         </div>
       </div>

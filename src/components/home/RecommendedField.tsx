@@ -20,11 +20,8 @@ const CricketFields = ({ nextSlots }: { nextSlots?: any }) => {
   };
 
   return (
-    <div
-      className="w-screen "
-      style={{ background: "#0F0B2E1A" }}
-    >
-      <div className="lg:max-w-6xl mx-auto px-4">
+    <div style={{ background: "#0F0B2E1A" }}>
+      <div className="lg:max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 pt-8">
           <div>
@@ -151,6 +148,7 @@ const CricketFields = ({ nextSlots }: { nextSlots?: any }) => {
 
         {/* View More Button */}
         <div className="w-full flex justify-center mt-4 pb-8">
+          <Link href="/grounds">
           <button
             className="px-8 py-3 rounded-xl text-white font-semibold text-lg"
             style={{
@@ -160,6 +158,7 @@ const CricketFields = ({ nextSlots }: { nextSlots?: any }) => {
           >
             View More
           </button>
+          </Link>
         </div>
 
         <style jsx global>{`

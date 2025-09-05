@@ -156,7 +156,7 @@ export default function Navbar() {
               Search Fields
             </Link>
             <Link
-              href="/"
+              href="/product"
               className="text-[#6D0E82] hover:text-gray-900 font-inter text-sm font-bold"
             >
               Play Pro Shop

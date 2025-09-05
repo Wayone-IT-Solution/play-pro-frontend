@@ -1,66 +1,45 @@
-"use client";
+import StadiumBrowser from "../../components/home/StadiumBrowser";
+import { Fetch } from "@/utils/Server";
+import Product from "./components/Product";
+import {  FiSearch } from "react-icons/fi";
+import { LuListFilter } from "react-icons/lu";
 
-import ShopCart from "./components/ShopCart";
-import BestProducts from "./components/BestProducts";
+export default async function Home() {
+  const productResponse = await Fetch("/api/product/public");
+  const products = productResponse?.data?.result ?? [];
 
-import { useCallback, useEffect, useState } from "react";
-import { Fetch } from "@/utils/axios";
-
-type CartItemType = {
-  brand: string;
-  name: string;
-  price: number;
-  image: string;
-  productId: string;
-  category: string;
-  quantity: number;
-  description: string;
-};
-
-export default function Product() {
-  const [products, setProducts] = useState([]);
-  const [items, setItems] = useState<CartItemType[]>([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response: any = await Fetch("/api/product/public");
-        setProducts(response?.data?.result ?? []);
-      } catch (error) {
-        console.log("Errro: ", error);
-      }
-    };
-    fetchProducts();
-  }, []);
-
-  const fetchCartItems = useCallback(async () => {
-    try {
-      const res: any = await Fetch("/api/cart", {}, 5000, true, false);
-      if (res?.success && res.data?.items) {
-        const fetchedItems = res.data.items.map((item: any) => ({
-          brand: item.brand,
-          name: item.name,
-          price: item.price,
-          image: item.image?.trim() || "/assets/cart1.png",
-          productId: item.productId,
-          category: item.category,
-          quantity: item.quantity,
-          description: item.description,
-        }));
-        setItems(fetchedItems);
-      }
-    } catch (err) {
-      console.error("Error fetching cart items:", err);
-    }
-  }, []);
   return (
-    <div>
-      <ShopCart
-        items={items}
-        setItems={setItems}
-        fetchCartItems={fetchCartItems}
-      />
-      <BestProducts product={products} fetchCartItems={fetchCartItems} />
+    <div className="py-8 px-4 md:px-24 bg-white min-h-screen mt-20">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+        <div>
+          <h2 className="font-bold text-2xl md:text-3xl text-gray-900">
+            Best selling Product
+          </h2>
+          <p className="text-gray-500 mt-1">Exclusive showcase of Fields</p>
+        </div>
+
+        <div className="flex lg:w-1/2 items-center md:w-auto">
+          <div className="flex-1 relative flex items-center rounded-full bg-[#932AAA26] w-full overflow-hidden">
+            <FiSearch className="absolute left-3 text-[#932AAA] h-5 w-5" />
+
+            <input
+              type="text"
+              placeholder="Search Product"
+              className="w-full bg-transparent pl-10 pr-3 py-4 outline-none text-[#932AAA] placeholder-[#932AAA] rounded-2xl"
+            />
+            <button className="flex items-center gap-2 px-5 mr-2 py-2.5 bg-[#932AAA] text-white font-semibold text-sm h-fit rounded-full">
+              <LuListFilter className="w-4 h-4" />
+              Filter
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Stadium Categories */}
+      <StadiumBrowser />
+
+      {/* Product Grid */}
+      <Product products={products} />
     </div>
   );
 }

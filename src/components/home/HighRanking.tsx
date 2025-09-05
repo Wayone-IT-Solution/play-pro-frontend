@@ -20,8 +20,8 @@ const HighRankingField = ({ nextSlots }: { nextSlots?: any }) => {
   };
 
   return (
-    <div className="w-screen bg-white mt-10" style={{ borderRadius: 24 }}>
-      <div className="lg:max-w-6xl mx-auto px-4">
+    <div className="bg-white mt-10" style={{ borderRadius: 24 }}>
+      <div className="lg:max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 pt-8">
           <div>

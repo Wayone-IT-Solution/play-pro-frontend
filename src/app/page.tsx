@@ -45,6 +45,3 @@ export default async function Page() {
     </div>
   );
 }
-function Get(arg0: string) {
-  throw new Error("Function not implemented.");
-}

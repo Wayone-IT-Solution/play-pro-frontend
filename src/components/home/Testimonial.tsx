@@ -60,14 +60,14 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
   };
 
   return (
-    <div className="w-screen md:max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+    <div className="w-screen md:max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
         <h2
           className="text-2xl sm:text-4xl font-bold text-center sm:text-left"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
-         Review & Testimonials
+          Review & Testimonials
         </h2>
         {/* Arrows */}
         <div className="flex gap-2 sm:gap-3">
