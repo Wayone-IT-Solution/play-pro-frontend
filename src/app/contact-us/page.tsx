@@ -1,7 +1,16 @@
 "use client";
+
 import { Post } from "@/utils/axios";
 import React, { useState } from "react";
-import { Phone, Mail, Headphones, MessageCircle } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  Headphones,
+  MessageCircle,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 const ContactUsPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -62,66 +71,125 @@ const ContactUsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen mt-20 bg-[#6D0E82] text-white">
+    <div className="min-h-screen bg-gradient-to-b from-[#6D0E82] via-[#510A60] to-black text-white">
       {/* Hero */}
-      <section className="text-center py-16 px-6">
-        <div className="p-4 bg-white/10 rounded-full w-fit mx-auto backdrop-blur-sm mb-6">
+      <motion.section
+        className="text-center py-16 px-6"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="p-4 bg-white/10 mt-20 rounded-full w-fit mx-auto backdrop-blur-sm mb-6 shadow-md">
           <MessageCircle className="w-12 h-12" />
         </div>
-        <h1 className="text-4xl sm:text-5xl font-bold mb-4">Contact Us</h1>
-        <p className="text-lg sm:text-xl text-blue-100 max-w-2xl mx-auto">
+        <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
+          Contact Us
+        </h1>
+        <p className="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto leading-relaxed">
           We’re here to help with your football field booking needs.
         </p>
-      </section>
+      </motion.section>
 
       {/* Contact Methods */}
+      <section className="px-6 mb-10">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-gray-900">
+          {[
+            {
+              icon: <Phone className="w-6 h-6" />,
+              title: "Call Us",
+              text: "+91 98765 43210",
+            },
+            {
+              icon: <Mail className="w-6 h-6" />,
+              title: "Email Us",
+              text: "support@footybook.com",
+            },
+            {
+              icon: <Headphones className="w-6 h-6" />,
+              title: "Live Support",
+              text: "24/7 assistance",
+            },
+          ].map((method, index) => (
+            <motion.div
+              key={method.title}
+              className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl transition-all"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.2 }}
+            >
+              <div className="bg-[#6D0E82]/10 text-[#6D0E82] p-3 rounded-full mb-4">
+                {method.icon}
+              </div>
+              <h3 className="font-bold text-lg mb-2">{method.title}</h3>
+              <p className="text-gray-600">{method.text}</p>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Contact Form */}
       <section className="bg-white text-gray-900 py-16 px-6">
-        {/* Contact Form */}
-        <div className="max-w-3xl mx-auto mt-16 bg-white p-8 rounded-2xl shadow-lg">
-          <h2 className="text-3xl font-bold mb-6 text-center">
+        <motion.div
+          className="max-w-3xl mx-auto bg-white p-10 rounded-3xl shadow-xl"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-3xl font-bold mb-8 text-center text-[#6D0E82]">
             Send Us a Message
           </h2>
 
           {status && (
-            <div
-              className={`mb-4 p-3 rounded-lg text-center ${
-                status.type === "success"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-red-100 text-red-700"
-              }`}
+            <motion.div
+              className={`mb-6 flex items-center gap-2 p-4 rounded-lg text-sm font-medium ${status.type === "success"
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
+                }`}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
             >
+              {status.type === "success" ? (
+                <CheckCircle2 className="w-5 h-5" />
+              ) : (
+                <AlertCircle className="w-5 h-5" />
+              )}
               {status.message}
-            </div>
+            </motion.div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <input
-              type="text"
-              name="senderName"
-              placeholder="Your Name"
-              value={formData.senderName}
-              onChange={handleInputChange}
-              required
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            />
-            <input
-              type="email"
-              name="senderEmail"
-              placeholder="Your Email"
-              value={formData.senderEmail}
-              onChange={handleInputChange}
-              required
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            />
-            <input
-              type="tel"
-              name="senderMobile"
-              placeholder="Your Mobile Number"
-              value={formData.senderMobile}
-              onChange={handleInputChange}
-              required
-              className="w-full p-3 border border-gray-300 rounded-lg"
-            />
+            {[
+              {
+                name: "senderName",
+                type: "text",
+                placeholder: "Your Name",
+                value: formData.senderName,
+              },
+              {
+                name: "senderEmail",
+                type: "email",
+                placeholder: "Your Email",
+                value: formData.senderEmail,
+              },
+              {
+                name: "senderMobile",
+                type: "tel",
+                placeholder: "Your Mobile Number",
+                value: formData.senderMobile,
+              },
+            ].map((field) => (
+              <input
+                key={field.name}
+                type={field.type}
+                name={field.name}
+                placeholder={field.placeholder}
+                value={field.value}
+                onChange={handleInputChange}
+                required
+                className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#6D0E82] outline-none transition"
+              />
+            ))}
+
             <textarea
               name="query"
               placeholder="Your Message"
@@ -129,18 +197,19 @@ const ContactUsPage: React.FC = () => {
               onChange={handleInputChange}
               rows={5}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg"
+              className="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#6D0E82] outline-none transition"
             />
 
-            <button
+            <motion.button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#6D0E82] text-white py-3 rounded-lg font-semibold hover:bg-[#02577A] transition-all disabled:opacity-70"
+              className="w-full bg-gradient-to-r from-[#6D0E82] to-[#932AAA] text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition disabled:opacity-70"
+              whileTap={{ scale: 0.96 }}
             >
               {loading ? "Sending..." : "Send Message"}
-            </button>
+            </motion.button>
           </form>
-        </div>
+        </motion.div>
       </section>
     </div>
   );

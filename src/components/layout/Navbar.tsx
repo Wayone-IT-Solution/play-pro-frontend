@@ -10,7 +10,7 @@ export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ firstName: "" });
-  const[mounted, setMounted] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   const abortControllerRef: any = useRef(null);
   const userDataRef: any = useRef(null);
@@ -165,7 +165,7 @@ export default function Navbar() {
               href="/contact-us"
               className="text-[#6D0E82] hover:text-gray-900 font-inter text-sm font-bold"
             >
-              Contact US
+              Contact Us
             </Link>
           </div>
         </div>
@@ -197,20 +197,20 @@ export default function Navbar() {
             </Link>
           ) : (
             <Link href="/login">
-            <button
-              className="px-6 py-2 rounded-lg text-white font-inter text-sm font-bold hover:opacity-90 transition-opacity"
-              style={{ backgroundColor: "#6D0E82" }}
-              onClick={handleLogin}
-            >
-              Login
-            </button>
+              <button
+                className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90 transition-opacity"
+                style={{ backgroundColor: "#6D0E82" }}
+                onClick={handleLogin}
+              >
+                Login
+              </button>
             </Link>
           )}
 
           {/* List Field */}
           <Link href="/grounds" passHref>
             <button
-              className="px-6 py-2 rounded-lg text-white font-inter text-sm font-bold hover:opacity-90 transition-opacity"
+              className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90 transition-opacity"
               style={{ backgroundColor: "#6D0E82" }}
               type="button"
             >

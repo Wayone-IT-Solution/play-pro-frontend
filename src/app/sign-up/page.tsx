@@ -151,11 +151,10 @@ const SignupPage: React.FC = () => {
 
           {status && (
             <div
-              className={`mb-4 p-3 rounded-lg text-center ${
-                status.type === "success"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-red-100 text-red-700"
-              }`}
+              className={`mb-4 p-3 rounded-lg text-center ${status.type === "success"
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
+                }`}
             >
               {status.message}
             </div>
@@ -268,11 +267,10 @@ const SignupPage: React.FC = () => {
             {/* Terms */}
             <div className="flex items-start gap-3 mb-4">
               <div
-                className={`w-5 h-5 border-2 rounded cursor-pointer flex-shrink-0 mt-0.5 transition-all ${
-                  formData.agreeToTerms
-                    ? "bg-[#6D54B5] border-[#6D54B5] text-white"
-                    : "border-gray-600"
-                }`}
+                className={`w-5 h-5 border-2 rounded cursor-pointer flex-shrink-0 mt-0.5 transition-all ${formData.agreeToTerms
+                  ? "bg-[#6D54B5] border-[#6D54B5] text-white"
+                  : "border-gray-600"
+                  }`}
                 onClick={toggleCheckbox}
               >
                 {formData.agreeToTerms && (
@@ -293,7 +291,7 @@ const SignupPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-br from-[#6D54B5] to-[#6D54B5] text-white py-3 rounded-lg text-base font-semibold hover:-translate-y-0.5 transition-transform disabled:opacity-70"
+              className="w-full bg-[#6D0E82] text-white py-3 rounded-lg text-base font-semibold hover:-translate-y-0.5 transition-transform disabled:opacity-70"
             >
               {loading ? "Creating..." : "Create account"}
             </button>

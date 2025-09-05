@@ -21,7 +21,7 @@ const CricketFields = ({ nextSlots }: { nextSlots?: any }) => {
 
   return (
     <div style={{ background: "#0F0B2E1A" }}>
-      <div className="lg:max-w-7xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 pt-8">
           <div>
@@ -149,15 +149,15 @@ const CricketFields = ({ nextSlots }: { nextSlots?: any }) => {
         {/* View More Button */}
         <div className="w-full flex justify-center mt-4 pb-8">
           <Link href="/grounds">
-          <button
-            className="px-8 py-3 rounded-xl text-white font-semibold text-lg"
-            style={{
-              background: "#6D0E82",
-              boxShadow: "0px 2px 5px 0px #00000024",
-            }}
-          >
-            View More
-          </button>
+            <button
+              className="px-8 py-3 rounded-xl text-white font-semibold text-lg"
+              style={{
+                background: "#6D0E82",
+                boxShadow: "0px 2px 5px 0px #00000024",
+              }}
+            >
+              View More
+            </button>
           </Link>
         </div>
 

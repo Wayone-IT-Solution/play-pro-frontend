@@ -5,7 +5,7 @@ import { Fetch } from "@/utils/Server";
 import Testimonial from "@/components/home/Testimonial";
 
 export default async function Page() {
-  const nextSLotResponse = await Fetch("/api/ground/public");
+  const nextSLotResponse = await Fetch("/api/ground/public?page=1&limit=100000");
   const testimonialResponse = await Fetch("/api/testimonial/public");
 
   const nextSlots = nextSLotResponse?.data?.result ?? [];
@@ -15,7 +15,7 @@ export default async function Page() {
 
   return (
     <div className="bg-white min-h-screen relative">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-16 py-8 sm:py-16">
+      <div className="max-w-6xl mx-auto px-4 py-8 sm:py-16">
         {/* Header */}
         <div className="text-center mt-8 sm:mt-16 mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl xl:text-5xl font-inter font-bold mb-2 leading-none">
@@ -90,11 +90,7 @@ export default async function Page() {
             ))}
           </div>
         </div>
-
-        {/* Testimonials Section */}
-        <div className="pt-16 pb-8 sm:py-24">
-          <Testimonial testimonials={testimonials} />
-        </div>
+        <Testimonial testimonials={testimonials} />
       </div>
     </div>
   );

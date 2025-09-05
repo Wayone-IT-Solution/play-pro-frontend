@@ -21,7 +21,7 @@ const NextAvailableSlot = ({ nextSlots }: { nextSlots?: any }) => {
 
   return (
     <div className="" style={{ background: "#0F0B2E1A" }}>
-      <div className="lg:max-w-7xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 pt-8">
           <div>

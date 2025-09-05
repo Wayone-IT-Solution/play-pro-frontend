@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown } from "lucide-react";
 import { Fetch } from "@/utils/axios";
 import Link from "next/link";
+import Image from "next/image";
 
 type Ground = {
   _id: string;
@@ -85,9 +86,9 @@ export default function FieldSearchBar() {
 
   const Dropdown: React.FC<{
     value: string;
-    setValue: (val: string) => void;
     options: string[];
     placeholder: string;
+    setValue: (val: string) => void;
   }> = ({ value, setValue, options, placeholder }) => {
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -108,7 +109,7 @@ export default function FieldSearchBar() {
     }, []);
 
     return (
-      <div className="relative overflow-hidden min-w-[160px]" ref={dropdownRef}>
+      <div className="relative min-w-[160px]" ref={dropdownRef}>
         <button
           type="button"
           onClick={() => setOpen(!open)}
@@ -158,6 +159,8 @@ export default function FieldSearchBar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  console.log(filteredGrounds)
+
   return (
     <div className="w-full relative flex flex-col justify-center items-center mt-24">
       <form
@@ -166,83 +169,109 @@ export default function FieldSearchBar() {
       >
         <input
           type="text"
-          placeholder="Search For Fields"
           value={searchTerm}
+          placeholder="Search For Fields"
           onChange={(e) => setSearchTerm(e.target.value)}
           className="flex-1 outline-none bg-white rounded-full px-6 py-3 text-gray-600 font-medium placeholder:font-normal placeholder:text-gray-400 border border-gray-200 focus:ring-2 focus:ring-purple-200 transition-all min-w-[200px]"
         />
         <Dropdown
           value={selectedCity}
-          setValue={setSelectedCity}
           options={addressOptions}
           placeholder="Select City"
+          setValue={setSelectedCity}
         />
         <Dropdown
-          value={selectedFieldType}
-          setValue={setSelectedFieldType}
           options={typeOptions}
           placeholder="Field Type"
+          value={selectedFieldType}
+          setValue={setSelectedFieldType}
         />
         <button
           type="submit"
           disabled={loadingGrounds}
-          className="rounded-full px-8 py-3 font-semibold text-white text-base bg-[#932AAA] hover:bg-[#7b0d92] transition-colors duration-200 shadow-sm hover:shadow-md disabled:opacity-50"
+          className="rounded-full px-8 py-3 cursor-pointer font-semibold text-white text-base bg-[#932AAA] hover:bg-[#7b0d92] transition-colors duration-200 shadow-sm hover:shadow-md disabled:opacity-50"
         >
           {loadingGrounds ? "Searching..." : "Find"}
         </button>
       </form>
 
-      {/* Grounds List */}
-      {showGroundsList && filteredGrounds.length > 0 && (
+      {/* Grounds Result Block */}
+      {showGroundsList && (
         <div
           ref={groundsRef}
-          className="absolute z-50 bg-white top-12 mt-8 w-full shadow-2xl overflow-hidden rounded-2xl max-w-4xl max-h-80"
+          className="absolute z-50 bg-white top-12 mt-8 w-full shadow-2xl overflow-hidden rounded-2xl max-w-4xl"
         >
-          <div className="bg-white rounded-2xl p-6 border border-gray-100">
+          <div className="bg-white rounded-2xl p-4 border border-gray-100">
             <h3 className="font-semibold text-[#932AAA] mb-4 text-lg">
               Available Grounds
             </h3>
-            <ul className="max-h-80 overflow-y-auto divide-y divide-gray-100 rounded-xl border border-gray-200 custom-scrollbar">
-              {filteredGrounds.map((ground) => (
-                <li key={ground._id}>
-                  <Link
-                    href={`/grounds/${ground._id}`}
-                    className="flex items-center justify-between px-5 py-4 text-gray-700 hover:bg-[#932AAA]/10 hover:text-[#932AAA] transition-all duration-200"
+
+            {filteredGrounds.length > 0 ? (
+              <ul className="max-h-80 overflow-y-auto divide-y divide-gray-100 rounded-xl border border-gray-200 custom-scrollbar">
+                {filteredGrounds.map((ground: any) => (
+                  <li key={ground?._id}>
+                    <Link
+                      href={`/grounds/${ground?._id}`}
+                      className="flex items-center gap-4 px-3 py-2 hover:bg-[#932AAA]/10 transition-all duration-200"
+                    >
+                      {/* Thumbnail */}
+                      <div className="relative w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden">
+                        <Image
+                          width={125}
+                          height={125}
+                          unoptimized
+                          alt={ground?.name}
+                          src={ground?.images?.[0]}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+
+                      {/* Details */}
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium text-gray-800 truncate">
+                          {ground?.name || "Unnamed Ground"}
+                        </h4>
+                        <p className="text-sm text-gray-500 truncate">
+                          {ground?.address}
+                        </p>
+                        <div className="flex items-center gap-3 mt-1 text-xs text-gray-600">
+                          <span>{ground?.type}</span>
+                          <span className="font-semibold text-[#932AAA]">
+                            SAR {ground?.pricePerHour}/hr
+                          </span>
+                        </div>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              hasSearched &&
+              !loadingGrounds && (
+                <div className="flex flex-col items-center justify-center py-12 text-center text-gray-500">
+                  <svg
+                    className="w-12 h-12 mb-3 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    <span className="font-medium">
-                      {ground.name || "Unnamed Ground"}
-                    </span>
-                    <span className="text-xs bg-[#932AAA] text-white px-3 py-1 rounded-full shadow-sm">
-                      View
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <p className="font-medium">No grounds found</p>
+                  <p className="text-sm text-gray-400 mt-1">
+                    Try adjusting your filters and search again.
+                  </p>
+                </div>
+              )
+            )}
           </div>
         </div>
       )}
-
-      {/* No grounds found */}
-      {hasSearched && !filteredGrounds.length && !loadingGrounds && (
-        <p className="mt-8 text-gray-500 text-center bg-white rounded-xl shadow-md p-4 w-full max-w-4xl">
-          No grounds found. Try adjusting your filters.
-        </p>
-      )}
-
-      {/* Custom scrollbar styles */}
-      <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: #932aaa;
-          border-radius: 9999px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: #f3f4f6;
-        }
-      `}</style>
     </div>
   );
 }

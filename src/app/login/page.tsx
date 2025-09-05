@@ -172,11 +172,10 @@ const LoginPage: React.FC = () => {
             {/* Terms */}
             <div className="flex items-start gap-2 sm:gap-3 mb-3 sm:mb-4">
               <div
-                className={`w-4 h-4 sm:w-5 sm:h-5 border-2 rounded cursor-pointer flex-shrink-0 mt-0.5 transition-all ${
-                  formData.agreeToTerms
-                    ? " bg-[#6D54B5]  border-[#6D54B5] text-white"
-                    : "border-gray-600"
-                }`}
+                className={`w-4 h-4 sm:w-5 sm:h-5 border-2 rounded cursor-pointer flex-shrink-0 mt-0.5 transition-all ${formData.agreeToTerms
+                  ? " bg-[#6D54B5]  border-[#6D54B5] text-white"
+                  : "border-gray-600"
+                  }`}
                 onClick={() =>
                   setFormData((prev: any) => ({
                     ...prev,
@@ -202,7 +201,7 @@ const LoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-br from-[#6D54B5] to-[#6D54B5] text-white border-none py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold cursor-pointer hover:-translate-y-0.5 transition-transform disabled:opacity-50"
+              className="w-full bg-[#6D0E82] text-white border-none py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold cursor-pointer hover:-translate-y-0.5 transition-transform disabled:opacity-50"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
