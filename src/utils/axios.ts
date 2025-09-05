@@ -143,11 +143,7 @@ export const Fetch = async <T>(
 
 // Post utility function
 export const Post = async <T>(
-  url: string,
-  data: Record<string, unknown> | FormData,
-  timeout?: number,
-  dismissToast: boolean = false
-): Promise<T> => {
+url: string, data: Record<string, unknown> | FormData, timeout?: number, dismissToast: boolean = false, p0: boolean): Promise<T> => {
   const toastId = toast.loading("Please wait...");
 
   try {

@@ -1,9 +1,10 @@
 "use client";
-
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Delete, Put } from "@/utils/axios";
 import { Plus, Minus, Trash } from "lucide-react";
+import { Delete, Post, Put } from "@/utils/axios";
+import toast, { Toaster } from "react-hot-toast";
 
 type CartItemType = {
   brand: string;
@@ -16,7 +17,57 @@ type CartItemType = {
   description: string;
 };
 
-const ShoeCartComponent = ({ items, setItems }: { items: any; setItems: any }) => {
+const ShoeCartComponent = ({
+  items,
+  setItems,
+  fetchCartItems,
+}: {
+  items: any;
+  setItems: any;
+  fetchCartItems: any;
+}) => {
+  // ------------------ Pay Now ------------------
+  const [paymentMethod] = useState("COD");
+  const [address, setAddress] = useState("");
+
+  const handlePayNow = async () => {
+    try {
+      const orderPayload = {
+        paymentMethod,
+        address,
+      };
+      const res: any = await Post("/api/order", orderPayload, 5000, true, false);
+      if (res?.success) {
+        console.log("Order placed successfully:", res);
+        setItems([]);
+        await fetchCartItems();
+        toast.success("Order placed successfully!", {
+          style: {
+            background: "#932AAA",
+            color: "#fff",
+          },
+        });
+      } else {
+        console.error("Order failed:", res);
+        toast.error(res?.message || "Failed to place order", {
+          style: {
+            background: "#932AAA",
+            color: "#fff",
+          },
+        });
+      }
+    } catch (err) {
+      console.error("Error placing order:", err);
+      toast.error("Something went wrong!", {
+        style: {
+          background: "#932AAA",
+          color: "#fff",
+        },
+      });
+    }
+  };
+
+  // ------------------ Update Quantity ------------------
   const updateQuantity = async (index: number, change: number) => {
     const newQty = Math.max(1, items[index].quantity + change);
     try {
@@ -52,7 +103,7 @@ const ShoeCartComponent = ({ items, setItems }: { items: any; setItems: any }) =
     );
   };
 
-  // ------------------ Cart Item Component ------------------
+  // ------------------ Cart Item ------------------
   const CartItem: React.FC<{ item: CartItemType; index: number }> = ({
     item,
     index,
@@ -126,30 +177,50 @@ const ShoeCartComponent = ({ items, setItems }: { items: any; setItems: any }) =
 
   // ------------------ Render ------------------
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-8 bg-white rounded-3xl border-4 border-gray-200 flex flex-col mt-24">
-      <div className="flex flex-col space-y-0 w-full">
-        {items.map((item: any, i: any) => (
-          <CartItem key={i} item={item} index={i} />
-        ))}
-      </div>
-      <div className="flex items-center justify-between mt-6 px-4 w-full border-t pt-4">
-        <div className="flex items-center gap-3">
-          <span className="text-gray-700 font-medium">Grand Total:</span>
-          <div
-            className="px-4 py-2 rounded-full text-white font-semibold"
+    <>
+      <Toaster position="top-center" reverseOrder={false} />
+      <div className="max-w-7xl mx-auto p-4 md:p-8 bg-white rounded-3xl border-4 border-gray-200 flex flex-col mt-24">
+        <div className="flex flex-col space-y-0 w-full">
+          {items.map((item: any, i: any) => (
+            <CartItem key={i} item={item} index={i} />
+          ))}
+        </div>
+
+        {/* Address Field (Single Row Input) */}
+        <div className="mt-6 px-4 w-full">
+          <label className="block mb-2 font-medium text-gray-700">Address</label>
+          <input
+            type="text"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder="Enter delivery address"
+            className="w-full border-2 border-[#932AAA] text-[#932AAA] rounded-lg p-2 focus:outline-none focus:border-[#932AAA] transition-colors"
+            style={{
+              backgroundColor: "#fff",
+            }}
+          />
+        </div>
+
+        <div className="flex items-center justify-between mt-6 px-4 w-full border-t pt-4">
+          <div className="flex items-center gap-3">
+            <span className="text-gray-700 font-medium">Grand Total:</span>
+            <div
+              className="px-4 py-2 rounded-full text-white font-semibold"
+              style={{ backgroundColor: "#932AAA" }}
+            >
+              SAR {calculateTotal()}
+            </div>
+          </div>
+          <button
+            onClick={handlePayNow}
+            className="px-20 py-3 rounded-full text-white font-medium text-lg"
             style={{ backgroundColor: "#932AAA" }}
           >
-            SAR {calculateTotal()}
-          </div>
+            Pay Now
+          </button>
         </div>
-        <button
-          className="px-20 py-3 rounded-full text-white font-medium text-lg"
-          style={{ backgroundColor: "#932AAA" }}
-        >
-          Pay Now
-        </button>
       </div>
-    </div>
+    </>
   );
 };
 
