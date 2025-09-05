@@ -1,6 +1,7 @@
 "use client";
-import React, { useRef } from "react";
+
 import Image from "next/image";
+import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -60,7 +61,7 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-10 sm:py-16">
+    <div className="max-w-6xl mx-auto w-screen lg:w-auto py-10 sm:py-16">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
         <h2

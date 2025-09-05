@@ -20,7 +20,7 @@ const NextAvailableSlot = ({ football }: { football?: any }) => {
   };
 
   return (
-    <div className="" style={{ background: "#0F0B2E1A" }}>
+    <div className="w-screen lg:w-auto" style={{ background: "#0F0B2E1A" }}>
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 pt-8">

@@ -20,7 +20,7 @@ const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
   };
 
   return (
-    <div className="bg-white mt-5 overflow-hidden">
+    <div className="bg-white w-screen lg:w-auto mt-5 overflow-hidden">
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 pt-8">

@@ -17,7 +17,7 @@ export default async function Page() {
     <div className="bg-white min-h-screen relative">
       <div className="max-w-6xl mx-auto px-4 py-8 sm:py-16">
         {/* Header */}
-        <div className="text-center mt-8 sm:mt-16 mb-6 sm:mb-8">
+        <div className="text-center mt-14 md:mt-16 mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl xl:text-5xl font-inter font-bold mb-2 leading-none">
             <span className="text-[#932AAA]">Play</span>
             <span className="text-gray-900">Pro</span> Fields

@@ -1,33 +1,24 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React from "react";
 import Image from "next/image";
+import { Delete, Put } from "@/utils/axios";
 import { Plus, Minus, Trash } from "lucide-react";
-import { Delete, Fetch, Put } from "@/utils/axios";
 
 type CartItemType = {
   brand: string;
   name: string;
   price: number;
   image: string;
-  productId: string;
   category: string;
   quantity: number;
+  productId: string;
   description: string;
 };
-``;
 
-const ShoeCartComponent = ({
-  items,
-  setItems,
-  fetchCartItems,
-}: {
-  items: any;
-  setItems: any;
-  fetchCartItems: any;
-}) => {
+const ShoeCartComponent = ({ items, setItems }: { items: any; setItems: any }) => {
   const updateQuantity = async (index: number, change: number) => {
     const newQty = Math.max(1, items[index].quantity + change);
-
     try {
       await Put("/api/cart", {
         productId: items[index].productId,
@@ -39,7 +30,7 @@ const ShoeCartComponent = ({
         return copy;
       });
     } catch (err) {
-      console.error("Error updating cart quantity:", err);
+      console.log("Error updating cart quantity:", err);
     }
   };
 
@@ -49,7 +40,7 @@ const ShoeCartComponent = ({
       await Delete("/api/cart/" + productId);
       setItems((prev: any) => prev.filter((_: any, i: any) => i !== index));
     } catch (err) {
-      console.error("Error deleting from cart:", err);
+      console.log("Error deleting from cart:", err);
     }
   };
 
@@ -67,26 +58,31 @@ const ShoeCartComponent = ({
     index,
   }) => (
     <div className="flex items-center gap-4 bg-white rounded-lg mb-4 w-full">
-      <div className="w-40 h-40 rounded-lg flex-shrink-0 overflow-hidden">
+      <div className="w-24 h-24 lg:w-40 lg:h-40 rounded-lg flex-shrink-0 overflow-hidden">
         <Image
-          src={item.image}
-          alt={item.name}
           width={200}
           height={200}
-          className="w-full h-full object-cover rounded-lg"
+          alt={item.name}
+          src={item.image}
+          className="w-full h-full object-cover rounded-2xl"
         />
       </div>
       <div className="flex-1 flex flex-col">
-        <div className="flex items-start justify-between">
-          <div>
-            <h3 className="font-medium text-gray-900 mb-1">
-              {item.brand} {item.name}{" "}
-              <span className="text-gray-400 font-normal">(NEW)</span>
+        <div className="">
+          <div className="flex items-center gap-2 mb-1">
+            <h3 className="font-semibold text-gray-900 text-lg">
+              {item.brand} {item.name}
             </h3>
-            <p className="text-sm text-gray-600 mb-2 leading-relaxed">
-              {item.description}
-            </p>
-            <p className="text-sm text-gray-500">#{item.productId}</p>
+          </div>
+
+          <p className="hidden md:block text-sm text-gray-600 leading-relaxed line-clamp-2">
+            {item.description}
+          </p>
+
+          <div className="mt-2 flex items-center gap-3">
+            <span className="text-sm font-medium text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-lg">
+              {item.category}
+            </span>
           </div>
         </div>
         <div className="flex items-center justify-between mt-3">
@@ -117,7 +113,7 @@ const ShoeCartComponent = ({
             </div>
             <button
               onClick={() => handleDelete(item.productId, index)}
-              className="w-8 h-8 flex items-center justify-center text-white"
+              className="w-8 h-8 flex items-center cursor-pointer justify-center text-white"
               style={{ backgroundColor: "#932AAA" }}
             >
               <Trash size={16} />

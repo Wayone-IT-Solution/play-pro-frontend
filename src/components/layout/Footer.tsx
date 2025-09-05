@@ -137,7 +137,7 @@ const Footer: React.FC = () => {
                   key={idx}
                   className="w-10 h-10 border border-black rounded-lg flex items-center justify-center hover:bg-black hover:text-white transition"
                 >
-                  <Icon className="text-black text-lg" />
+                  <Icon className="text-lg" />
                 </Link>
               ))}
             </div>
@@ -150,13 +150,13 @@ const Footer: React.FC = () => {
                 Let&apos;s do it!
               </p>
 
-              <form onSubmit={handleSubscribe} className="flex gap-2">
+              <form onSubmit={handleSubscribe} className="flex w-fit gap-2">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email Address"
-                  className="flex-1 px-4 py-3 border border-black rounded-lg text-black placeholder-gray-500 focus:outline-none focus:border-[#6D0E82] transition"
+                  className="flex-1 px-4 py-3 border border-black w-fit rounded-lg text-black placeholder-gray-500 focus:outline-none focus:border-[#6D0E82] transition"
                   required
                 />
                 <button
@@ -172,7 +172,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Bottom Footer */}
-      <div className="border-t border-black pb-20 md:pb-0 lg:flex justify-between items-center">
+      <div className="border-t border-black lg:flex justify-between items-center">
         <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap justify-center gap-2 md:gap-6 text-black text-sm">
           <Link href="/privacy-policy" className="hover:text-[#6D0E82]">
             Privacy Policy
@@ -184,7 +184,7 @@ const Footer: React.FC = () => {
             Sales and Refunds
           </Link>
         </div>
-        <div className="max-w-7xl mx-auto px-6 py-4 text-black text-center text-sm">
+        <div className="max-w-7xl mx-auto px-6 pb-4 md:py-4 text-black text-center text-sm">
           © {new Date().getFullYear()} All Rights Reserved
         </div>
       </div>

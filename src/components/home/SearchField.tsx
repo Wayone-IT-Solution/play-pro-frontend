@@ -24,7 +24,7 @@ export default function FieldSearchBar() {
   const [hasSearched, setHasSearched] = useState<boolean>(false);
   const [showGroundsList, setShowGroundsList] = useState<boolean>(false);
 
-  const groundsRef = useRef<HTMLDivElement>(null); 
+  const groundsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     async function fetchFilters() {
@@ -93,7 +93,7 @@ export default function FieldSearchBar() {
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-   
+
     useEffect(() => {
       function handleClickOutside(event: MouseEvent) {
         if (
@@ -159,12 +159,10 @@ export default function FieldSearchBar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  console.log(filteredGrounds)
-
   return (
     <div className="w-full relative flex flex-col justify-center items-center mt-24">
       <form
-        className="flex flex-wrap gap-4 px-4 py-3 bg-[#E6E7FC] rounded-full w-full max-w-4xl shadow-sm justify-center"
+        className="flex flex-wrap gap-4 px-4 py-3 bg-[#E6E7FC] md:rounded-full w-full max-w-4xl shadow-sm justify-center"
         onSubmit={handleSubmit}
       >
         <input

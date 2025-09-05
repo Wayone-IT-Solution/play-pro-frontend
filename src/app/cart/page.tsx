@@ -1,10 +1,9 @@
 "use client";
 
+import { Fetch } from "@/utils/axios";
 import ShopCart from "./components/ShopCart";
 import BestProducts from "./components/BestProducts";
-
 import { useCallback, useEffect, useState } from "react";
-import { Fetch } from "@/utils/axios";
 
 type CartItemType = {
   brand: string;
@@ -24,7 +23,7 @@ export default function Cart() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response: any = await Fetch("/api/product/public");
+        const response: any = await Fetch("/api/product/public", {}, 5000, true, false);
         setProducts(response?.data?.result ?? []);
       } catch (error) {
         console.log("Errro: ", error);
@@ -38,19 +37,19 @@ export default function Cart() {
       const res: any = await Fetch("/api/cart", {}, 5000, true, false);
       if (res?.success && res.data?.items) {
         const fetchedItems = res.data.items.map((item: any) => ({
-          brand: item.brand,
           name: item.name,
+          brand: item.brand,
           price: item.price,
-          image: item.image?.trim() || "/assets/cart1.png",
-          productId: item.productId,
           category: item.category,
           quantity: item.quantity,
+          productId: item.productId,
           description: item.description,
+          image: item.image?.trim() || "/assets/cart1.png",
         }));
         setItems(fetchedItems);
       }
     } catch (err) {
-      console.error("Error fetching cart items:", err);
+      console.log("Error fetching cart items:", err);
     }
   }, []);
 
@@ -59,12 +58,8 @@ export default function Cart() {
   }, [fetchCartItems]);
 
   return (
-    <div>
-      <ShopCart
-        items={items}
-        setItems={setItems}
-        fetchCartItems={fetchCartItems}
-      />
+    <div className="max-w-6xl mx-auto py-4">
+      <ShopCart items={items} setItems={setItems} />
       <BestProducts product={products} fetchCartItems={fetchCartItems} />
     </div>
   );

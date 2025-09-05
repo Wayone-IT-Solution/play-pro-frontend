@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import Link from "next/link";
 
 const CricketFields = ({ crickets }: { crickets?: any }) => {
-  const fields =  crickets ?? [];
+  const fields = crickets ?? [];
   const swiperRef = useRef<any>(null);
 
   const handleNext = () => {
@@ -20,7 +20,7 @@ const CricketFields = ({ crickets }: { crickets?: any }) => {
   };
 
   return (
-    <div style={{ background: "#0F0B2E1A" }}>
+    <div style={{ background: "#0F0B2E1A" }} className="w-screen lg:w-auto">
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 pt-8">

@@ -128,9 +128,9 @@ const ContactUsPage: React.FC = () => {
       </section>
 
       {/* Contact Form */}
-      <section className="bg-white text-gray-900 py-16 px-6">
+      <section className="bg-white text-gray-900 p-4 lg:py-16 lg:px-6">
         <motion.div
-          className="max-w-3xl mx-auto bg-white p-10 rounded-3xl shadow-xl"
+          className="max-w-3xl mx-auto bg-white p-4 lg:p-10 rounded-3xl shadow-xl"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
