@@ -177,7 +177,7 @@ export default function Navbar() {
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center gap-4 mr-10">
+        <div className="flex items-center gap-2 mr-10">
           {loading ? (
             <div
               className="px-6 py-2 rounded-lg text-white font-inter text-sm font-bold animate-pulse"
@@ -209,13 +209,24 @@ export default function Navbar() {
           )}
 
           {/* List Field */}
-          <Link href="/grounds" passHref>
+          <Link href="/cart" passHref>
             <button
               className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90 transition-opacity"
               style={{ backgroundColor: "#6D0E82" }}
               type="button"
             >
-              List Field
+              My Cart
+            </button>
+          </Link>
+
+          {/* List Field */}
+          <Link href="/grounds" passHref className="hidden lg:block">
+            <button
+              className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90 transition-opacity"
+              style={{ backgroundColor: "#6D0E82" }}
+              type="button"
+            >
+              Register Your Field
             </button>
           </Link>
         </div>
