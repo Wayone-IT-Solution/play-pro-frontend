@@ -2,7 +2,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaRegBell, FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
 import { Fetch } from "@/utils/axios";
 import emitter from "@/utils/eventEmitter";
 
@@ -10,7 +10,7 @@ export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ firstName: "" });
-  const [mounted, setMounted] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const abortControllerRef: any = useRef(null);
   const userDataRef: any = useRef(null);
@@ -26,9 +26,7 @@ export default function Navbar() {
         setFormData({ firstName: "" });
         return;
       }
-
       const now = Date.now();
-
       if (
         !forceRefresh &&
         userDataRef.current &&
@@ -38,23 +36,17 @@ export default function Navbar() {
         setIsLoggedIn(true);
         return;
       }
-
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
-
       abortControllerRef.current = new AbortController();
       setLoading(true);
-
       const res: any = await Fetch("/api/user", {}, 5000, true, false);
-
       if (res.success) {
         const userData = { firstName: res.data.firstName || "" };
         emitter.emit("isLoggedIn", res.data);
-
         userDataRef.current = userData;
         lastFetchTimeRef.current = now;
-
         setFormData(userData);
         setIsLoggedIn(true);
       } else {
@@ -85,41 +77,32 @@ export default function Navbar() {
     userDataRef.current = null;
     lastFetchTimeRef.current = 0;
     localStorage.removeItem("accessToken");
+    emitter.emit("logout");
   }, []);
 
   useEffect(() => {
-    setMounted(true);
     fetchUserData();
   }, [fetchUserData]);
 
   useEffect(() => {
     emitter.on("login", handleLogin);
     emitter.on("logout", handleLogout);
-
     return () => {
       emitter.off("login", handleLogin);
       emitter.off("logout", handleLogout);
-
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
     };
   }, [handleLogin, handleLogout]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const token = localStorage.getItem("accessToken");
-
-      if (token && isLoggedIn) {
-        const now = Date.now();
-        if (now - lastFetchTimeRef.current > CACHE_DURATION) {
-          fetchUserData();
-        }
-      }
-    }, 10 * 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, [isLoggedIn, fetchUserData]);
+  // Toggle mobile menu
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen((prev) => !prev);
+  };
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
 
   return (
     <nav className="bg-white shadow-sm px-4 sm:px-6 py-3 sm:py-4 fixed w-full top-0 z-50">
@@ -136,35 +119,35 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* Navigation Links */}
+          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             <Link
               href="/"
-              className="text-[#6D0E82] hover:text-gray-900 font-inter text-sm font-bold"
+              className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900"
             >
               Home
             </Link>
             <Link
               href="/about-us"
-              className="text-[#6D0E82] hover:text-gray-900 font-inter text-sm font-bold"
+              className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900"
             >
               About US
             </Link>
             <Link
               href="/grounds"
-              className="text-[#6D0E82] hover:text-gray-900 font-inter text-sm font-bold"
+              className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900"
             >
               Search Fields
             </Link>
             <Link
               href="/product"
-              className="text-[#6D0E82] hover:text-gray-900 font-inter text-sm font-bold"
+              className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900"
             >
               Play Pro Shop
             </Link>
             <Link
               href="/contact-us"
-              className="text-[#6D0E82] hover:text-gray-900 font-inter text-sm font-bold"
+              className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900"
             >
               Contact Us
             </Link>
@@ -176,7 +159,7 @@ export default function Navbar() {
           <div id="google_translate_element"></div>
         </div>
 
-        {/* Right Section */}
+        {/* Right Section (Desktop) */}
         <div className="flex items-center gap-2 mr-10">
           {loading ? (
             <div
@@ -188,7 +171,7 @@ export default function Navbar() {
           ) : isLoggedIn ? (
             <Link
               href="/update-profile"
-              className="flex items-center gap-2 text-white px-4 sm:px-6 py-2 rounded-lg text-sm hover:opacity-90 transition-opacity font-inter font-bold"
+              className="hidden lg:flex items-center gap-2 text-white px-4 sm:px-6 py-2 rounded-lg text-sm font-inter font-bold hover:opacity-90"
               style={{ backgroundColor: "#6D0E82" }}
             >
               <FaUserCircle className="text-lg" />
@@ -199,7 +182,7 @@ export default function Navbar() {
           ) : (
             <Link href="/login">
               <button
-                className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90 transition-opacity"
+                className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90"
                 style={{ backgroundColor: "#6D0E82" }}
                 onClick={handleLogin}
               >
@@ -208,29 +191,125 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* List Field */}
-          <Link href="/cart" passHref>
+          <Link href="/cart" passHref className="hidden lg:block">
             <button
-              className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90 transition-opacity"
+              className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90"
               style={{ backgroundColor: "#6D0E82" }}
-              type="button"
             >
               My Cart
             </button>
           </Link>
 
-          {/* List Field */}
           <Link href="/sign-up" passHref className="hidden lg:block">
             <button
-              className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90 transition-opacity"
+              className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90"
               style={{ backgroundColor: "#6D0E82" }}
-              type="button"
             >
               Register Your Field
             </button>
           </Link>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="lg:hidden ml-2 p-2 rounded-md text-[#6D0E82] hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#6D0E82]"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+          </button>
         </div>
       </div>
+      {/* Mobile Menu */}
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden bg-white shadow-md border-t border-gray-200 px-4 py-4">
+          <Link
+            href="/"
+            className="block py-2 text-[#6D0E82] font-inter font-bold hover:bg-gray-100 rounded"
+            onClick={closeMobileMenu}
+          >
+            Home
+          </Link>
+          <Link
+            href="/about-us"
+            className="block py-2 text-[#6D0E82] font-inter font-bold hover:bg-gray-100 rounded"
+            onClick={closeMobileMenu}
+          >
+            About US
+          </Link>
+          <Link
+            href="/grounds"
+            className="block py-2 text-[#6D0E82] font-inter font-bold hover:bg-gray-100 rounded"
+            onClick={closeMobileMenu}
+          >
+            Search Fields
+          </Link>
+          <Link
+            href="/product"
+            className="block py-2 text-[#6D0E82] font-inter font-bold hover:bg-gray-100 rounded"
+            onClick={closeMobileMenu}
+          >
+            Play Pro Shop
+          </Link>
+          <Link
+            href="/contact-us"
+            className="block py-2 text-[#6D0E82] font-inter font-bold hover:bg-gray-100 rounded"
+            onClick={closeMobileMenu}
+          >
+            Contact Us
+          </Link>
+
+          <div className="border-t border-gray-300 mt-2 pt-2">
+            {loading ? (
+              <div className="py-2 text-center text-sm font-inter font-bold text-[#6D0E82] animate-pulse">
+                Loading...
+              </div>
+            ) : isLoggedIn ? (
+              <>
+                <Link
+                  href="/update-profile"
+                  className="flex items-center gap-2 py-2 text-[#6D0E82] font-inter font-bold hover:bg-gray-100 rounded"
+                  onClick={closeMobileMenu}
+                >
+                  <FaUserCircle />
+                  <span>{formData.firstName || "User"}</span>
+                </Link>
+              </>
+            ) : (
+              <Link href="/login" onClick={closeMobileMenu}>
+                <span className="block py-2 text-[#6D0E82] font-inter font-bold hover:bg-gray-100 rounded">
+                  Login
+                </span>
+              </Link>
+            )}
+
+            <Link href="/cart" onClick={closeMobileMenu}>
+              <span className="block py-2 text-[#6D0E82] font-inter font-bold hover:bg-gray-100 rounded">
+                My Cart
+              </span>
+            </Link>
+
+            <Link href="/sign-up" onClick={closeMobileMenu}>
+              <span className="block py-2 text-[#6D0E82] font-inter font-bold hover:bg-gray-100 rounded">
+                Register Your Field
+              </span>
+            </Link>
+
+          
+            {isLoggedIn && (
+              <button
+                className="block w-full text-left pb-2 text-[#6D0E82] font-inter font-bold hover:bg-gray-100 rounded mt-2"
+                onClick={() => {
+                  handleLogout();
+                  closeMobileMenu();
+                }}
+              >
+                Logout
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
