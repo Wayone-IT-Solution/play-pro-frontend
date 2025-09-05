@@ -220,7 +220,7 @@ export default function Navbar() {
           </Link>
 
           {/* List Field */}
-          <Link href="/grounds" passHref className="hidden lg:block">
+          <Link href="/sign-up" passHref className="hidden lg:block">
             <button
               className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90 transition-opacity"
               style={{ backgroundColor: "#6D0E82" }}
