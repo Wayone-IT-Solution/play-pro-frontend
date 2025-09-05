@@ -1,21 +1,21 @@
 "use client";
 
-import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
-import { MapPin, Star, ChevronLeft, ChevronRight } from "lucide-react";
-import Testimonials from "@/components/home/Testimonial";
-import GroundImageSwiper from "@/app/grounds/GroundImageSwiper";
 import GroundMap from "./GroundMap";
 import { Fetch } from "@/utils/axios";
+import Testimonials from "@/components/home/Testimonial";
+import GroundImageSwiper from "@/app/grounds/GroundImageSwiper";
+import React, { useCallback, useEffect, useState } from "react";
+import { MapPin, Star, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Slot {
   _id: string;
-  startTime: string;
-  endTime: string;
-  isBooked: boolean;
   date: string;
-  duration: string;
   amount: number;
+  endTime: string;
+  duration: string;
+  startTime: string;
+  isBooked: boolean;
 }
 
 export default function GroundBookingClient({
@@ -149,24 +149,9 @@ export default function GroundBookingClient({
       alert("Please select at least one slot.");
       return;
     }
-
-    // ✅ toggle slot selection with price calculation
-    const toggleSlot = (slot: Slot) => {
-      if (slot.isBooked) return;
-
-      let updatedSlots;
-      if (selectedSlots.find((s) => s._id === slot._id)) {
-        updatedSlots = selectedSlots.filter((s) => s._id !== slot._id);
-      } else {
-        updatedSlots = [...selectedSlots, slot];
-      }
-      setSelectedSlots(updatedSlots);
-    };
-
-    // ✅ calculate total price dynamically
-
     const bookingData = {
       groundId: groundData._id,
+      images: groundData?.images,
       groundName: groundData.name,
       location: groundData.address,
       date: selectedDate,
@@ -184,11 +169,11 @@ export default function GroundBookingClient({
   };
 
   return (
-    <div className="w-full mt-24 max-w-7xl mx-auto flex flex-col items-center">
+    <div className="w-screen mt-16 lg:mt-24 max-w-6xl lg:px-4 mx-auto flex flex-col items-center">
       <div className="w-full px-4 py-6">
         {/* Ground Info */}
-        <div className="flex gap-5 lg:gap-10">
-          <div className="lg:w-3/5">
+        <div className="flex flex-col lg:flex-row gap-5 lg:gap-10">
+          <div className="w-full lg:w-3/5">
             <div className="mb-6">
               <h2 className="text-2xl font-semibold mb-2">
                 {groundData.name || "Padel 10"}
@@ -228,7 +213,7 @@ export default function GroundBookingClient({
             {/* Ground Image */}
             <div className="rounded-lg mb-6">
               {Array.isArray(groundData.images) &&
-              groundData.images.length > 0 ? (
+                groundData.images.length > 0 ? (
                 <GroundImageSwiper
                   images={groundData.images}
                   name={groundData.name}
@@ -247,7 +232,7 @@ export default function GroundBookingClient({
           </div>
 
           {/* Booking Section */}
-          <div className="mb-6 lg:w-2/5 mx-auto text-center">
+          <div className="mb-6 w-full lg:w-2/5 mx-auto text-center">
             <div
               className="border border-dashed border-gray-600 rounded-2xl p-5 w-full"
               style={{ minWidth: 320 }}
@@ -303,13 +288,12 @@ export default function GroundBookingClient({
                         onClick={() =>
                           !day.prev && !day.next && setSelectedDate(formatted)
                         }
-                        className={`py-2 text-sm rounded-lg border-2 ${
-                          selectedDate === formatted
-                            ? "text-[#932AAA] border-[#932AAA] bg-white font-bold"
-                            : day.prev || day.next
+                        className={`py-2 text-sm rounded-lg border-2 ${selectedDate === formatted
+                          ? "text-[#932AAA] border-[#932AAA] bg-white font-bold"
+                          : day.prev || day.next
                             ? "text-gray-300 border-white"
                             : "text-gray-700 border-white hover:bg-gray-100"
-                        }`}
+                          }`}
                         style={
                           selectedDate === formatted
                             ? { boxShadow: "0 0 0 2px #932AAA22" }
@@ -329,11 +313,10 @@ export default function GroundBookingClient({
                   <button
                     key={duration}
                     onClick={() => setSelectedDuration(duration)}
-                    className={`px-6 py-2 rounded-md text-sm border transition ${
-                      selectedDuration === duration
-                        ? "text-[#932AAA] border-[#932AAA] font-semibold bg-white"
-                        : "border-purple-300 text-gray-700 bg-white"
-                    }`}
+                    className={`px-6 py-2 rounded-md text-sm border transition ${selectedDuration === duration
+                      ? "text-[#932AAA] border-[#932AAA] font-semibold bg-white"
+                      : "border-purple-300 text-gray-700 bg-white"
+                      }`}
                   >
                     {duration}
                   </button>
@@ -355,11 +338,10 @@ export default function GroundBookingClient({
                     {slots.map((slot) => (
                       <div
                         key={slot._id}
-                        className={`flex justify-between items-center border rounded-lg px-4 py-2 text-sm ${
-                          slot.isBooked
-                            ? "bg-gray-100 text-gray-400"
-                            : "bg-white border-[#932AAA] text-gray-800"
-                        }`}
+                        className={`flex justify-between items-center border rounded-lg px-4 py-2 text-sm ${slot.isBooked
+                          ? "bg-gray-100 text-gray-400"
+                          : "bg-white border-[#932AAA] text-gray-800"
+                          }`}
                       >
                         <span>
                           {slot.startTime} - {slot.endTime} ({slot.duration}{" "}
@@ -369,19 +351,17 @@ export default function GroundBookingClient({
                         <button
                           disabled={slot.isBooked}
                           onClick={() => toggleSlot(slot)}
-                          className={`px-3 py-1 rounded-md text-xs font-medium ${
-                            selectedSlots.find((s) => s._id === slot._id)
-                              ? "bg-[#932AAA] text-white"
-                              : "bg-purple-50 text-[#932AAA] border border-[#932AAA]"
-                          } ${
-                            slot.isBooked ? "opacity-50 cursor-not-allowed" : ""
-                          }`}
+                          className={`px-3 py-1 rounded-md text-xs font-medium ${selectedSlots.find((s) => s._id === slot._id)
+                            ? "bg-[#932AAA] text-white"
+                            : "bg-purple-50 text-[#932AAA] border border-[#932AAA]"
+                            } ${slot.isBooked ? "opacity-50 cursor-not-allowed" : ""
+                            }`}
                         >
                           {slot.isBooked
                             ? "Booked"
                             : selectedSlots.find((s) => s._id === slot._id)
-                            ? "Selected"
-                            : "Select"}
+                              ? "Selected"
+                              : "Select"}
                         </button>
                       </div>
                     ))}
@@ -396,11 +376,11 @@ export default function GroundBookingClient({
         </div>
         {/* Pricing Section */}
         <div className="mb-6">
-          <div className="flex justify-between items-center mb-4 w-full">
+          <div className="flex flex-wrap gap-4 justify-between items-center mb-4 w-full">
             <span className="text-2xl font-bold">
               Dhs {totalAmount || groundData.pricePerHour || "300"}/hr
             </span>
-            <div className="flex items-center gap-2 text-sm">
+            <div className="flex flex-wrap items-center gap-2 text-sm">
               <input
                 type="date"
                 value={selectedDate}
@@ -438,7 +418,7 @@ export default function GroundBookingClient({
         </div>
 
         <button
-          className="w-full py-3 text-white rounded-lg font-medium mb-6 hover:opacity-90"
+          className="w-full py-3 text-white cursor-pointer rounded-lg font-medium mb-6 hover:opacity-90"
           style={{ backgroundColor: "#932AAA" }}
           onClick={handleConfirmSelection}
         >
@@ -451,11 +431,6 @@ export default function GroundBookingClient({
             lng={groundData.location.coordinates[0]}
           />
         )}
-
-        {/* Testimonials */}
-        <div className="mb-6">
-          <Testimonials testimonials={testimonials} />
-        </div>
       </div>
     </div>
   );

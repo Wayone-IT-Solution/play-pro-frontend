@@ -1,34 +1,35 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Fetch, Post } from "@/utils/axios";
-import Image from "next/image";
 
 interface BookingData {
-  groundId: string;
-  groundName: string;
-  location?: string;
   date: string;
-  slots: { startTime: string; endTime: string }[];
+  images?: any;
   price: number;
+  groundId: string;
+  location?: string;
+  groundName: string;
+  slots: { startTime: string; endTime: string }[];
 }
 interface User {
-  firstName: string;
-  lastName: string;
   email: string;
-  phoneNumber?: string;
+  lastName: string;
+  firstName: string;
   teamName?: string;
+  phoneNumber?: string;
 }
 
 const stadiumImg = "/assets/std.png";
 
 const BookingForm = () => {
   const router = useRouter();
-  const [bookingData, setBookingData] = useState<BookingData | null>(null);
-  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
   const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingData, setBookingData] = useState<BookingData | null>(null);
 
   useEffect(() => {
     const storedData = localStorage.getItem("bookingData");
@@ -76,7 +77,7 @@ const BookingForm = () => {
       const res: any = await Post("/api/booking", payload);
       if (res.success) {
         localStorage.setItem("orderData", JSON.stringify(res.data));
-        router.push("/thank-you");
+        return router.replace("/thank-you");
       }
     } catch (err) {
       console.log("Booking error:", err);
@@ -95,7 +96,7 @@ const BookingForm = () => {
           {/* Stadium Image */}
           <div className="relative w-full h-56 md:h-72 lg:h-80">
             <Image
-              src={stadiumImg}
+              src={bookingData?.images[0]}
               alt="Stadium"
               fill
               priority
@@ -236,7 +237,7 @@ const BookingForm = () => {
                   </div>
 
                   {/* Team Name Full Width */}
-                  <div>
+                  {/* <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Team name
                     </label>
@@ -247,14 +248,14 @@ const BookingForm = () => {
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400"
                       readOnly
                     />
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Pay Now Button */}
                 <button
                   type="submit"
                   disabled={bookingLoading}
-                  className="w-full mt-8 bg-[#932AAA] hover:bg-[#7d2391] text-white py-4 rounded-full font-semibold text-lg transition-colors duration-200 disabled:opacity-70"
+                  className="w-full mt-8 cursor-pointer bg-[#932AAA] hover:bg-[#7d2391] text-white py-4 rounded-full font-semibold text-lg transition-colors duration-200 disabled:opacity-70"
                 >
                   {bookingLoading ? "Booking..." : "Pay Now"}
                 </button>

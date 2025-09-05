@@ -1,7 +1,6 @@
 import { Fetch } from "@/utils/Server";
-import Testimonials from "@/components/home/Testimonial";
 import GroundBooking from "../components/GroundBooking";
-import GroundMap from "../components/GroundMap";
+import Testimonials from "@/components/home/Testimonial";
 
 export default async function GroundBookingPage(ctx: any) {
   const { slug } = await ctx.params;
@@ -14,6 +13,10 @@ export default async function GroundBookingPage(ctx: any) {
   return (
     <div className="space-y-6">
       <GroundBooking groundData={groundData} testimonials={testimonials} />
+      {/* Testimonials */}
+      <div className="mb-6">
+        <Testimonials testimonials={testimonials} />
+      </div>
     </div>
   );
 }

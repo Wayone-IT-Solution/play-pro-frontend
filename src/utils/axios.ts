@@ -130,7 +130,7 @@ export const Fetch = async <T>(
       toastId,
       "success",
       (response?.data as { message?: string })?.message ??
-        "Fetched successfully!",
+      "Fetched successfully!",
       dismissToast
     );
     return response.data;
@@ -143,7 +143,7 @@ export const Fetch = async <T>(
 
 // Post utility function
 export const Post = async <T>(
-url: string, data: Record<string, unknown> | FormData, timeout?: number, dismissToast: boolean = false, p0: boolean): Promise<T> => {
+  url: string, data: Record<string, unknown> | FormData, timeout?: number, dismissToast: boolean = false): Promise<T> => {
   const toastId = toast.loading("Please wait...");
 
   try {
@@ -157,7 +157,7 @@ url: string, data: Record<string, unknown> | FormData, timeout?: number, dismiss
       toastId,
       "success",
       (response?.data as { message?: string })?.message ??
-        "Submitted successfully!",
+      "Submitted successfully!",
       dismissToast
     );
     return response.data;
@@ -188,7 +188,7 @@ export const Put = async <T>(
       toastId,
       "success",
       (response?.data as { message?: string })?.message ??
-        "Updated successfully!",
+      "Updated successfully!",
       dismissToast
     );
     return response.data;
@@ -221,7 +221,7 @@ export const Delete = async <T>(
       toastId,
       "success",
       (response?.data as { message?: string })?.message ??
-        "Deleted successfully!",
+      "Deleted successfully!",
       dismissToast
     );
     return response.data;
@@ -252,7 +252,7 @@ export const Patch = async <T>(
       toastId,
       "success",
       (response?.data as { message?: string })?.message ??
-        "Updated successfully!",
+      "Updated successfully!",
       dismissToast
     );
     return response.data;

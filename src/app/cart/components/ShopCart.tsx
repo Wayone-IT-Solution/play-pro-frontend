@@ -24,7 +24,7 @@ const ShoeCartComponent = ({
 }: {
   items: any;
   setItems: any;
-  fetchCartItems: any;
+  fetchCartItems?: any;
 }) => {
   // ------------------ Pay Now ------------------
   const router = useRouter();
@@ -38,7 +38,7 @@ const ShoeCartComponent = ({
         paymentMethod,
         address,
       };
-      const res: any = await Post("/api/order", orderPayload, 5000, true, false);
+      const res: any = await Post("/api/order", orderPayload, 5000, true);
       if (res?.success) {
         localStorage.setItem("productOrderId", res?.data?._id);
         return router.replace("/confirmation");
@@ -193,7 +193,7 @@ const ShoeCartComponent = ({
           />
         </div>
 
-        <div className="flex flex-wrap gap-2 items-center justify-between mt-6 px-4 w-full border-t pt-4">
+        <div className="flex flex-wrap lg:flex-nowrap gap-2 items-center justify-between mt-6 px-4 w-full border-t pt-4">
           <div className="flex items-center justify-between w-full gap-3">
             <span className="text-gray-700 font-medium">Grand Total:</span>
             <div
@@ -205,7 +205,7 @@ const ShoeCartComponent = ({
           </div>
           <button
             onClick={handlePayNow}
-            className="px-20 py-3 w-full md:w-fit rounded-full text-white font-medium text-lg"
+            className="px-20 whitespace-nowrap cursor-pointer py-3 w-full md:w-fit rounded-full text-white font-medium text-lg"
             style={{ backgroundColor: "#932AAA" }}
           >
             Pay Now

@@ -6,7 +6,7 @@ import OrderDetailsPage from "./components/OrderDetailsPage";
 import React, { useCallback, useEffect, useState } from "react";
 
 const ThankYouPage: React.FC = () => {
-  const [orderData, setOrderData] = useState({});
+  const [orderData, setOrderData] = useState<any>({});
   const fetchOrder = useCallback(async (bookingId: any) => {
     try {
       const response: any = await Fetch("/api/order/" + bookingId, {}, 5000, true, false);
@@ -40,7 +40,9 @@ const ThankYouPage: React.FC = () => {
               priority
             />
           </div>
-          <OrderDetailsPage data={orderData as any} />
+          {orderData?._id &&
+            <OrderDetailsPage data={orderData as any} />
+          }
         </div>
       </div>
     </div>
