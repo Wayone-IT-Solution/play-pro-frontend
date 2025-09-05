@@ -14,6 +14,7 @@ interface Booking {
   _id: string;
   groundId: {
     name: string;
+    images?: any;
     address: string;
     location?: { type: string; coordinates: number[] };
     pricePerHour?: number;
@@ -94,7 +95,6 @@ const BookingHistory = () => {
             <p className="text-center text-gray-500">No bookings found.</p>
           ) : (
             bookings.map((booking) => {
-              const slot = booking.slots[0]; // first slot (if exists)
               return (
                 <div
                   key={booking._id}
@@ -111,8 +111,8 @@ const BookingHistory = () => {
                       style={{ height: "auto", minHeight: "142px" }}
                     >
                       <Image
-                        src="/assets/ground.png"
-                        alt={booking.groundId?.name || "Ground"}
+                        src={booking?.groundId?.images[0]}
+                        alt={booking?.groundId?.name || "Ground"}
                         fill
                         className="object-cover"
                       />

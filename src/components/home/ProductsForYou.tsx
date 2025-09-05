@@ -1,3 +1,4 @@
+import React from "react";
 import { ProductCard } from "../ProductCard";
 import { LiaLongArrowAltRightSolid } from "react-icons/lia";
 
@@ -30,7 +31,9 @@ const ProductsForYou = ({ products }: { products: any[] }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products?.length > 0 &&
           products.map((product, index) => (
-            <ProductCard product={product} index={index} />
+            <React.Fragment key={index}>
+              <ProductCard product={product} index={index} />
+            </React.Fragment>
           ))}
       </div>
     </div>

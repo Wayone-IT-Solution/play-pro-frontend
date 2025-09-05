@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { QRCodeCanvas } from "qrcode.react";
+import React, { useEffect, useState, useRef } from "react";
 
 const ThankYouPage: React.FC = () => {
   const [bookingId, setBookingId] = useState<string | null>(null);
@@ -72,7 +72,7 @@ const ThankYouPage: React.FC = () => {
 
   return (
     <div className="p-6 mt-24 w-full">
-      <div className="bg-white flex gap-10 shadow-2xl max-w-4xl mx-auto w-full justify-center items-center p-10 rounded-3xl">
+      <div className="bg-white flex flex-col md:flex-row gap-10 shadow-2xl max-w-4xl mx-auto w-full justify-center items-center p-4 lg:p-10 rounded-3xl">
         <div className="rounded-3xl text-center relative">
           {/* Thank You Image */}
           <div className="mb-8 mt-4">
