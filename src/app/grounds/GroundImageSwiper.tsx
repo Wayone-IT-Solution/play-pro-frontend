@@ -20,7 +20,7 @@ const GroundImageSwiper: React.FC<GroundImageSwiperProps> = ({
 }) => {
   return (
     <div>
-      <div className="relative rounded-[48px] border-6 border-[#6D0E82] overflow-hidden">
+      <div className="relative rounded-[48px] h-96 border-6 border-[#6D0E82] overflow-hidden">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
