@@ -9,8 +9,8 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Link from "next/link";
 
-const NextAvailableSlot = ({ nextSlots }: { nextSlots?: any }) => {
-  const fields = nextSlots ?? [];
+const NextAvailableSlot = ({ football }: { football?: any }) => {
+  const fields = football ?? [];
   const swiperRef = useRef<any>(null);
 
   const handleNext = () => {
