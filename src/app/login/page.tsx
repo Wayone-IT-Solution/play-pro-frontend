@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaEye } from "react-icons/fa";
-import { Post } from "@/utils/axios";
+import { Post, Put } from "@/utils/axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import emitter from "@/utils/eventEmitter";
+import { clearCart, getCart } from "@/utils/cartUtils";
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
@@ -35,6 +36,17 @@ const LoginPage: React.FC = () => {
     }));
   };
 
+  const updateCart = async (data: any[]) => {
+    try {
+      const promises = data.map((item) =>
+        Put("/api/cart", { productId: item._id, quantity: item.quantity || 1 }, 5000, true)
+      );
+      await Promise.all(promises);
+    } catch (error) {
+      console.log("Error updating cart:", error);
+    }
+  };
+
   // ✅ handle login
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,8 +60,15 @@ const LoginPage: React.FC = () => {
       setLoading(true);
       const res: any = await Post("/api/user/login", formData);
       if (res.success) {
+        const data = getCart();
+        if (data?.length > 0) {
+          await updateCart(data);
+          emitter.emit("login", res.data);
+          clearCart();
+          return router.replace("/cart");
+        }
         emitter.emit("login", res.data);
-        router.replace("/"); // redirect after login
+        router.replace("/");
       } else {
         toast.warn(res.message || "Invalid email or password");
       }

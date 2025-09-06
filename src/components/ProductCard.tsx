@@ -4,12 +4,22 @@ import React from 'react'
 import Image from 'next/image';
 import { Put } from '@/utils/axios';
 import { motion } from "framer-motion";
+import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import { addToCart } from '@/utils/cartUtils';
 
 export const ProductCard = ({ product, index, fetchCartItems }: { product: any, index: any, fetchCartItems?: any }) => {
     const router = useRouter();
     const handleAddToCart = async (item: any) => {
         try {
+            const token = localStorage.getItem("accessToken");
+            if (!token) {
+                const result = addToCart(product);
+                if (result.success) {
+                    toast.success(result.message);
+                } else toast.warn(result.message);
+                return router.push("/cart");
+            }
             const response: any = await Put(
                 "/api/cart",
                 { productId: item._id, quantity: 1 },

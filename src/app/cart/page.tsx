@@ -4,6 +4,7 @@ import { Fetch } from "@/utils/axios";
 import ShopCart from "./components/ShopCart";
 import BestProducts from "./components/BestProducts";
 import { useCallback, useEffect, useState } from "react";
+import { getCart } from "@/utils/cartUtils";
 
 type CartItemType = {
   brand: string;
@@ -34,6 +35,12 @@ export default function Cart() {
 
   const fetchCartItems = useCallback(async () => {
     try {
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        const result = getCart();
+        setItems(result as any || []);
+        return;
+      }
       const res: any = await Fetch("/api/cart", {}, 5000, true, false);
       if (res?.success && res.data?.items) {
         const fetchedItems = res.data.items.map((item: any) => ({

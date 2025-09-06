@@ -2,13 +2,15 @@
 import Image from "next/image";
 import { toast } from "react-toastify";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Delete, Post, Put } from "@/utils/axios";
 import { Plus, Minus, Trash } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { removeFromCart, updateCartQuantity } from "@/utils/cartUtils";
 
 type CartItemType = {
-  brand: string;
+  _id: any;
   name: string;
+  brand: string;
   price: number;
   image: string;
   category: string;
@@ -33,11 +35,17 @@ const ShoeCartComponent = ({
 
   const handlePayNow = async () => {
     try {
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        toast.warn("Please login to proceed");
+        return router.push("/login");
+      }
       if (!address) return toast.warn("Please Provide Addresss!");
       const orderPayload = {
         paymentMethod,
         address,
       };
+      if (items.length === 0) return toast.warn("Please add products in your cart!")
       const res: any = await Post("/api/order", orderPayload, 5000, true);
       if (res?.success) {
         localStorage.setItem("productOrderId", res?.data?._id);
@@ -63,8 +71,20 @@ const ShoeCartComponent = ({
   };
 
   // ------------------ Update Quantity ------------------
-  const updateQuantity = async (index: number, change: number) => {
+  const updateQuantity = async (index: number, change: number, id: any) => {
     const newQty = Math.max(1, items[index].quantity + change);
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      const newQty = Math.max(1, items[index].quantity + change);
+      const result = updateCartQuantity(id, newQty)
+      if (result?.success) {
+        setItems(result.cart);
+        toast.success(result.message);
+      }
+      return
+    }
+
     try {
       await Put("/api/cart", {
         productId: items[index].productId,
@@ -83,6 +103,16 @@ const ShoeCartComponent = ({
   // ------------------ Delete Item ------------------
   const handleDelete = async (productId: string, index: number) => {
     try {
+      const token = localStorage.getItem("accessToken");
+
+      if (!token) {
+        const result = removeFromCart(productId)
+        if (result?.success) {
+          setItems(result.cart);
+          toast.success(result.message);
+        }
+        return;
+      }
       await Delete("/api/cart/" + productId);
       setItems((prev: any) => prev.filter((_: any, i: any) => i !== index));
     } catch (err) {
@@ -134,13 +164,13 @@ const ShoeCartComponent = ({
         <div className="flex items-center justify-between mt-3">
           <div className="flex items-center gap-2">
             <span className="text-lg font-semibold text-gray-900">
-              SAR {item.price * item.quantity}
+              SAR {item.price}
             </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center border border-[#932AAA] rounded-lg overflow-hidden h-8">
               <button
-                onClick={() => updateQuantity(index, -1)}
+                onClick={() => updateQuantity(index, -1, item?._id)}
                 className="w-10 h-10 aspect-square rounded-r-xl flex items-center cursor-pointer justify-center text-white"
                 style={{ backgroundColor: "#932AAA" }}
               >
@@ -150,7 +180,7 @@ const ShoeCartComponent = ({
                 {String(item.quantity).padStart(2, "0")}
               </span>
               <button
-                onClick={() => updateQuantity(index, 1)}
+                onClick={() => updateQuantity(index, 1, item?._id)}
                 className="w-10 h-10 aspect-square rounded-l-xl flex items-center cursor-pointer justify-center text-white"
                 style={{ backgroundColor: "#932AAA" }}
               >
@@ -158,7 +188,7 @@ const ShoeCartComponent = ({
               </button>
             </div>
             <button
-              onClick={() => handleDelete(item.productId, index)}
+              onClick={() => handleDelete(item.productId || item._id, index)}
               className="w-8 h-8 flex items-center cursor-pointer justify-center text-white"
               style={{ backgroundColor: "#932AAA" }}
             >
