@@ -1,10 +1,11 @@
 "use client";
-import { useEffect, useState, useCallback, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
+import Image from "next/image";
 import { Fetch } from "@/utils/axios";
+import { LogOut } from "lucide-react";
 import emitter from "@/utils/eventEmitter";
+import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -208,6 +209,17 @@ export default function Navbar() {
               Register Your Field
             </button>
           </Link>
+
+          {isLoggedIn &&
+            <button
+              type="button"
+              aria-label="Logout"
+              onClick={handleLogout}
+              className="p-2 rounded-full cursor-pointer hover:bg-gray-100 hidden lg:block transition-colors"
+            >
+              <LogOut className="w-5 h-5 text-gray-700" />
+            </button>
+          }
 
           {/* Mobile Menu Button */}
           <button
