@@ -6,7 +6,7 @@ const PlayProBanner = ({ banners }: { banners?: any }) => {
   return (
     <div className="relative w-full bg-white font-[Poppins] overflow-hidden">
       {/* Left Player Image */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[300px] sm:w-[380px] lg:w-[460px] h-auto">
+      <div className="absolute left-0 top-[66%] -translate-y-1/2 w-[300px] sm:w-[380px] lg:w-[460px] h-auto">
         <Image
           src="/assets/profile1.png"
           alt="Football Player Left"
@@ -17,7 +17,7 @@ const PlayProBanner = ({ banners }: { banners?: any }) => {
       </div>
 
       {/* Right Player Image */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[300px] sm:w-[380px] lg:w-[460px] h-auto">
+      <div className="absolute right-0 top-[66%] -translate-y-1/2 w-[300px] sm:w-[380px] lg:w-[460px] h-auto">
         <Image
           src="/assets/profile22.png"
           alt="Football Player Right"
@@ -28,9 +28,9 @@ const PlayProBanner = ({ banners }: { banners?: any }) => {
       </div>
 
       {/* Center Content */}
-      <div className="relative z-10 max-w-5xl mx-auto text-center px-4 py-16 sm:pb-24">
+      <div className="relative z-10 max-w-5xl mx-auto text-center px-4 pb-16 pt-10">
         {/* Title */}
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-snug mb-52 text-[#2F0D46]">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-snug mb-10 text-[#2F0D46]">
           PlayPro simplifies <span className="text-[#2F0D46]">sp</span>
           <span className="text-gray-300">ort</span>
           <span className="text-[#2F0D46]">s</span>
