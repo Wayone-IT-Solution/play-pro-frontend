@@ -155,12 +155,12 @@ export default function Navbar() {
         </div>
 
         {/* Google Translate */}
-        <div className="translate-container">
+        {/* <div className="translate-container">
           <div id="google_translate_element"></div>
-        </div>
+        </div> */}
 
         {/* Right Section (Desktop) */}
-        <div className="flex items-center gap-2 mr-10">
+        <div className="flex items-center gap-2">
           {loading ? (
             <div
               className="px-6 py-2 rounded-lg text-white font-inter text-sm font-bold animate-pulse"
@@ -295,7 +295,7 @@ export default function Navbar() {
               </span>
             </Link>
 
-          
+
             {isLoggedIn && (
               <button
                 className="block w-full text-left pb-2 text-[#6D0E82] font-inter font-bold hover:bg-gray-100 rounded mt-2"

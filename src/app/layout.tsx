@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { ToastContainer } from "react-toastify";
-import Sidebar from "@/components/layout/Sidebar";
+// import Sidebar from "@/components/layout/Sidebar";
 
 // Existing fonts
 const geistSans = Geist({
@@ -49,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar">
+    <html lang="ar" dir="rtl">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.className} relative font-sans antialiased`}
       >
@@ -64,7 +64,7 @@ export default function RootLayout({
           {`
             function googleTranslateElementInit() {
               new google.translate.TranslateElement({
-                pageLanguage: 'en',
+                pageLanguage: 'ar',
                 includedLanguages: 'en,ar',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE
               }, 'google_translate_element');
