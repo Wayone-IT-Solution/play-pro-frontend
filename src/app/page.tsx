@@ -1,13 +1,13 @@
 import { Fetch } from "@/utils/Server";
 import SearchField from "@/components/home/SearchField";
-import PlayProBanner from "@/components/home/PlayProBanner";
 import NearByField from "@/components/home/NearByField";
-import StadiumBrowser from "@/components/home/StadiumBrowser";
-import NextAvailableSlot from "@/components/home/NextAvailableSlot";
-import RecommendedField from "@/components/home/RecommendedField";
-import HighRankingField from "@/components/home/HighRanking";
-import ProductsForYou from "@/components/home/ProductsForYou";
 import Testimonials from "@/components/home/Testimonial";
+import PlayProBanner from "@/components/home/PlayProBanner";
+import HighRankingField from "@/components/home/HighRanking";
+import StadiumBrowser from "@/components/home/StadiumBrowser";
+import ProductsForYou from "@/components/home/ProductsForYou";
+import RecommendedField from "@/components/home/RecommendedField";
+import NextAvailableSlot from "@/components/home/NextAvailableSlot";
 
 export default async function Page() {
   // Run requests in parallel for performance
@@ -42,9 +42,12 @@ export default async function Page() {
 
       <NearByField nextSlots={nextSlots} />
       <StadiumBrowser />
-      <NextAvailableSlot football={football} />
-
-      <RecommendedField crickets={crickets} />
+      {football?.length > 0 &&
+        <NextAvailableSlot football={football} />
+      }
+      {crickets?.length > 0 &&
+        <RecommendedField crickets={crickets} />
+      }
       <HighRankingField nextSlots={nextSlots} />
 
       <ProductsForYou products={products} />

@@ -1,13 +1,15 @@
 "use client";
-import React, { useRef } from "react";
+
 import Image from "next/image";
+import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { LiaLongArrowAltRightSolid } from "react-icons/lia";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Link from "next/link";
+import { getLocalizedValues } from "@/hooks/general";
 
 const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
   const fields = nextSlots ?? [];
@@ -78,8 +80,9 @@ const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
             }}
             className="!pb-12"
           >
-            {fields.map((field: any) => (
-              <SwiperSlide key={field._id}>
+            {fields.map((field: any) => {
+              field = getLocalizedValues(field);
+              return <SwiperSlide key={field._id}>
                 <Link
                   href={`/grounds/${field._id}`}
                   passHref
@@ -103,10 +106,10 @@ const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
 
                     {/* Overlay */}
                     <div className="absolute bottom-0 left-0 right-0 rounded-b-2xl bg-black/60 p-3 text-white">
-                      <h3 className="text-base sm:text-lg font-semibold mb-1">
+                      <h3 className="text-base sm:text-lg font-medium mb-2">
                         {field.name}
                       </h3>
-                      <div className="flex items-center text-xs sm:text-sm text-gray-200">
+                      <div className="flex items-center text-xs text-gray-200">
                         <svg
                           width="12"
                           height="12"
@@ -127,15 +130,16 @@ const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
                       SAR {field.pricePerHour} / hour
                     </div>
                     <button
-                      className="px-4 py-1.5 sm:px-6 sm:py-2 text-white font-medium rounded-lg text-xs sm:text-sm hover:opacity-90 transition-opacity"
+                      type="button"
                       style={{ background: "#6D0E82" }}
+                      className="px-4 hover:scale-110 duration-200 cursor-pointer py-1.5 sm:px-6 sm:py-2 text-white font-medium rounded-lg text-xs sm:text-sm hover:opacity-90 transition-all"
                     >
                       Book Now
                     </button>
                   </div>
                 </Link>
               </SwiperSlide>
-            ))}
+            })}
           </Swiper>
         </div>
 

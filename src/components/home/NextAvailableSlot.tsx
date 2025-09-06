@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Link from "next/link";
+import { getLocalizedValues } from "@/hooks/general";
 
 const NextAvailableSlot = ({ football }: { football?: any }) => {
   const fields = football ?? [];
@@ -85,8 +86,9 @@ const NextAvailableSlot = ({ football }: { football?: any }) => {
             }}
             className="!pb-12"
           >
-            {fields.map((field: any) => (
-              <SwiperSlide key={field._id}>
+            {fields.map((field: any) => {
+              field = getLocalizedValues(field);
+              return <SwiperSlide key={field._id}>
                 <Link
                   href={`/grounds/${field._id}`}
                   passHref
@@ -142,7 +144,7 @@ const NextAvailableSlot = ({ football }: { football?: any }) => {
                   </div>
                 </Link>
               </SwiperSlide>
-            ))}
+            })}
           </Swiper>
         </div>
 

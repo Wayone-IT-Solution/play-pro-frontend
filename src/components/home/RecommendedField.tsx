@@ -1,12 +1,15 @@
 "use client";
-import React, { useRef } from "react";
+
 import Image from "next/image";
+import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { getLocalizedValues } from "@/hooks/general";
 import { LiaLongArrowAltRightSolid } from "react-icons/lia";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+
 import Link from "next/link";
 
 const CricketFields = ({ crickets }: { crickets?: any }) => {
@@ -85,8 +88,9 @@ const CricketFields = ({ crickets }: { crickets?: any }) => {
             }}
             className="!pb-12"
           >
-            {fields.map((field: any) => (
-              <SwiperSlide key={field._id}>
+            {fields.map((field: any) => {
+              field = getLocalizedValues(field);
+              return <SwiperSlide key={field._id}>
                 <Link
                   href={`/grounds/${field._id}`}
                   passHref
@@ -142,7 +146,7 @@ const CricketFields = ({ crickets }: { crickets?: any }) => {
                   </div>
                 </Link>
               </SwiperSlide>
-            ))}
+            })}
           </Swiper>
         </div>
 

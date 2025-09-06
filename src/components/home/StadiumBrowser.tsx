@@ -1,32 +1,32 @@
 "use client";
 
-import { Fetch } from "@/utils/axios";
 import Image from "next/image";
+import { Fetch } from "@/utils/axios";
 import { useEffect, useState } from "react";
 
+interface GroundCount {
+  count: number;
+  type_en: string;
+  type_ar: string;
+}
+
 const StadiumBrowser = () => {
-  const [counts, setCounts] = useState<{ [key: string]: number }>({});
+  const [counts, setCounts] = useState<GroundCount[]>([]);
+  const [lang, setLang] = useState<"en" | "ar">("en");
 
   useEffect(() => {
+    // Get language from localStorage
+    const storedLang = localStorage.getItem("lang");
+    if (storedLang === "ar" || storedLang === "en") {
+      setLang(storedLang);
+    }
+
     const fetchCounts = async () => {
       try {
-        const res: any = await Fetch(
-          "/api/ground/count",
-          {},
-          5000,
-          true,
-          false
-        );
+        const res: any = await Fetch("/api/ground/count", {}, 5000, true, false);
 
         if (res && res.data) {
-          const mappedCounts: { [key: string]: number } = {};
-          res.data.forEach((item: any) => {
-            const type = item.type?.toLowerCase();
-            if (type) {
-              mappedCounts[type] = item.count;
-            }
-          });
-          setCounts(mappedCounts);
+          setCounts(res.data);
         }
       } catch (err) {
         console.log("Error fetching ground counts:", err);
@@ -38,52 +38,50 @@ const StadiumBrowser = () => {
 
   const sports = [
     {
-      name: "Football",
-      stadiumCount: `${counts["football"] || 0} Stadium`,
+      key: "football",
       icon: "/assets/football1.png",
       alt: "Football icon",
     },
     {
-      name: "Cricket",
-      stadiumCount: `${counts["cricket"] || 0} Stadium`,
+      key: "cricket",
       icon: "/assets/cricket.png",
       alt: "Cricket icon",
     },
     {
-      name: "Hockey",
-      stadiumCount: `${counts["hockey"] || 0} Stadium`,
+      key: "hockey",
       icon: "/assets/field-hockey.png",
       alt: "Hockey icon",
     },
     {
-      name: "Badminton",
-      stadiumCount: `${counts["badminton"] || 0} Stadium`,
+      key: "badminton",
       icon: "/assets/badminton.png",
       alt: "Badminton icon",
     },
     {
-      name: "Tennis",
-      stadiumCount: `${counts["tennis"] || 0} Stadium`,
+      key: "tennis",
       icon: "/assets/tennis.png",
       alt: "Tennis icon",
     },
     {
-      name: "Volleyball",
-      stadiumCount: `${counts["volleyball"] || 0} Stadium`,
+      key: "volleyball",
       icon: "/assets/volleyball.png",
       alt: "Volleyball icon",
     },
   ];
 
+  // Map counts for easier access
+  const countMap: { [key: string]: number } = {};
+  counts.forEach((item) => {
+    const typeKey = lang === "ar" ? item.type_ar.toLowerCase() : item.type_en.toLowerCase();
+    countMap[typeKey] = item.count;
+  });
+
   return (
-    <div
-      className="py-20 px-5 border-b-1"
-      style={{ backgroundColor: "#0F0B2E1A" }}
-    >
+    <div className="py-20 px-5 border-b-1" style={{ backgroundColor: "#0F0B2E1A" }}>
       <div className="max-w-7xl mx-auto">
         {/* Title */}
         <h1 className="text-3xl font-bold text-black text-center mb-12 font-inter">
-          Browse Stadiums By Sport
+          {lang === "en" ? "Browse Stadiums By Sport" : "تصفح الملاعب حسب الرياضة"}
         </h1>
 
         {/* Sports Grid */}
@@ -107,9 +105,20 @@ const StadiumBrowser = () => {
               {/* Sport Info */}
               <div className="flex flex-col">
                 <h3 className="text-2xl font-semibold text-black mb-1 font-inter">
-                  {sport.name}
+                  {lang === "en"
+                    ? sport.key.charAt(0).toUpperCase() + sport.key.slice(1)
+                    : {
+                      football: "كرة القدم",
+                      cricket: "كريكيت",
+                      hockey: "هوكي",
+                      badminton: "بادمينتون",
+                      tennis: "تنس",
+                      volleyball: "كرة الطائرة",
+                    }[sport.key]}
                 </h3>
-                <p className="text-gray-600 font-inter">{sport.stadiumCount}</p>
+                <p className="text-gray-600 font-inter">
+                  {countMap[sport.key] || 0} {lang === "en" ? "Stadium" : "ملعب"}
+                </p>
               </div>
             </div>
           ))}

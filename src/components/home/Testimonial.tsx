@@ -12,6 +12,7 @@ import {
   LiaLongArrowAltLeftSolid,
   LiaLongArrowAltRightSolid,
 } from "react-icons/lia";
+import { getLocalizedValues } from "@/hooks/general";
 
 const Testimonials = ({ testimonials }: { testimonials?: any }) => {
   const swiperRef = useRef<any>(null);
@@ -61,7 +62,7 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto w-screen lg:w-auto py-10 sm:py-16">
+    <div className="max-w-6xl mx-auto w-screen lg:w-auto py-10 sm:py-16 sm:pb-0">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
         <h2
@@ -112,8 +113,9 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
           1024: { slidesPerView: 3, spaceBetween: 32 },
         }}
       >
-        {testimonials.map((t: any) => (
-          <SwiperSlide key={t.id}>
+        {testimonials.map((t: any) => {
+          t = getLocalizedValues(t);
+          return <SwiperSlide key={t.id}>
             <div className="relative mt-10 px-2 sm:px-0">
               <div
                 className="rounded-2xl p-4 sm:p-5 shadow-sm relative bg-white border border-gray-200 flex flex-col"
@@ -166,7 +168,7 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
               </div>
             </div>
           </SwiperSlide>
-        ))}
+        })}
       </Swiper>
     </div>
   );
