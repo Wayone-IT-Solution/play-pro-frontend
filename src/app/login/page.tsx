@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { toast } from "react-toastify";
 import { FaEye } from "react-icons/fa";
 import { Post, Put } from "@/utils/axios";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import emitter from "@/utils/eventEmitter";
+import { useRouter } from "next/navigation";
+import { getLocalizedText } from "@/hooks/general";
+import React, { useEffect, useState } from "react";
 import { clearCart, getCart } from "@/utils/cartUtils";
 
 const LoginPage: React.FC = () => {
@@ -20,12 +21,9 @@ const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Check if user is already logged in
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    if (token) {
-      router.replace("/");
-    }
+    if (token) router.replace("/");
   }, [router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,12 +45,14 @@ const LoginPage: React.FC = () => {
     }
   };
 
-  // ✅ handle login
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!formData.agreeToTerms) {
-      toast.warn("Please agree to the Terms & Conditions");
+      toast.warn(getLocalizedText(
+        "Please agree to the Terms & Conditions",
+        "يرجى الموافقة على الشروط والأحكام"
+      ));
       return;
     }
 
@@ -70,11 +70,11 @@ const LoginPage: React.FC = () => {
         emitter.emit("login", res.data);
         router.replace("/");
       } else {
-        toast.warn(res.message || "Invalid email or password");
+        toast.warn(res.message || getLocalizedText("Invalid email or password", "البريد الإلكتروني أو كلمة المرور غير صحيحة"));
       }
     } catch (error) {
       console.log("❌ Login error:", error);
-      toast.warn("Invalid email or password");
+      toast.warn(getLocalizedText("Invalid email or password", "البريد الإلكتروني أو كلمة المرور غير صحيحة"));
     } finally {
       setLoading(false);
     }
@@ -86,7 +86,7 @@ const LoginPage: React.FC = () => {
       <div className="w-full md:w-1/2 mb-20 relative rounded-2xl overflow-hidden flex-shrink-0 h-64 md:h-auto">
         <Image
           src="/assets/stadium.png"
-          alt="Stadium"
+          alt={getLocalizedText("Stadium", "الملعب")}
           fill
           className="object-cover"
           priority
@@ -97,14 +97,15 @@ const LoginPage: React.FC = () => {
           onClick={() => router.push("/")}
           className="absolute top-5 right-5 bg-white/20 text-white border-none px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm cursor-pointer backdrop-blur-sm hover:bg-white/30 transition-colors flex items-center gap-1 sm:gap-2"
         >
-          Back To Website →
+          {getLocalizedText("Back To Website →", "العودة إلى الموقع →")}
         </button>
 
         <div className="absolute bottom-5 sm:bottom-10 left-5 sm:left-10 text-white">
           <h1 className="text-xl sm:text-3xl font-semibold leading-tight mb-3 sm:mb-5">
-            PlayPro simplifies sports
-            <br className="hidden sm:block" />
-            for everyone
+            {getLocalizedText(
+              "PlayPro simplifies sports for everyone",
+              "PlayPro تُبسّط الرياضة للجميع"
+            )}
           </h1>
           <div className="flex gap-2">
             <div className="w-6 sm:w-8 h-1 bg-white rounded-sm" />
@@ -118,14 +119,17 @@ const LoginPage: React.FC = () => {
         <div className="w-full max-w-md">
           <div className="flex items-center gap-2 mb-4 sm:mb-6">
             <h2 className="text-gray-800 text-2xl sm:text-3xl font-semibold">
-              Login to your account
+              {getLocalizedText("Login to your account", "تسجيل الدخول إلى حسابك")}
             </h2>
           </div>
           <div className="flex flex-wrap mt-2 mb-4 sm:mb-6 gap-2 sm:gap-3 items-center">
             <p className="text-gray-600 text-sm sm:text-lg font-semibold">
-              Don&apos;t have an account?{" "}
+              {getLocalizedText(
+                "Don't have an account?",
+                "ليس لديك حساب؟"
+              )}{" "}
               <Link href="/sign-up" className="text-purple-600 hover:underline">
-                Signup
+                {getLocalizedText("Signup", "إنشاء حساب")}
               </Link>
             </p>
           </div>
@@ -137,14 +141,14 @@ const LoginPage: React.FC = () => {
                 htmlFor="email"
                 className="block text-gray-800 text-sm font-medium mb-2"
               >
-                Email
+                {getLocalizedText("Email", "البريد الإلكتروني")}
               </label>
               <input
                 type="email"
                 id="email"
                 name="email"
                 className="w-full px-3 sm:px-4 py-3 sm:py-4 rounded-lg text-sm bg-gray-200 focus:outline-none focus:border-purple-600 transition-colors pr-20 sm:pr-28"
-                placeholder="example@gmail.com"
+                placeholder={getLocalizedText("example@gmail.com", "example@gmail.com")}
                 value={formData.email}
                 onChange={handleInputChange}
                 required
@@ -157,7 +161,7 @@ const LoginPage: React.FC = () => {
                 htmlFor="password"
                 className="block text-gray-800 text-sm font-medium mb-2"
               >
-                Password
+                {getLocalizedText("Password", "كلمة المرور")}
               </label>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <div className="relative w-full">
@@ -166,7 +170,7 @@ const LoginPage: React.FC = () => {
                     id="password"
                     name="password"
                     className="w-full px-3 sm:px-4 py-3 sm:py-4 rounded-lg text-sm bg-gray-200 focus:outline-none focus:border-purple-600 transition-colors pr-10 sm:pr-12"
-                    placeholder="••••••••"
+                    placeholder={getLocalizedText("••••••••", "••••••••")}
                     value={formData.password}
                     onChange={handleInputChange}
                     required
@@ -179,12 +183,6 @@ const LoginPage: React.FC = () => {
                     <FaEye />
                   </button>
                 </div>
-                {/* <button
-                  type="button"
-                  className="whitespace-nowrap bg-[#6D54B5] text-white border-none px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium cursor-pointer hover:bg-purple-700 transition-colors"
-                >
-                  Get OTP
-                </button> */}
               </div>
             </div>
 
@@ -209,9 +207,9 @@ const LoginPage: React.FC = () => {
                 )}
               </div>
               <div className="text-gray-600 text-xs sm:text-sm leading-relaxed">
-                Agree to the{" "}
+                {getLocalizedText("Agree to the", "الموافقة على")}{" "}
                 <Link href="/terms" className="text-[#6D54B5] hover:underline">
-                  Terms & Conditions
+                  {getLocalizedText("Terms & Conditions", "الشروط والأحكام")}
                 </Link>
               </div>
             </div>
@@ -222,14 +220,16 @@ const LoginPage: React.FC = () => {
               disabled={loading}
               className="w-full bg-[#6D0E82] text-white border-none py-3 sm:py-4 rounded-lg text-sm sm:text-base font-semibold cursor-pointer hover:-translate-y-0.5 transition-transform disabled:opacity-50"
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading
+                ? getLocalizedText("Logging in...", "جار تسجيل الدخول...")
+                : getLocalizedText("Login", "تسجيل الدخول")}
             </button>
           </form>
 
           <div className="mt-4 sm:mt-6">
             <Image
               src="/assets/ball.png"
-              alt="Sports Illustration"
+              alt={getLocalizedText("Sports Illustration", "رسوم توضيحية للرياضة")}
               width={120}
               height={120}
               className="object-contain w-fit mx-auto"

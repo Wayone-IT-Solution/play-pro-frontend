@@ -1,16 +1,21 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
 import Image from "next/image";
-import { FiEdit2, FiChevronDown } from "react-icons/fi";
 import { Fetch, Put } from "@/utils/axios";
+import { FiChevronDown } from "react-icons/fi";
+import React, { useEffect, useState } from "react";
+import { getLocalizedText } from "@/hooks/general";
+
+// Example language; in a real app, get this from context or store
+const lang: "en" | "ar" = "en";
 
 export default function EditProfile() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
     role: "",
+    lastName: "",
+    firstName: "",
     email: "example@gmail.com",
-    phoneNumber: "000000000000",
+    phoneNumber: "0000000000",
   });
 
   const [loading, setLoading] = useState(false);
@@ -19,7 +24,6 @@ export default function EditProfile() {
     const fetchUserData = async () => {
       try {
         setLoading(true);
-
         const res: any = await Fetch("/api/user", {}, 5000, true, false);
         if (res.success) {
           setFormData({
@@ -33,7 +37,7 @@ export default function EditProfile() {
           console.log("❌ API returned error:", res.message);
         }
       } catch (err) {
-        localStorage.removeItem("accessToken")
+        localStorage.removeItem("accessToken");
         console.log("❌ Error fetching user data:", err);
       } finally {
         setLoading(false);
@@ -47,15 +51,7 @@ export default function EditProfile() {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleImageChange = () => {
-    console.log("Change image clicked");
-    // later you can add image upload here
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSaveChanges = async () => {
@@ -82,57 +78,35 @@ export default function EditProfile() {
       </div>
 
       <div className="bg-white rounded-4xl relative z-10 shadow-sm border border-gray-100 p-4 sm:p-6 lg:p-10 w-full max-w-4xl">
-        {/* Profile Image Section */}
-        {/* <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5 mb-8">
-          <div className="relative">
-            <div className="w-20 h-20 rounded-2xl overflow-hidden">
-              <Image
-                src="/assets/profile2.png"
-                alt="Profile"
-                width={80}
-                height={80}
-                className="w-full h-full object-cover rounded-2xl"
-              />
-            </div>
-            <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center cursor-pointer hover:border-gray-300 transition-colors">
-              <FiEdit2 className="w-3 h-3 text-gray-600" />
-            </div>
-          </div>
-
-          <button
-            onClick={handleImageChange}
-            className="bg-[#6D54B5] hover:bg-[#5b4498] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full text-sm font-medium transition-colors duration-200 shadow-sm w-full sm:w-auto"
-          >
-            Change Image
-          </button>
-        </div> */}
-
         {/* Form Fields */}
         <div className="space-y-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* First Name */}
             <div>
               <label className="block text-sm font-medium text-gray-800 mb-2">
-                First name
+                {getLocalizedText("First Name", "الاسم الأول")}
               </label>
               <input
                 type="text"
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleInputChange}
-                placeholder="Enter first name"
+                placeholder={getLocalizedText("Enter first name", "أدخل الاسم الأول")}
                 className="w-full px-4 py-3.5 bg-gray-100 border-0 rounded-lg text-sm placeholder-gray-400"
               />
             </div>
+
+            {/* Last Name */}
             <div>
               <label className="block text-sm font-medium text-gray-800 mb-2">
-                Last name
+                {getLocalizedText("Last Name", "اسم العائلة")}
               </label>
               <input
                 type="text"
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleInputChange}
-                placeholder="Enter last name"
+                placeholder={getLocalizedText("Enter last name", "أدخل اسم العائلة")}
                 className="w-full px-4 py-3.5 bg-gray-100 border-0 rounded-lg text-sm placeholder-gray-400"
               />
             </div>
@@ -141,7 +115,7 @@ export default function EditProfile() {
           {/* Role */}
           <div>
             <label className="block text-sm font-medium text-gray-800 mb-2">
-              Select your Role
+              {getLocalizedText("Select your Role", "اختر الدور")}
             </label>
             <div className="relative">
               <select
@@ -151,11 +125,10 @@ export default function EditProfile() {
                 className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-400 pr-10"
               >
                 <option value="" disabled>
-                  eg. Owner, Player
+                  {getLocalizedText("eg. Owner, Player", "مثال: مالك، لاعب")}
                 </option>
-                {/* <option value="admin">Admin</option> */}
-                <option value="owner">Owner</option>
-                <option value="Player">Player</option>
+                <option value="owner">{getLocalizedText("Owner", "مالك")}</option>
+                <option value="player">{getLocalizedText("Player", "لاعب")}</option>
               </select>
               <FiChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             </div>
@@ -165,7 +138,7 @@ export default function EditProfile() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-800 mb-2">
-                Email
+                {getLocalizedText("Email", "البريد الإلكتروني")}
               </label>
               <input
                 type="email"
@@ -177,7 +150,7 @@ export default function EditProfile() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-800 mb-2">
-                Phone number
+                {getLocalizedText("Phone Number", "رقم الهاتف")}
               </label>
               <input
                 type="tel"
@@ -196,16 +169,11 @@ export default function EditProfile() {
           disabled={loading}
           className="w-full sm:w-[600px] mx-auto flex items-center justify-center bg-[#6D54B5] hover:bg-[#5b4498] text-white py-3 sm:py-4 rounded-xl text-sm font-medium mt-8 disabled:opacity-60"
         >
-          {loading ? "Saving..." : "Save Changes"}
+          {loading
+            ? getLocalizedText("Saving...", "جار الحفظ...")
+            : getLocalizedText("Save Changes", "حفظ التغييرات")}
         </button>
       </div>
     </div>
   );
-}
-function Get(arg0: string): any {
-  throw new Error("Function not implemented.");
-}
-
-function fetchUserData() {
-  throw new Error("Function not implemented.");
 }

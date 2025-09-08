@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Link from "next/link";
-import { getLocalizedValues } from "@/hooks/general";
+import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
 
 const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
   const fields = nextSlots ?? [];
@@ -28,10 +28,10 @@ const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 pt-8">
           <div>
             <h2 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-              Nearby Fields
+              {getLocalizedText("Nearby Fields", "الملاعب القريبة")}
             </h2>
             <p className="text-gray-600 text-base sm:text-lg">
-              Explore fields around you{" "}
+              {getLocalizedText("Explore fields around you", "استكشف الملاعب من حولك")}
             </p>
           </div>
 
@@ -127,14 +127,15 @@ const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
                   {/* Bottom Section */}
                   <div className="bg-white p-3 sm:p-4 flex justify-between items-center">
                     <div className="text-xs sm:text-sm font-medium text-gray-700">
-                      SAR {field.pricePerHour} / hour
+                      SAR {field.pricePerHour} /{" "}
+                      {getLocalizedText("hour", "ساعة")}
                     </div>
                     <button
                       type="button"
                       style={{ background: "#6D0E82" }}
                       className="px-4 hover:scale-110 duration-200 cursor-pointer py-1.5 sm:px-6 sm:py-2 text-white font-medium rounded-lg text-xs sm:text-sm hover:opacity-90 transition-all"
                     >
-                      Book Now
+                      {getLocalizedText("Book Now", "احجز الآن")}
                     </button>
                   </div>
                 </Link>

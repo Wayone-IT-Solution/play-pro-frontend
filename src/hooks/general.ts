@@ -37,6 +37,15 @@ export const getLocalizedValues = (defaultData: LocalizedData) => {
   }
 }
 
+export const getLocalizedText = (en: string, ar: string): string => {
+  if (typeof window !== "undefined") {
+    const lang = (localStorage.getItem("lang") as "en" | "ar") || "en";
+    if (lang === "ar" && ar) return ar;
+    return en;
+  }
+  return en;
+};
+
 export const getFileCategory = (
   fileNameOrExt: string
 ): "image" | "video" | "document" | "other" => {

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import GroundMap from "./GroundMap";
 import { Fetch } from "@/utils/axios";
-import { getLocalizedValues } from "@/hooks/general";
+import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
 import GroundImageSwiper from "@/app/grounds/GroundImageSwiper";
 import React, { useCallback, useEffect, useState } from "react";
 import { MapPin, Star, ChevronLeft, ChevronRight } from "lucide-react";
@@ -193,14 +193,16 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
                 </span>
               </div>
               <div className="text-sm text-gray-600 mb-2">
-                Opening Hours:{" "}
+                {getLocalizedText("Opening Hours:", "ساعات العمل:")}{" "}
                 <span className="font-medium">
                   {groundData.startTime} - {groundData.endTime}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <Star size={16} className="text-yellow-400" />
-                <span className="text-sm font-medium">{groundData.rating ?? 4}/5 Rating</span>
+                <span className="text-sm font-medium">
+                  {groundData.rating ?? 4}/5 {getLocalizedText("Rating", "التقييم")}
+                </span>
               </div>
             </div>
 
@@ -232,10 +234,13 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
               style={{ minWidth: 320 }}
             >
               <h3 className="text-lg font-semibold mb-2">
-                Book a Field on {groundData.name || "PADEL10"}
+                {getLocalizedText("Book a Field on", "احجز ملعب على")} {groundData.name || "PADEL10"}
               </h3>
               <p className="text-sm text-gray-600 mb-4">
-                Select date and duration to show available slots
+                {getLocalizedText(
+                  "Select date and duration to show available slots",
+                  "اختر التاريخ والمدة لعرض الأوقات المتاحة"
+                )}
               </p>
 
               {/* Calendar */}
@@ -340,57 +345,60 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
                 style={{ backgroundColor: "#932AAA" }}
                 onClick={() => setShowSlots(true)}
               >
-                Show Available Slot
+                {getLocalizedText("Show Available Slot", "عرض الأوقات المتاحة")}
               </button>
 
               {showSlots &&
                 (slots.length > 0 ? (
                   <div className="mt-4 space-y-3">
-                    {slots.filter((i: any) => !i.isBooked).map((slot) => (
+                    {slots.filter((i: any) => !i.isBooked).map((slot: any) => (
                       <div
                         key={slot._id}
-                        className={`flex justify-between items-center border rounded-lg px-4 py-2 text-sm ${slot.isBooked
-                          ? "bg-gray-100 text-gray-400"
-                          : "bg-white border-[#932AAA] text-gray-800"
+                        className={`flex justify-between items-center border rounded-lg px-4 py-2 text-sm ${slot.isBooked ? "bg-gray-100 text-gray-400" : "bg-white border-[#932AAA] text-gray-800"
                           }`}
                       >
                         <span>
                           {slot.startTime} - {slot.endTime} ({slot.duration}{" "}
-                          min)
+                          {getLocalizedText("min", "دقيقة")})
                         </span>
-                        <span className="font-semibold">Dhs {slot.amount}</span>
+                        <span className="font-semibold">
+                          SAR {slot.amount}
+                        </span>
                         <button
                           disabled={slot.isBooked}
                           onClick={() => toggleSlot(slot)}
-                          className={`px-3 py-1 rounded-md text-xs font-medium ${selectedSlots.find((s) => s._id === slot._id)
+                          className={`px-3 py-1 rounded-md text-xs font-medium ${selectedSlots.find((s: any) => s._id === slot._id)
                             ? "bg-[#932AAA] text-white"
                             : "bg-purple-50 text-[#932AAA] border border-[#932AAA]"
-                            } ${slot.isBooked ? "opacity-50 cursor-not-allowed" : ""
-                            }`}
+                            } ${slot.isBooked ? "opacity-50 cursor-not-allowed" : ""}`}
                         >
                           {slot.isBooked
-                            ? "Booked"
-                            : selectedSlots.find((s) => s._id === slot._id)
-                              ? "Selected"
-                              : "Select"}
+                            ? getLocalizedText("Booked", "محجوز")
+                            : selectedSlots.find((s: any) => s._id === slot._id)
+                              ? getLocalizedText("Selected", "محدد")
+                              : getLocalizedText("Select", "اختر")}
                         </button>
                       </div>
                     ))}
                   </div>
                 ) : (
                   <p className="mt-4 text-sm text-gray-500">
-                    No slots available
+                    {getLocalizedText("No slots available", "لا توجد أوقات متاحة")}
                   </p>
                 ))}
             </div>
           </div>
         </div>
+
         {/* Pricing Section */}
         <div className="mb-6">
           <div className="flex flex-wrap gap-4 justify-between items-center mb-4 w-full">
             <span className="text-2xl font-bold">
-              Dhs {totalAmount || groundData.pricePerHour || "300"}/hr
+              {getLocalizedText("Dhs", "د.إ")}{" "}
+              {totalAmount || groundData.pricePerHour || "300"}/
+              {getLocalizedText("hr", "ساعة")}
             </span>
+
             <div className="flex flex-wrap items-center gap-2 text-sm">
               <input
                 type="date"
@@ -401,29 +409,30 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
               <div className="flex items-center gap-1">
                 <input
                   type="time"
-                  value={selectedSlots[0]?.startTime || "11:30"} // dynamic
+                  value={selectedSlots[0]?.startTime || "11:30"}
                   readOnly
                   className="border-2 border-[#932AAA] text-[#932AAA] rounded-full px-4 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-purple-300"
                 />
-                <span className="text-xs text-black">-To-</span>
+                <span className="text-xs text-black">
+                  {getLocalizedText("-To-", "إلى")}
+                </span>
                 <input
                   type="time"
-                  value={
-                    selectedSlots[selectedSlots.length - 1]?.endTime || "13:30"
-                  } // dynamic
+                  value={selectedSlots[selectedSlots.length - 1]?.endTime || "13:30"}
                   readOnly
                   className="border-2 border-[#932AAA] text-[#932AAA] rounded-full px-4 py-2 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-purple-300"
                 />
               </div>
             </div>
           </div>
+
           <div className="border-2 border-dashed border-[#932AAA] rounded-full px-4 py-4 flex justify-between items-center">
             <span className="text-gray-600 text-sm">
-              {totalDuration ? totalDuration + " min" : "120 min"}
+              {totalDuration ? totalDuration + " " + getLocalizedText("min", "دقيقة") : "120 " + getLocalizedText("min", "دقيقة")}
             </span>
             <span className="flex-1 border-t-2 border-dashed border-[#932AAA] mx-4"></span>
             <span className="font-semibold text-gray-900">
-              Dhs {totalAmount || groundData.pricePerHour}
+              {getLocalizedText("Dhs", "د.إ")} {totalAmount || groundData.pricePerHour}
             </span>
           </div>
         </div>
@@ -433,7 +442,7 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
           style={{ backgroundColor: "#932AAA" }}
           onClick={handleConfirmSelection}
         >
-          Checkout
+          {getLocalizedText("Checkout", "الدفع")}
         </button>
 
         {groundData?.location?.coordinates?.length === 2 && (

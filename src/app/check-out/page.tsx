@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Fetch, Post } from "@/utils/axios";
+import { getLocalizedText } from "@/hooks/general";
 import AuthGuard from "@/components/layout/AuthGuard";
 
 interface BookingData {
@@ -49,7 +50,7 @@ const BookingForm = () => {
         if (res.success) setUser(res.data);
       } catch (error) {
         console.log("Error fetching user:", error);
-        localStorage.removeItem("accessToken")
+        localStorage.removeItem("accessToken");
       } finally {
         setLoading(false);
       }
@@ -58,7 +59,8 @@ const BookingForm = () => {
   }, [router]);
 
   if (!bookingData) return null;
-  if (loading) return <p className="text-center py-6">Loading checkout...</p>;
+  if (loading)
+    return <p className="text-center py-6">{getLocalizedText("Loading checkout...", "جارٍ تحميل الدفع...")}</p>;
 
   const handleBooking = async () => {
     if (!bookingData) return;
@@ -85,7 +87,7 @@ const BookingForm = () => {
       localStorage.removeItem("orderData");
       setTimeout(() => {
         router.back();
-      }, 2000)
+      }, 2000);
     } finally {
       setBookingLoading(false);
     }
@@ -93,7 +95,7 @@ const BookingForm = () => {
 
   return (
     <AuthGuard>
-      <div className=" bg-white pb-8 px-4 w-full mt-24">
+      <div className="bg-white pb-8 px-4 w-full mt-24">
         <div className="max-w-6xl mx-auto">
           {/* Main Card */}
           <div className="bg-white rounded-3xl shadow-lg overflow-hidden">
@@ -103,7 +105,7 @@ const BookingForm = () => {
                 fill
                 priority
                 unoptimized
-                alt="Stadium"
+                alt={getLocalizedText("Stadium", "الملعب")}
                 draggable={false}
                 src={bookingData?.images[0]}
                 className="object-cover rounded-3xl"
@@ -121,42 +123,24 @@ const BookingForm = () => {
                     </h2>
                     <div className="flex items-center gap-1">
                       <span className="text-yellow-400 text-sm">★</span>
-                      <span className="text-sm text-gray-600">4.5 Rating</span>
+                      <span className="text-sm text-gray-600">
+                        4.5 {getLocalizedText("Rating", "التقييم")}
+                      </span>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2 text-gray-600 text-sm mb-1">
                     <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
-                      <circle
-                        cx="8"
-                        cy="8"
-                        r="6"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      />
+                      <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" />
                       <circle cx="8" cy="8" r="2" fill="currentColor" />
                     </svg>
-                    <span>
-                      {bookingData.location ||
-                        "Sahya Road, Gurugram...Sahya road, Gurugram..."}
-                    </span>
+                    <span>{bookingData.location || getLocalizedText("Sahya Road, Gurugram...", "طريق ساهيا، جورجام...")}</span>
                   </div>
 
                   <div className="flex items-center gap-2 text-gray-600 text-sm">
                     <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
-                      <circle
-                        cx="8"
-                        cy="8"
-                        r="6"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M8 4v4l3 2"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
+                      <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" />
+                      <path d="M8 4v4l3 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                     </svg>
                     <span>
                       {bookingData.slots.length > 0 &&
@@ -167,7 +151,7 @@ const BookingForm = () => {
 
                 <div className="bg-gray-50 px-4 py-2 rounded-lg">
                   <span className="text-lg font-semibold text-gray-900">
-                    Dhs {bookingData.price}
+                    {getLocalizedText("Dhs", "درهم")} {bookingData.price}
                   </span>
                 </div>
               </div>
@@ -175,7 +159,7 @@ const BookingForm = () => {
               {/* Player Information Section */}
               <div className="mb-6">
                 <h3 className="text-center text-lg font-semibold text-gray-900 mb-6">
-                  Player Information
+                  {getLocalizedText("Player Information", "معلومات اللاعب")}
                 </h3>
 
                 <form
@@ -189,24 +173,24 @@ const BookingForm = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          First Name
+                          {getLocalizedText("First Name", "الاسم الأول")}
                         </label>
                         <input
                           type="text"
                           value={user?.firstName || ""}
-                          placeholder="Anshul"
+                          placeholder={getLocalizedText("Anshul", "أنشول")}
                           className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400"
                           readOnly
                         />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Last Name
+                          {getLocalizedText("Last Name", "اسم العائلة")}
                         </label>
                         <input
                           type="text"
                           value={user?.lastName || ""}
-                          placeholder="Anshul"
+                          placeholder={getLocalizedText("Anshul", "أنشول")}
                           className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400"
                           readOnly
                         />
@@ -217,43 +201,29 @@ const BookingForm = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Email
+                          {getLocalizedText("Email", "البريد الإلكتروني")}
                         </label>
                         <input
                           type="email"
                           value={user?.email || ""}
-                          placeholder="Anshul"
+                          placeholder={getLocalizedText("example@gmail.com", "مثال@gmail.com")}
                           className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400"
                           readOnly
                         />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Mobile
+                          {getLocalizedText("Mobile", "الهاتف المحمول")}
                         </label>
                         <input
                           type="tel"
                           value={user?.phoneNumber || ""}
-                          placeholder="Anshul"
+                          placeholder={getLocalizedText("1234567890", "1234567890")}
                           className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400"
                           readOnly
                         />
                       </div>
                     </div>
-
-                    {/* Team Name Full Width */}
-                    {/* <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Team name
-                    </label>
-                    <input
-                      type="text"
-                      value={user?.teamName || ""}
-                      placeholder="Anshul"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-900 placeholder-gray-400"
-                      readOnly
-                    />
-                  </div> */}
                   </div>
 
                   {/* Pay Now Button */}
@@ -262,7 +232,9 @@ const BookingForm = () => {
                     disabled={bookingLoading}
                     className="w-full mt-8 cursor-pointer bg-[#932AAA] hover:bg-[#7d2391] text-white py-4 rounded-full font-semibold text-lg transition-colors duration-200 disabled:opacity-70"
                   >
-                    {bookingLoading ? "Booking..." : "Pay Now"}
+                    {bookingLoading
+                      ? getLocalizedText("Booking...", "جارٍ الحجز...")
+                      : getLocalizedText("Pay Now", "ادفع الآن")}
                   </button>
                 </form>
               </div>

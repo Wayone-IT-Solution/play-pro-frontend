@@ -10,7 +10,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { ProductCard } from "@/components/ProductCard";
-import { getLocalizedValues } from "@/hooks/general";
+import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
 
 const BestSellingProductSwiper = ({
   product,
@@ -40,10 +40,10 @@ const BestSellingProductSwiper = ({
               letterSpacing: "0%",
             }}
           >
-            Best Selling Products
+            {getLocalizedText("Best Selling Products", "أفضل المنتجات مبيعاً")}
           </h2>
           <p className="text-gray-600 text-lg">
-            Exclusive showcase of Products
+            {getLocalizedText("Exclusive showcase of Products", "عرض حصري للمنتجات")}
           </p>
         </div>
 
@@ -52,7 +52,7 @@ const BestSellingProductSwiper = ({
             className="flex items-center gap-2 px-6 py-2 rounded-lg border-1 border-dashed"
             style={{ borderColor: "#6D0E82", color: "#6D0E82" }}
           >
-            Playpro Shop
+            {getLocalizedText("Playpro Shop", "متجر بلاي برو")}
             <FiArrowRight size={21} />
           </button>
           <button

@@ -1,31 +1,33 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
-import { Fetch } from "@/utils/Server";
+import { getLocalizedText } from "@/hooks/general";
+import AuthGuard2 from "@/components/layout/AuthGuard2";
 import PlayProBanner from "@/components/home/PlayProBanner";
 
 export default async function Page() {
-  const bannerResponse = await Fetch("/api/banner/public");
-  const banners = bannerResponse?.data?.result ?? [];
   return (
-    <div>
+    <AuthGuard2>
       <div className="mt-16 lg:mt-24">
-        <PlayProBanner banners={banners} />
+        <PlayProBanner />
       </div>
+
       <div className="flex justify-center items-center bg-white p-6 md:p-20">
         <div className="flex flex-col md:flex-row w-full justify-between gap-10 md:gap-20">
           {/* Left Text div */}
           <div className="flex flex-col w-full md:w-2/5 justify-start">
             <p className="text-[#A21B3C] tracking-widest mb-2 text-sm md:text-base">
-              A BIT
+              {getLocalizedText("A BIT", "لمحة")}
             </p>
             <h2 className="text-3xl md:text-5xl font-extrabold text-[#0B0B0B] mb-4">
-              ABOUT US
+              {getLocalizedText("ABOUT US", "معلومات عنا")}
             </h2>
             <p className="text-[#4A4A4A] text-base md:text-lg mb-8 font-light">
-              From they fine john he give of rich he. They age and draw mrs
-              like. Improving end distru sts may instantly was household
-              applauded incommode. Why kept very ever home mrs. Considered
-              sympathize ten uncommonly occasional assistance sufficient not.
+              {getLocalizedText(
+                "From they fine john he give of rich he. They age and draw mrs like. Improving end distru sts may instantly was household applauded incommode. Why kept very ever home mrs. Considered sympathize ten uncommonly occasional assistance sufficient not.",
+                "من خلال جون الجيد أعطى من الغنى. هم يزدادون سناً ويرسمون السيدة كما يحلو لهم. تحسين النهاية قد تلقى الثناء فوراً. لماذا بقيت السيدة في المنزل؟ اعتُبر التعاطف مساعدة غير اعتيادية كافية."
+              )}
             </p>
             <button
               style={{
@@ -35,7 +37,7 @@ export default async function Page() {
               }}
               className="text-white w-fit px-6 py-3 md:py-4 rounded-3xl text-base md:text-lg"
             >
-              EXPLORE MORE
+              {getLocalizedText("EXPLORE MORE", "استكشف المزيد")}
             </button>
           </div>
 
@@ -45,41 +47,16 @@ export default async function Page() {
             <div className="relative rounded-[12.87px] overflow-hidden h-[200px] md:h-[280px]">
               <Image
                 src="/assets/sky.png"
-                alt="Top Stadium"
+                alt={getLocalizedText("Top Stadium", "الملعب العلوي")}
                 fill
                 className="object-cover"
               />
             </div>
 
-            {/* Middle Large Image */}
-            {/* <div className="relative mb-10 rounded-[12.87px] h-[260px] md:h-[320px]">
-              <Image
-                src="/assets/sky2.png"
-                alt="Middle Stadium"
-                fill
-                className="object-cover"
-              />
-
-              {/* Bottom Image with 10+ Tag */}
-            {/* <div className="absolute z-10 -bottom-[80px] md:-bottom-[116px] -left-6 md:-left-16 rounded-[12.87px] overflow-hidden">
-                <Image
-                  src="/assets/sky3.png"
-                  alt="Soccer"
-                  width={300}
-                  height={300}
-                  className="object-cover w-48 md:w-72"
-                />
-              </div> */}
-
-            {/* 10+ Places Tag */}
-            {/* <div className="absolute z-10 -bottom-14 md:-bottom-20 left-40 md:left-[230px] p-4 md:p-6 bg-[#6D0E82] rounded-2xl flex flex-col justify-center items-center text-white font-bold text-xl md:text-3xl">
-                <span className="text-3xl md:text-5xl">10+</span>
-                <span className="text-xl md:text-3xl font-medium">Places</span>
-              </div>
-            {/* </div> */}
+            {/* You can uncomment and localize other images/tags similarly */}
           </div>
         </div>
       </div>
-    </div>
+    </AuthGuard2>
   );
 }

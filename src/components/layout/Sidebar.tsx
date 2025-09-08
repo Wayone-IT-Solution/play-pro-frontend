@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import {
-  FaCalendarAlt,
   FaHome,
-  FaMapMarkerAlt,
+  FaUser,
   FaSearch,
   FaSignOutAlt,
-  FaUser,
+  FaCalendarAlt,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
-import { useRouter } from "next/navigation";
 import Modal from "../modals/Modal";
-import LogoutModal from "../modals/LogoutModal";
 import emitter from "@/utils/eventEmitter";
+import { useRouter } from "next/navigation";
+import LogoutModal from "../modals/LogoutModal";
 
 const Sidebar = () => {
   const router = useRouter();

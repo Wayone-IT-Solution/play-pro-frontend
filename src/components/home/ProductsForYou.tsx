@@ -2,8 +2,8 @@
 
 import React from "react";
 import { ProductCard } from "../ProductCard";
-import { getLocalizedValues } from "@/hooks/general";
 import { LiaLongArrowAltRightSolid } from "react-icons/lia";
+import { getLocalizedValues, getLocalizedText } from "@/hooks/general";
 
 const ProductsForYou = ({ products }: { products: any[] }) => {
   return (
@@ -12,12 +12,16 @@ const ProductsForYou = ({ products }: { products: any[] }) => {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-1">
-            Best selling Product
+            {getLocalizedText("Best Selling Products", "أفضل المنتجات مبيعاً")}
           </h2>
           <p className="text-gray-600 text-base md:text-lg">
-            Exclusive showcase of Fields
+            {getLocalizedText(
+              "Exclusive showcase of products curated just for you.",
+              "عرض حصري للمنتجات المختارة خصيصاً لك."
+            )}
           </p>
         </div>
+
         <button
           className="w-[45px] h-[35px] flex items-center justify-center bg-white shadow-sm rounded-lg"
           style={{
@@ -35,9 +39,11 @@ const ProductsForYou = ({ products }: { products: any[] }) => {
         {products?.length > 0 &&
           products.map((product, index) => {
             product = getLocalizedValues(product);
-            return <React.Fragment key={index}>
-              <ProductCard product={product} index={index} />
-            </React.Fragment>
+            return (
+              <React.Fragment key={index}>
+                <ProductCard product={product} index={index} />
+              </React.Fragment>
+            );
           })}
       </div>
     </div>

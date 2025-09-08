@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Delete, Post, Put } from "@/utils/axios";
 import { Plus, Minus, Trash } from "lucide-react";
-import { getLocalizedValues } from "@/hooks/general";
+import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
 import { removeFromCart, updateCartQuantity } from "@/utils/cartUtils";
 
 type CartItemType = {
@@ -214,12 +214,17 @@ const ShoeCartComponent = ({
 
         {/* Address Field (Single Row Input) */}
         <div className="mt-4 px-2 w-full">
-          <label className="block mb-2 font-medium text-gray-700">Add Address</label>
+          <label className="block mb-2 font-medium text-gray-700">
+            {getLocalizedText("Add Address", "أضف العنوان")}
+          </label>
           <input
             type="text"
             value={address}
             style={{ backgroundColor: "#fff" }}
-            placeholder="Enter delivery address"
+            placeholder={getLocalizedText(
+              "Enter delivery address",
+              "أدخل عنوان التوصيل"
+            )}
             onChange={(e) => setAddress(e.target.value)}
             className="w-full border-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA] transition-colors"
           />
@@ -227,7 +232,9 @@ const ShoeCartComponent = ({
 
         <div className="flex flex-wrap lg:flex-nowrap gap-2 items-center justify-between mt-6 px-4 w-full border-t pt-4">
           <div className="flex items-center justify-between w-full gap-3">
-            <span className="text-gray-700 font-medium">Grand Total:</span>
+            <span className="text-gray-700 font-medium">
+              {getLocalizedText("Grand Total:", "المجموع الكلي:")}
+            </span>
             <div
               className="px-4 py-2 rounded-full text-white font-semibold"
               style={{ backgroundColor: "#932AAA" }}
@@ -240,9 +247,10 @@ const ShoeCartComponent = ({
             className="px-20 whitespace-nowrap cursor-pointer py-3 w-full md:w-fit rounded-full text-white font-medium text-lg"
             style={{ backgroundColor: "#932AAA" }}
           >
-            Pay Now
+            {getLocalizedText("Pay Now", "ادفع الآن")}
           </button>
         </div>
+
       </div>
     </>
   );
