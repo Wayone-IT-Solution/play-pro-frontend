@@ -4,12 +4,13 @@ import Image from "next/image";
 import { Fetch } from "@/utils/axios";
 import { LogOut } from "lucide-react";
 import emitter from "@/utils/eventEmitter";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
 import { useEffect, useState, useCallback, useRef } from "react";
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [formData, setFormData] = useState({ firstName: "" });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -172,10 +173,10 @@ export default function Navbar() {
           ) : isLoggedIn ? (
             <Link
               href="/update-profile"
-              className="hidden lg:flex items-center gap-2 text-white px-4 sm:px-6 py-2 rounded-lg text-sm font-inter font-bold hover:opacity-90"
+              className="hidden lg:flex items-center gap-2 text-white px-4 py-2 rounded-lg text-sm font-inter font-medium hover:opacity-90"
               style={{ backgroundColor: "#6D0E82" }}
             >
-              <FaUserCircle className="text-lg" />
+              <FaUserCircle className="text-base" />
               <span className="max-w-20 truncate">
                 {formData?.firstName || "User"}
               </span>
@@ -183,7 +184,7 @@ export default function Navbar() {
           ) : (
             <Link href="/login">
               <button
-                className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90"
+                className="px-4 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-medium hover:opacity-90"
                 style={{ backgroundColor: "#6D0E82" }}
                 onClick={handleLogin}
               >
@@ -194,7 +195,7 @@ export default function Navbar() {
 
           <Link href="/cart" passHref className="hidden lg:block">
             <button
-              className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90"
+              className="px-4 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-medium hover:opacity-90"
               style={{ backgroundColor: "#6D0E82" }}
             >
               My Cart
@@ -203,7 +204,7 @@ export default function Navbar() {
 
           <Link href="/sign-up" passHref className="hidden lg:block">
             <button
-              className="px-6 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-bold hover:opacity-90"
+              className="px-4 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-medium hover:opacity-90"
               style={{ backgroundColor: "#6D0E82" }}
             >
               Register Your Field
@@ -215,11 +216,13 @@ export default function Navbar() {
               type="button"
               aria-label="Logout"
               onClick={handleLogout}
-              className="p-2 rounded-full cursor-pointer hover:bg-gray-100 hidden lg:block transition-colors"
+              className="p-2 rounded-full cursor-pointer hover:bg-red-100 hidden lg:block transition-colors"
             >
-              <LogOut className="w-5 h-5 text-gray-700" />
+              <LogOut className="w-5 h-5 text-red-500" />
             </button>
           }
+
+          <LanguageSwitcher />
 
           {/* Mobile Menu Button */}
           <button
@@ -231,7 +234,6 @@ export default function Navbar() {
           </button>
         </div>
       </div>
-      {/* Mobile Menu */}
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white shadow-md border-t border-gray-200 px-4 py-4">
@@ -306,7 +308,6 @@ export default function Navbar() {
                 Register Your Field
               </span>
             </Link>
-
 
             {isLoggedIn && (
               <button

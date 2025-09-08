@@ -1,10 +1,10 @@
 "use client";
 
 import { Fetch } from "@/utils/axios";
+import { getCart } from "@/utils/cartUtils";
 import ShopCart from "./components/ShopCart";
 import BestProducts from "./components/BestProducts";
 import { useCallback, useEffect, useState } from "react";
-import { getCart } from "@/utils/cartUtils";
 
 type CartItemType = {
   brand: string;
@@ -35,7 +35,7 @@ export default function Cart() {
 
   const fetchCartItems = useCallback(async () => {
     try {
-      const token = localStorage.getItem("accessToken");
+      const token = typeof window !== "undefined" && localStorage.getItem("accessToken");
       if (!token) {
         const result = getCart();
         setItems(result as any || []);

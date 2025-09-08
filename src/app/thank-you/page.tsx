@@ -100,7 +100,7 @@ const ThankYouPage: React.FC = () => {
           {/* Explore More */}
           <Link href="/history" passHref>
             <button
-              className="bg-[#6D0E82] text-white px-8 sm:px-16 py-3 sm:py-4 rounded-lg font-medium text-base hover:bg-opacity-90 transition-all duration-200 shadow-sm"
+              className="bg-[#6D0E82] cursor-pointer text-white px-8 sm:px-16 py-3 sm:py-4 rounded-lg font-medium text-base hover:bg-opacity-90 transition-all duration-200 shadow-sm"
               type="button"
             >
               Explore More

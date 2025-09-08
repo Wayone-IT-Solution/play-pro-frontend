@@ -8,7 +8,9 @@ export default async function Page() {
   const banners = bannerResponse?.data?.result ?? [];
   return (
     <div>
-      <PlayProBanner banners={banners} />
+      <div className="mt-16 lg:mt-24">
+        <PlayProBanner banners={banners} />
+      </div>
       <div className="flex justify-center items-center bg-white p-6 md:p-20">
         <div className="flex flex-col md:flex-row w-full justify-between gap-10 md:gap-20">
           {/* Left Text div */}

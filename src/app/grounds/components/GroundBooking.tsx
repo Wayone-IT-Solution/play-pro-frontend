@@ -3,10 +3,11 @@
 import Image from "next/image";
 import GroundMap from "./GroundMap";
 import { Fetch } from "@/utils/axios";
-import Testimonials from "@/components/home/Testimonial";
+import { getLocalizedValues } from "@/hooks/general";
 import GroundImageSwiper from "@/app/grounds/GroundImageSwiper";
 import React, { useCallback, useEffect, useState } from "react";
 import { MapPin, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Slot {
   _id: string;
@@ -18,17 +19,13 @@ interface Slot {
   isBooked: boolean;
 }
 
-export default function GroundBookingClient({
-  groundData,
-  testimonials,
-}: {
-  groundData: any;
-  testimonials: any[];
-}) {
+export default function GroundBookingClient({ groundData }: { groundData: any }) {
+  groundData = getLocalizedValues(groundData);
   const today = new Date();
-  const [selectedSlots, setSelectedSlots] = useState<Slot[]>([]);
-  const [slots, setSlots] = useState<Slot[]>([]);
+  const router = useRouter();
   const groundId = groundData?._id;
+  const [slots, setSlots] = useState<Slot[]>([]);
+  const [selectedSlots, setSelectedSlots] = useState<Slot[]>([]);
 
   const formatDate = (day: number, month: number, year: number) => {
     const dd = String(day).padStart(2, "0");
@@ -41,10 +38,10 @@ export default function GroundBookingClient({
   const [selectedDate, setSelectedDate] = useState(
     formatDate(today.getDate(), today.getMonth(), today.getFullYear())
   );
-  const [selectedDuration, setSelectedDuration] = useState("120min");
+  // const [selectedDuration, setSelectedDuration] = useState("120min");
 
   const weekDays = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-  const durations = ["60min", "90min", "120min"];
+  // const durations = ["60min", "90min", "120min"];
 
   const calendarDays = [
     { date: 29, prev: true },
@@ -141,9 +138,6 @@ export default function GroundBookingClient({
     }
   };
 
-  console.log(selectedSlots);
-
-  // ✅ confirm selection logic
   const handleConfirmSelection = () => {
     if (selectedSlots.length === 0) {
       alert("Please select at least one slot.");
@@ -165,7 +159,7 @@ export default function GroundBookingClient({
     };
 
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
-    window.location.href = "/check-out";
+    router.push("/check-out");
   };
 
   return (
@@ -194,19 +188,19 @@ export default function GroundBookingClient({
                 <span>
                   Venue Type:{" "}
                   <span className="font-medium">
-                    {groundData.venueType || "outdoor"}
+                    {groundData.type || "outdoor"}
                   </span>
                 </span>
               </div>
               <div className="text-sm text-gray-600 mb-2">
                 Opening Hours:{" "}
                 <span className="font-medium">
-                  {groundData.openingHours || "04:00 PM - 04:00 AM"}
+                  {groundData.startTime} - {groundData.endTime}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <Star size={16} className="text-yellow-400" />
-                <span className="text-sm font-medium">4.2/5 Rating</span>
+                <span className="text-sm font-medium">{groundData.rating ?? 4}/5 Rating</span>
               </div>
             </div>
 
@@ -282,17 +276,34 @@ export default function GroundBookingClient({
                       currentDate.getMonth(),
                       currentDate.getFullYear()
                     );
+
+                    // Create full date object for comparison
+                    const fullDate = new Date(
+                      currentDate.getFullYear(),
+                      currentDate.getMonth(),
+                      day.date
+                    );
+
+                    const isPastDate =
+                      !day.prev && !day.next && fullDate < new Date(new Date().setHours(0, 0, 0, 0));
+
                     return (
                       <button
                         key={index}
                         onClick={() =>
-                          !day.prev && !day.next && setSelectedDate(formatted)
+                          !day.prev &&
+                          !day.next &&
+                          !isPastDate &&
+                          setSelectedDate(formatted)
                         }
+                        disabled={isPastDate}
                         className={`py-2 text-sm rounded-lg border-2 ${selectedDate === formatted
                           ? "text-[#932AAA] border-[#932AAA] bg-white font-bold"
                           : day.prev || day.next
                             ? "text-gray-300 border-white"
-                            : "text-gray-700 border-white hover:bg-gray-100"
+                            : isPastDate
+                              ? "text-gray-300 border-white cursor-not-allowed"
+                              : "text-gray-700 border-white hover:bg-gray-100"
                           }`}
                         style={
                           selectedDate === formatted
@@ -308,7 +319,7 @@ export default function GroundBookingClient({
               </div>
 
               {/* Duration Selection */}
-              <div className="flex justify-center gap-2 mb-4">
+              {/* <div className="flex justify-center gap-2 mb-4">
                 {durations.map((duration) => (
                   <button
                     key={duration}
@@ -321,7 +332,7 @@ export default function GroundBookingClient({
                     {duration}
                   </button>
                 ))}
-              </div>
+              </div> */}
 
               {/* Show Slots */}
               <button
@@ -335,7 +346,7 @@ export default function GroundBookingClient({
               {showSlots &&
                 (slots.length > 0 ? (
                   <div className="mt-4 space-y-3">
-                    {slots.map((slot) => (
+                    {slots.filter((i: any) => !i.isBooked).map((slot) => (
                       <div
                         key={slot._id}
                         className={`flex justify-between items-center border rounded-lg px-4 py-2 text-sm ${slot.isBooked

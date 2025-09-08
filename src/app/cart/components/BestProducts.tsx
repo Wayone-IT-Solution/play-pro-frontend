@@ -10,6 +10,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { ProductCard } from "@/components/ProductCard";
+import { getLocalizedValues } from "@/hooks/general";
 
 const BestSellingProductSwiper = ({
   product,
@@ -94,11 +95,12 @@ const BestSellingProductSwiper = ({
         }}
         className="!pb-12"
       >
-        {products.map((item, idx) => (
-          <SwiperSlide key={idx} className="h-auto">
+        {products.map((item, idx) => {
+          item = getLocalizedValues(item);
+          return <SwiperSlide key={idx} className="h-auto">
             <ProductCard product={item} index={idx} fetchCartItems={fetchCartItems} />
           </SwiperSlide>
-        ))}
+        })}
       </Swiper>
     </div>
   );

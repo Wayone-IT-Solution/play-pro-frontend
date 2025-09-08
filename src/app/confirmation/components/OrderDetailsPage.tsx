@@ -20,6 +20,7 @@ import {
     BiDollar,
     BiTime
 } from 'react-icons/bi';
+import { getLocalizedValues } from '@/hooks/general';
 
 interface OrderItem {
     brand: string;
@@ -96,16 +97,6 @@ const OrderDetailsPage = ({ data }: { data: OrderData }) => {
         }
     };
 
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
-
     const formatCurrency = (amount: number) => {
         return `SAR ${amount.toLocaleString('en-IN')}`;
     };
@@ -149,8 +140,9 @@ const OrderDetailsPage = ({ data }: { data: OrderData }) => {
                                 </h2>
                             </div>
                             <div className="md:p-6 space-y-4">
-                                {data.items.map((item, index) => (
-                                    <div key={item.productId} className="flex gap-5 items-start space-x-4 p-4 pl-0 border border-gray-100 rounded-xl hover:border-gray-200 transition-colors">
+                                {data.items.map((item) => {
+                                    item = getLocalizedValues(item);
+                                    return <div key={item.productId} className="flex gap-5 items-start space-x-4 p-4 pl-0 border border-gray-100 rounded-xl hover:border-gray-200 transition-colors">
                                         <div className="flex-shrink-0">
                                             <Image
                                                 src={item.image}
@@ -179,7 +171,7 @@ const OrderDetailsPage = ({ data }: { data: OrderData }) => {
                                             </div>
                                         </div>
                                     </div>
-                                ))}
+                                })}
                             </div>
                         </div>
                     </div>

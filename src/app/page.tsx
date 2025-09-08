@@ -1,5 +1,6 @@
 import { Fetch } from "@/utils/Server";
 import SearchField from "@/components/home/SearchField";
+import AuthGuard2 from "@/components/layout/AuthGuard2";
 import NearByField from "@/components/home/NearByField";
 import Testimonials from "@/components/home/Testimonial";
 import PlayProBanner from "@/components/home/PlayProBanner";
@@ -12,14 +13,14 @@ import NextAvailableSlot from "@/components/home/NextAvailableSlot";
 export default async function Page() {
   // Run requests in parallel for performance
   const [
-    bannerResponse,
+    // bannerResponse,
     testimonialResponse,
     nextSlotResponse,
     cricketResponse,
     footballResponse,
     productResponse,
   ] = await Promise.all([
-    Fetch("/api/banner/public"),
+    // Fetch("/api/banner/public"),
     Fetch("/api/testimonial/public"),
     Fetch("/api/ground/public"),
     Fetch("/api/ground/public?type=Cricket"),
@@ -28,7 +29,7 @@ export default async function Page() {
   ]);
 
   // Destructure responses safely
-  const banners = bannerResponse?.data?.result ?? [];
+  // const banners = bannerResponse?.data?.result ?? [];
   const crickets = cricketResponse?.data?.result ?? [];
   const products = productResponse?.data?.result ?? [];
   const football = footballResponse?.data?.result ?? [];
@@ -38,20 +39,21 @@ export default async function Page() {
   return (
     <div>
       <SearchField />
-      <PlayProBanner banners={banners} />
+      <PlayProBanner />
+      <AuthGuard2>
+        <NearByField nextSlots={nextSlots} />
+        <StadiumBrowser />
+        {football?.length > 0 &&
+          <NextAvailableSlot football={football} />
+        }
+        {crickets?.length > 0 &&
+          <RecommendedField crickets={crickets} />
+        }
+        <HighRankingField nextSlots={nextSlots} />
 
-      <NearByField nextSlots={nextSlots} />
-      <StadiumBrowser />
-      {football?.length > 0 &&
-        <NextAvailableSlot football={football} />
-      }
-      {crickets?.length > 0 &&
-        <RecommendedField crickets={crickets} />
-      }
-      <HighRankingField nextSlots={nextSlots} />
-
-      <ProductsForYou products={products} />
-      <Testimonials testimonials={testimonials} />
+        <ProductsForYou products={products} />
+        <Testimonials testimonials={testimonials} />
+      </AuthGuard2>
     </div>
   );
 }

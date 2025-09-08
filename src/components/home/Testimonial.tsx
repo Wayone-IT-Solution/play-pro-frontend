@@ -4,9 +4,11 @@ import Image from "next/image";
 import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+
 import Comma from "./Comma";
 import {
   LiaLongArrowAltLeftSolid,
@@ -60,6 +62,8 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
       </div>
     );
   };
+
+  if (testimonials?.length === 0) return null;
 
   return (
     <div className="max-w-6xl mx-auto w-screen lg:w-auto py-10 sm:py-16 sm:pb-0">

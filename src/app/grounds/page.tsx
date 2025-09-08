@@ -2,6 +2,7 @@ import React from "react";
 import { Fetch } from "@/utils/Server";
 import Grounds from "./components/Grounds";
 import Testimonial from "@/components/home/Testimonial";
+import AuthGuard2 from "@/components/layout/AuthGuard2";
 
 export default async function Page() {
   const testimonialResponse = await Fetch("/api/testimonial/public");
@@ -27,12 +28,14 @@ export default async function Page() {
         </div>
 
         {/* Grid Rows */}
-        <div className="space-y-8 sm:px-0">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Grounds fields={fields} />
+        <AuthGuard2>
+          <div className="space-y-8 sm:px-0">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Grounds fields={fields} />
+            </div>
           </div>
-        </div>
-        <Testimonial testimonials={testimonials} />
+          <Testimonial testimonials={testimonials} />
+        </AuthGuard2>
       </div>
     </div>
   );

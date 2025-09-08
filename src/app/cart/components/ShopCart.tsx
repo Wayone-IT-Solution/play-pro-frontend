@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Delete, Post, Put } from "@/utils/axios";
 import { Plus, Minus, Trash } from "lucide-react";
+import { getLocalizedValues } from "@/hooks/general";
 import { removeFromCart, updateCartQuantity } from "@/utils/cartUtils";
 
 type CartItemType = {
@@ -46,12 +47,12 @@ const ShoeCartComponent = ({
         address,
       };
       if (items.length === 0) return toast.warn("Please add products in your cart!")
-      const res: any = await Post("/api/order", orderPayload, 5000, true);
+      const res: any = await Post("/api/order", orderPayload, 5000);
       if (res?.success) {
         localStorage.setItem("productOrderId", res?.data?._id);
         return router.replace("/confirmation");
       } else {
-        console.error("Order failed:", res);
+        console.log("Order failed:", res);
         toast.error(res?.message || "Failed to place order", {
           style: {
             background: "#932AAA",
@@ -60,7 +61,7 @@ const ShoeCartComponent = ({
         });
       }
     } catch (err) {
-      console.error("Error placing order:", err);
+      console.log("Error placing order:", err);
       toast.error("Something went wrong!", {
         style: {
           background: "#932AAA",
@@ -132,8 +133,9 @@ const ShoeCartComponent = ({
   const CartItem: React.FC<{ item: CartItemType; index: number }> = ({
     item,
     index,
-  }) => (
-    <div className="flex items-center gap-4 bg-white rounded-lg mb-4 w-full">
+  }) => {
+    item = getLocalizedValues(item);
+    return <div className="flex items-center gap-4 bg-white rounded-lg mb-4 w-full">
       <div className="w-24 h-24 lg:w-40 lg:h-40 rounded-lg flex-shrink-0 overflow-hidden">
         <Image
           width={200}
@@ -198,7 +200,7 @@ const ShoeCartComponent = ({
         </div>
       </div>
     </div>
-  );
+  };
 
   // ------------------ Render ------------------
   return (
