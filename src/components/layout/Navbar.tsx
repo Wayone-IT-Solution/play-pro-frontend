@@ -111,7 +111,7 @@ export default function Navbar() {
     <nav className="bg-white shadow-sm px-4 sm:px-6 py-3 sm:py-4 fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Left Section */}
-        <div className="flex items-center gap-10">
+        <div className="flex items-center w-full">
           <Link href="/" className="flex items-center">
             <Image
               src="/assets/newLogo.png"
@@ -123,27 +123,29 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
-            <Link href="/" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
-              {getLocalizedText("Home", "الرئيسية")}
-            </Link>
-            <Link href="/about-us" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
-              {getLocalizedText("About Us", "معلومات عنا")}
-            </Link>
-            <Link href="/grounds" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
-              {getLocalizedText("Search Fields", "البحث عن الملاعب")}
-            </Link>
-            <Link href="/product" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
-              {getLocalizedText("Play Pro Shop", "متجر بلاي برو")}
-            </Link>
-            <Link href="/contact-us" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
-              {getLocalizedText("Contact Us", "اتصل بنا")}
-            </Link>
+          <div className="flex justify-center items-center w-full mx-auto">
+            <div className="hidden lg:flex items-center gap-8">
+              <Link href="/" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
+                {getLocalizedText("Home", "الرئيسية")}
+              </Link>
+              <Link href="/about-us" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
+                {getLocalizedText("About Us", "معلومات عنا")}
+              </Link>
+              <Link href="/grounds" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
+                {getLocalizedText("Search Fields", "البحث عن الملاعب")}
+              </Link>
+              <Link href="/product" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
+                {getLocalizedText("Play Pro Shop", "متجر بلاي برو")}
+              </Link>
+              <Link href="/contact-us" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
+                {getLocalizedText("Contact Us", "اتصل بنا")}
+              </Link>
+            </div>
           </div>
         </div>
 
         {/* Right Section (Desktop) */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center whitespace-nowrap gap-2">
           {loading ? (
             <div
               className="px-6 py-2 rounded-lg text-white font-inter text-sm font-bold animate-pulse"

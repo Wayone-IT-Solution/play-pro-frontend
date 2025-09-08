@@ -56,7 +56,8 @@ export default function FieldSearchBar() {
     try {
       const query: { name?: string; address?: string; type?: string } = {
         ...(searchTerm && { name: searchTerm.trim() }),
-        ...(selectedCity && { address: selectedCity.trim() }),
+        ...(selectedCity && { city: selectedCity.trim() }),
+        // ...(selectedCity && { address: selectedCity.trim() }),
         ...(selectedFieldType && { type: selectedFieldType.trim() }),
       };
       const res: any = await Fetch("/api/ground/filterGround", query, 5000, true, false);
@@ -111,8 +112,9 @@ export default function FieldSearchBar() {
         {open && !loadingFilters && (
           <ul className="absolute mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto z-20 custom-scrollbar">
             {options.length > 0 ? (
-              options.map((opt) => (
-                <li key={opt}>
+              options.map((opt: any) => {
+                opt = getLocalizedText(opt.en, opt.ar)
+                return <li key={opt}>
                   <button
                     type="button"
                     className="w-full text-left px-5 py-2 hover:bg-purple-50"
@@ -124,7 +126,7 @@ export default function FieldSearchBar() {
                     {titleCase(opt)}
                   </button>
                 </li>
-              ))
+              })
             ) : (
               <li className="px-5 py-2 text-gray-400">{getLocalizedText("No options", "لا توجد خيارات")}</li>
             )}

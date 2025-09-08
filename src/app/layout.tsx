@@ -95,4 +95,4 @@ export default function RootLayout({
 // Revalidate the page every 15 minutes (900 seconds)
 // This ensures that the page content is updated periodically
 // without needing to redeploy the application.
-export const revalidate = 900;
+export const revalidate = 300;
