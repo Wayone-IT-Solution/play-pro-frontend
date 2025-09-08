@@ -78,7 +78,7 @@ const BookingForm = () => {
       };
       const res: any = await Post("/api/booking", payload);
       if (res.success) {
-        localStorage.removeItem("bookingData");
+        // localStorage.removeItem("bookingData");
         localStorage.setItem("orderData", JSON.stringify(res.data));
         return router.replace("/thank-you");
       }
