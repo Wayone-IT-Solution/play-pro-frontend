@@ -155,19 +155,18 @@ export default function SportsBookingModal({
                       key={slot._id}
                       onClick={() => toggleSlot(slot)}
                       disabled={slot.isBooked}
-                      className={`py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 ${
-                        slot.isBooked
+                      className={`py-3 px-4 rounded-lg text-sm font-medium transition-all duration-200 ${slot.isBooked
                           ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                           : isSelected
-                          ? "text-white shadow-lg transform scale-105"
-                          : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
-                      }`}
+                            ? "text-white shadow-lg transform scale-105"
+                            : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
+                        }`}
                       style={{
                         backgroundColor: isSelected ? "#6D54B5" : undefined,
                       }}
                     >
                       {slot.startTime} - {slot.endTime}
-                      <div className="text-xs mt-1">₹{slot.amount}</div>
+                      <div className="text-xs mt-1">SAR{slot.amount}</div>
                     </button>
                   );
                 })}
@@ -183,13 +182,13 @@ export default function SportsBookingModal({
                 <ul className="list-disc pl-5 text-gray-800">
                   {selectedSlots.map((s) => (
                     <li key={s._id}>
-                      {s.startTime} - {s.endTime} → ₹{s.amount}
+                      {s.startTime} - {s.endTime} → SAR{s.amount}
                     </li>
                   ))}
                 </ul>
                 {/* ✅ Total Amount */}
                 <p className="mt-3 font-semibold">
-                  Total: ₹{selectedSlots.reduce((sum, s) => sum + s.amount, 0)}
+                  Total: SAR{selectedSlots.reduce((sum, s) => sum + s.amount, 0)}
                 </p>
               </div>
             )}

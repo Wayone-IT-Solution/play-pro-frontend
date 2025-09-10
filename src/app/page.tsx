@@ -1,7 +1,9 @@
 import { Fetch } from "@/utils/Server";
+import BannerSwiper from "@/components/common/Banner";
 import SearchField from "@/components/home/SearchField";
 import AuthGuard2 from "@/components/layout/AuthGuard2";
 import NearByField from "@/components/home/NearByField";
+import BlogSwiper from "@/components/common/BlogSwiper";
 import Testimonials from "@/components/home/Testimonial";
 import PlayProBanner from "@/components/home/PlayProBanner";
 import HighRankingField from "@/components/home/HighRanking";
@@ -11,25 +13,27 @@ import RecommendedField from "@/components/home/RecommendedField";
 import NextAvailableSlot from "@/components/home/NextAvailableSlot";
 
 export default async function Page() {
-  // Run requests in parallel for performance
   const [
-    // bannerResponse,
+    bannerResponse,
     testimonialResponse,
     nextSlotResponse,
     cricketResponse,
     footballResponse,
     productResponse,
+    blogResponse,
   ] = await Promise.all([
-    // Fetch("/api/banner/public"),
+    Fetch("/api/banner/public"),
     Fetch("/api/testimonial/public"),
     Fetch("/api/ground/public"),
-    Fetch("/api/ground/public?type=Cricket"),
-    Fetch("/api/ground/public?type=Football"),
+    Fetch("/api/ground/public?search=Cricket&searchkey=type.en"),
+    Fetch("/api/ground/public?search=Football&searchkey=type.en"),
     Fetch("/api/product/public"),
+    Fetch("/api/blog/public"),
   ]);
 
   // Destructure responses safely
-  // const banners = bannerResponse?.data?.result ?? [];
+  const blogs = blogResponse?.data?.result ?? [];
+  const banners = bannerResponse?.data?.result ?? [];
   const crickets = cricketResponse?.data?.result ?? [];
   const products = productResponse?.data?.result ?? [];
   const football = footballResponse?.data?.result ?? [];
@@ -37,7 +41,7 @@ export default async function Page() {
   const testimonials = testimonialResponse?.data?.result ?? [];
 
   return (
-    <div>
+    <div className="w-screen lg:w-auto">
       <SearchField />
       <PlayProBanner />
       <AuthGuard2>
@@ -50,9 +54,14 @@ export default async function Page() {
           <RecommendedField crickets={crickets} />
         }
         <HighRankingField nextSlots={nextSlots} />
-
         <ProductsForYou products={products} />
+        <div className="mt-10 w-screen lg:w-auto max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
+          <BannerSwiper banners={banners} />
+        </div>
         <Testimonials testimonials={testimonials} />
+        <div className="mt-10 w-screen lg:w-auto max-w-7xl mx-auto px-4">
+          <BlogSwiper blogs={blogs} />
+        </div>
       </AuthGuard2>
     </div>
   );

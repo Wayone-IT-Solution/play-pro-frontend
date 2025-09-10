@@ -13,6 +13,10 @@ export const LanguageSwitcher = () => {
         if (storedLang) {
             setLang(storedLang);
             document.documentElement.dir = storedLang === "ar" ? "rtl" : "ltr";
+        } else {
+            localStorage.setItem("lang", "ar");
+            document.documentElement.dir = "rtl";
+            window.location.reload();
         }
     }, []);
 

@@ -106,6 +106,14 @@ const Footer: React.FC = () => {
                   {getLocalizedText("Contact Us", "تواصل معنا")}
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/blogs"
+                  className="text-black hover:text-[#6D0E82] transition-colors"
+                >
+                  {getLocalizedText("Blogs", "المدونات")}
+                </Link>
+              </li>
             </ul>
           </div>
 

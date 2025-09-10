@@ -12,11 +12,11 @@ const ThankYouPage: React.FC = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const bookingDataStr = localStorage.getItem("bookingData");
+      const bookingDataStr = localStorage.getItem("orderData");
       if (bookingDataStr) {
         try {
           const bookingData = JSON.parse(bookingDataStr);
-          setBookingId(bookingData._id || bookingData.groundId || "N/A");
+          setBookingId(bookingData._id || "N/A");
         } catch {
           setBookingId("N/A");
         }
@@ -73,7 +73,7 @@ const ThankYouPage: React.FC = () => {
 
   return (
     <div className="p-6 mt-24 w-full">
-      <div className="bg-white flex flex-col md:flex-row gap-10 shadow-2xl max-w-4xl mx-auto w-full justify-center items-center p-4 lg:p-10 rounded-3xl">
+      <div className="bg-white flex flex-col md:flex-row gap-10 shadow-2xl max-w-5xl mx-auto w-full justify-center items-center p-4 lg:p-10 rounded-3xl">
         <div className="rounded-3xl text-center relative">
           {/* Thank You Image */}
           <div className="mb-8 mt-4">

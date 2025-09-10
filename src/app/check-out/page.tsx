@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Fetch, Post } from "@/utils/axios";
 import { getLocalizedText } from "@/hooks/general";
 import AuthGuard from "@/components/layout/AuthGuard";
+import CouponSection from "./components/CouponSection";
 
 interface BookingData {
   date: string;
@@ -27,6 +28,7 @@ interface User {
 const BookingForm = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [orderData, setOrderData] = useState<any>({});
   const [user, setUser] = useState<User | null>(null);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingData, setBookingData] = useState<BookingData | null>(null);
@@ -58,19 +60,44 @@ const BookingForm = () => {
     fetchUser();
   }, [router]);
 
+  useEffect(() => {
+    const fetchBooking = async () => {
+      try {
+        const bookingDataStr: any = localStorage.getItem("orderData");
+        if (bookingDataStr) {
+          const bookingData = JSON.parse(bookingDataStr);
+          const response: any = await Fetch("/api/booking/" + bookingData?._id, {}, 5000, true, false);
+          if (response?.success) {
+            setOrderData(response?.data);
+          }
+        }
+      } catch (error) {
+        console.log("Error: ", error);
+      }
+    }
+    fetchBooking();
+  }, []);
+
   if (!bookingData) return null;
+
   if (loading)
     return <p className="text-center py-6">{getLocalizedText("Loading checkout...", "جارٍ تحميل الدفع...")}</p>;
 
   const handleBooking = async () => {
     if (!bookingData) return;
+
+    const bookingDataStr: any = localStorage.getItem("orderData");
+    if (bookingDataStr) {
+      const bookingData = JSON.parse(bookingDataStr);
+      if (bookingData?._id)
+        return router.replace("/thank-you");
+    }
+
     setBookingLoading(true);
     try {
       const token = localStorage.getItem("accessToken");
-      if (!token) {
-        router.push("/login");
-        return;
-      }
+      if (!token) return router.push("/login");
+
       const payload = {
         numberOfGuests: 2,
         groundId: bookingData.groundId,
@@ -78,9 +105,8 @@ const BookingForm = () => {
       };
       const res: any = await Post("/api/booking", payload);
       if (res.success) {
-        // localStorage.removeItem("bookingData");
         localStorage.setItem("orderData", JSON.stringify(res.data));
-        return router.replace("/thank-you");
+        return true;
       }
     } catch (err) {
       console.log("Booking error:", err);
@@ -198,7 +224,7 @@ const BookingForm = () => {
                     </div>
 
                     {/* Email and Mobile Row */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 mb-6 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           {getLocalizedText("Email", "البريد الإلكتروني")}
@@ -226,15 +252,38 @@ const BookingForm = () => {
                     </div>
                   </div>
 
+                  <CouponSection setOrderData={setOrderData} handleBooking={handleBooking} />
+
                   {/* Pay Now Button */}
                   <button
                     type="submit"
                     disabled={bookingLoading}
-                    className="w-full mt-8 cursor-pointer bg-[#932AAA] hover:bg-[#7d2391] text-white py-4 rounded-full font-semibold text-lg transition-colors duration-200 disabled:opacity-70"
+                    className="w-full mt-8 flex mx-auto text-center justify-center cursor-pointer bg-[#932AAA] hover:bg-[#7d2391] text-white py-4 rounded-full font-semibold text-lg transition-colors duration-200 disabled:opacity-70"
                   >
-                    {bookingLoading
-                      ? getLocalizedText("Booking...", "جارٍ الحجز...")
-                      : getLocalizedText("Pay Now", "ادفع الآن")}
+                    {bookingLoading ? (
+                      getLocalizedText("Booking...", "جارٍ الحجز...")
+                    ) : (
+                      <>
+                        {getLocalizedText("Pay Now", "ادفع الآن")}
+                        {" "} SAR{" "}
+                        {orderData?.discountAmount > 0 ? (
+                          <span className="flex items-center gap-2">
+                            {/* Final Amount */}
+                            <span className="font-bold text-white">
+                              {orderData?.finalAmount?.toFixed(2)} /-
+                            </span>
+                            {/* Cut-through Original Price */}
+                            <span className="line-through text-gray-300 text-sm">
+                              {orderData?.totalAmount?.toFixed(2)}
+                            </span>
+                          </span>
+                        ) : (
+                          <span className="font-bold text-white">
+                            {orderData?.finalAmount?.toFixed(2)}
+                          </span>
+                        )}
+                      </>
+                    )}
                   </button>
                 </form>
               </div>

@@ -20,7 +20,7 @@ const GroundImageSwiper: React.FC<GroundImageSwiperProps> = ({
 }) => {
   return (
     <div>
-      <div className="relative rounded-[48px] h-96 lg:h-[484px] border-6 border-[#6D0E82] overflow-hidden">
+      <div className="relative rounded-[48px] h-96 lg:h-[384px] border-6 border-[#6D0E82] overflow-hidden">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
@@ -43,7 +43,7 @@ const GroundImageSwiper: React.FC<GroundImageSwiperProps> = ({
                   width={500}
                   height={500}
                   alt={`${name} - ${idx + 1}`}
-                  className="object-cover w-full h-96 lg:h-[484px] lg:aspect-auto"
+                  className="object-cover w-full h-96 lg:h-[384px] lg:aspect-auto"
                 />
               </SwiperSlide>
             ))

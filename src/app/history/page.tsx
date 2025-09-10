@@ -111,17 +111,19 @@ const BookingHistory = () => {
                   >
                     {/* Left Section */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 w-full">
-                      <div
-                        className="relative rounded-[16px] overflow-hidden w-full sm:w-[182px] sm:h-[182px]"
-                        style={{ height: "auto", minHeight: "142px" }}
-                      >
-                        <Image
-                          fill
-                          className="object-cover"
-                          src={updatedBooking?.images[0]}
-                          alt={updatedBooking?.name || "Ground"}
-                        />
-                      </div>
+                      {updatedBooking?.images?.[0] &&
+                        <div
+                          className="relative rounded-[16px] overflow-hidden w-full sm:w-[182px] sm:h-[182px]"
+                          style={{ height: "auto", minHeight: "142px" }}
+                        >
+                          <Image
+                            fill
+                            className="object-cover"
+                            src={updatedBooking?.images?.[0]}
+                            alt={updatedBooking?.name || "Ground"}
+                          />
+                        </div>
+                      }
 
                       {/* Details */}
                       <div className="flex flex-col justify-center w-full">

@@ -297,7 +297,7 @@ export const formatCurrency = (value: number | undefined) =>
   value && !isNaN(value)
     ? new Intl.NumberFormat("en-IN", {
       style: "currency",
-      currency: "INR",
+      currency: "SAR",
       minimumFractionDigits: 2,
     }).format(value)
     : "SAR0.00";

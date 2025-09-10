@@ -23,11 +23,9 @@ type CartItemType = {
 const ShoeCartComponent = ({
   items,
   setItems,
-  fetchCartItems,
 }: {
   items: any;
   setItems: any;
-  fetchCartItems?: any;
 }) => {
   // ------------------ Pay Now ------------------
   const router = useRouter();

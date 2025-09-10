@@ -5,9 +5,10 @@ import { Fetch, Put } from "@/utils/axios";
 import { FiChevronDown } from "react-icons/fi";
 import React, { useEffect, useState } from "react";
 import { getLocalizedText } from "@/hooks/general";
+// import FootballRegistrationForm from "@/components/common/FootballRegistrationForm";
 
 // Example language; in a real app, get this from context or store
-const lang: "en" | "ar" = "en";
+// const lang: "en" | "ar" = "en";
 
 export default function EditProfile() {
   const [formData, setFormData] = useState({
@@ -175,5 +176,6 @@ export default function EditProfile() {
         </button>
       </div>
     </div>
+    // <FootballRegistrationForm />
   );
 }

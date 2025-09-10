@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import GroundMap from "./GroundMap";
-import { Fetch } from "@/utils/axios";
-import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
+import { Fetch, Post } from "@/utils/axios";
+import { useRouter } from "next/navigation";
 import GroundImageSwiper from "@/app/grounds/GroundImageSwiper";
 import React, { useCallback, useEffect, useState } from "react";
 import { MapPin, Star, ChevronLeft, ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
 
 interface Slot {
   _id: string;
@@ -138,7 +138,7 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
     }
   };
 
-  const handleConfirmSelection = () => {
+  const handleConfirmSelection = async () => {
     if (selectedSlots.length === 0) {
       alert("Please select at least one slot.");
       return;
@@ -159,7 +159,17 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
     };
 
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
-    router.push("/check-out");
+    localStorage.removeItem("orderData");
+    const payload = {
+      numberOfGuests: 2,
+      groundId: bookingData.groundId,
+      slots: bookingData.slots.map((slot: any) => slot._id),
+    };
+    const res: any = await Post("/api/booking", payload);
+    if (res.success) {
+      localStorage.setItem("orderData", JSON.stringify(res.data));
+      return router.push("/check-out");
+    }
   };
 
   return (
@@ -204,6 +214,13 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
                   {groundData.rating ?? 4}/5 {getLocalizedText("Rating", "التقييم")}
                 </span>
               </div>
+              {groundData.sponsored &&
+                <div className="flex items-center text-gray-600 mt-1">
+                  <span className="text-base italic tracking-tighter">
+                    {getLocalizedText("Sponsored By:", "برعاية:")} {groundData.sponsored}
+                  </span>
+                </div>
+              }
             </div>
 
             {/* Ground Image */}
