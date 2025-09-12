@@ -49,11 +49,12 @@ const BookingForm = () => {
           router.push("/login");
           return;
         }
+        console.log('first')
         const res: any = await Fetch("/api/user", {}, 500, true, false);  
         if (res.success) setUser(res.data);
       } catch (error) {
         console.log("Error fetching user:", error);
-        localStorage.removeItem("accessToken");
+        // localStorage.removeItem("accessToken");
       } finally {
         setLoading(false);
       }

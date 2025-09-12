@@ -7,6 +7,10 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const api = axios.create({
   baseURL: BASE_URL,
   timeout: 10000, // Default timeout in milliseconds
+  headers: {
+    'Cache-Control': 'no-cache',
+    'Pragma': 'no-cache',
+  },
 });
 
 // Axios request interceptor for Authorization
@@ -75,6 +79,7 @@ export const request = async <T>(
 
     // Handle no response (network issues, CORS)
     if (error.request) {
+      console.log(error)
       throw new Error("📡 No response from server. Please check your network.");
     }
 
