@@ -36,7 +36,7 @@ const PlayProBanner = ({ banners }: { banners?: any }) => {
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-snug mb-10 text-[#2F0D46]">
           {getLocalizedText("PlayPro simplifies", "يبسط PlayPro")}{" "}
           <span className="text-[#2F0D46]">{getLocalizedText("sp", "ال")}</span>
-          <span className="text-gray-300">
+          <span className="text-[#2F0D46]">
             {getLocalizedText("ort", "رياض")}
           </span>
           <span className="text-[#2F0D46]">{getLocalizedText("s", "ة")}</span>
@@ -45,7 +45,7 @@ const PlayProBanner = ({ banners }: { banners?: any }) => {
           <span className="text-[#2F0D46]">
             {getLocalizedText("everyon", "الجميع")}
           </span>
-          <span className="text-gray-300">{getLocalizedText("e", "")}</span>
+          <span className="text-[#2F0D46]">{getLocalizedText("e", "")}</span>
         </h1>
 
         {/* Middle Card */}
