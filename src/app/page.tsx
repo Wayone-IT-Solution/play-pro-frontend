@@ -11,6 +11,7 @@ import StadiumBrowser from "@/components/home/StadiumBrowser";
 import ProductsForYou from "@/components/home/ProductsForYou";
 import RecommendedField from "@/components/home/RecommendedField";
 import NextAvailableSlot from "@/components/home/NextAvailableSlot";
+import Sponsor from "@/components/home/Sponsor";
 
 export default async function Page() {
   const [
@@ -21,6 +22,7 @@ export default async function Page() {
     footballResponse,
     productResponse,
     blogResponse,
+    sponsorResponse,
   ] = await Promise.all([
     Fetch("/api/banner/public"),
     Fetch("/api/testimonial/public"),
@@ -29,8 +31,8 @@ export default async function Page() {
     Fetch("/api/ground/public?search=Football&searchkey=type.en"),
     Fetch("/api/product/public"),
     Fetch("/api/blog/public"),
+    Fetch("/api/sponsor/public"),
   ]);
-
   // Destructure responses safely
   const blogs = blogResponse?.data?.result ?? [];
   const banners = bannerResponse?.data?.result ?? [];
@@ -39,7 +41,8 @@ export default async function Page() {
   const football = footballResponse?.data?.result ?? [];
   const nextSlots = nextSlotResponse?.data?.result ?? [];
   const testimonials = testimonialResponse?.data?.result ?? [];
-
+  const sponsors = sponsorResponse?.data?.result ?? [];
+  console.log(nextSlots, football)
   return (
     <div className="w-screen lg:w-auto">
       <SearchField />
@@ -59,6 +62,7 @@ export default async function Page() {
           <BannerSwiper banners={banners} />
         </div>
         <Testimonials testimonials={testimonials} />
+        <Sponsor sponsor={sponsors} />
         <div className="mt-10 w-screen lg:w-auto max-w-7xl mx-auto px-4">
           <BlogSwiper blogs={blogs} />
         </div>

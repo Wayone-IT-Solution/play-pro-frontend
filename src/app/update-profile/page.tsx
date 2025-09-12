@@ -5,10 +5,8 @@ import { Fetch, Put } from "@/utils/axios";
 import { FiChevronDown } from "react-icons/fi";
 import React, { useEffect, useState } from "react";
 import { getLocalizedText } from "@/hooks/general";
-// import FootballRegistrationForm from "@/components/common/FootballRegistrationForm";
-
-// Example language; in a real app, get this from context or store
-// const lang: "en" | "ar" = "en";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 
 export default function EditProfile() {
   const [formData, setFormData] = useState({
@@ -17,6 +15,12 @@ export default function EditProfile() {
     firstName: "",
     email: "example@gmail.com",
     phoneNumber: "0000000000",
+    dateOfBirth: "",
+    gender: "",
+    street: "",
+    city: "",
+    state: "",
+    postalCode: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -27,12 +31,19 @@ export default function EditProfile() {
         setLoading(true);
         const res: any = await Fetch("/api/user", {}, 5000, true, false);
         if (res.success) {
+          const address = res.data.address || {};
           setFormData({
             firstName: res.data.firstName || "",
             lastName: res.data.lastName || "",
             role: res.data.role || "",
             email: res.data.email || "",
             phoneNumber: res.data.phoneNumber || "",
+            dateOfBirth: res.data.dateOfBirth?.slice(0, 10) || "", // ISO date
+            gender: res.data.gender || "",
+            street: address.street || "",
+            city: address.city || "",
+            state: address.state || "",
+            postalCode: address.postalCode || "",
           });
         } else {
           console.log("❌ API returned error:", res.message);
@@ -58,7 +69,25 @@ export default function EditProfile() {
   const handleSaveChanges = async () => {
     try {
       setLoading(true);
-      const res: any = await Put("/api/user", formData);
+
+      // Construct payload with nested address object
+      const payload = {
+        ...formData,
+        address: {
+          street: formData.street,
+          city: formData.city,
+          state: formData.state,
+          postalCode: formData.postalCode,
+        },
+      };
+
+      // Remove flattened address fields from root payload to avoid duplication
+      // delete payload.street;
+      // delete payload.city;
+      // delete payload.state;
+      // delete payload.postalCode;
+
+      const res: any = await Put("/api/user", payload);
       if (res?.success) window.location.reload();
     } catch (err) {
       console.log("❌ Error updating profile:", err);
@@ -79,10 +108,9 @@ export default function EditProfile() {
       </div>
 
       <div className="bg-white rounded-4xl relative z-10 shadow-sm border border-gray-100 p-4 sm:p-6 lg:p-10 w-full max-w-4xl">
-        {/* Form Fields */}
         <div className="space-y-5">
+          {/* Name Fields */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* First Name */}
             <div>
               <label className="block text-sm font-medium text-gray-800 mb-2">
                 {getLocalizedText("First Name", "الاسم الأول")}
@@ -96,8 +124,6 @@ export default function EditProfile() {
                 className="w-full px-4 py-3.5 bg-gray-100 border-0 rounded-lg text-sm placeholder-gray-400"
               />
             </div>
-
-            {/* Last Name */}
             <div>
               <label className="block text-sm font-medium text-gray-800 mb-2">
                 {getLocalizedText("Last Name", "اسم العائلة")}
@@ -153,11 +179,122 @@ export default function EditProfile() {
               <label className="block text-sm font-medium text-gray-800 mb-2">
                 {getLocalizedText("Phone Number", "رقم الهاتف")}
               </label>
-              <input
-                type="tel"
-                name="phoneNumber"
+              <PhoneInput
+                country={'sa'}
                 value={formData.phoneNumber}
+                onChange={phone => setFormData({ ...formData, phoneNumber: phone })}
+                containerStyle={{
+                  width: '100%',
+                  height: '47px'  // standard height for inputs
+                }}
+                inputStyle={{
+                  width: '100%',
+                  height: '100%',
+                  fontSize: '14px',
+                  paddingLeft: '48px', // room for flag
+                  borderRadius: '8px',
+                  border: '0px solid #d1d5db', // gray-300
+                  backgroundColor: '#f9fafb',  // gray-50
+                  color: '#111827',            // gray-900
+                }}
+                buttonStyle={{
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  paddingLeft: '12px',
+                  paddingRight: '8px',
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Date of Birth & Gender */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-800 mb-2">
+                {getLocalizedText("Date of Birth", "تاريخ الميلاد")}
+              </label>
+              <input
+                type="date"
+                name="dateOfBirth"
+                value={formData.dateOfBirth}
                 onChange={handleInputChange}
+                className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-600"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-800 mb-2">
+                {getLocalizedText("Gender", "الجنس")}
+              </label>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-600"
+              >
+                <option value="" disabled>
+                  {getLocalizedText("Select Gender", "اختر الجنس")}
+                </option>
+                <option value="male">{getLocalizedText("Male", "ذكر")}</option>
+                <option value="female">{getLocalizedText("Female", "أنثى")}</option>
+                <option value="other">{getLocalizedText("Other", "أخرى")}</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Address Fields */}
+          <div>
+            <label className="block text-sm font-medium text-gray-800 mb-2">
+              {getLocalizedText("Street Address", "الشارع")}
+            </label>
+            <input
+              type="text"
+              name="street"
+              value={formData.street}
+              onChange={handleInputChange}
+              placeholder={getLocalizedText("Enter street address", "أدخل اسم الشارع")}
+              className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-600"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-800 mb-2">
+                {getLocalizedText("City", "المدينة")}
+              </label>
+              <input
+                type="text"
+                name="city"
+                value={formData.city}
+                onChange={handleInputChange}
+                placeholder={getLocalizedText("Enter city", "أدخل المدينة")}
+                className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-600"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-800 mb-2">
+                {getLocalizedText("State", "الولاية")}
+              </label>
+              <input
+                type="text"
+                name="state"
+                value={formData.state}
+                onChange={handleInputChange}
+                placeholder={getLocalizedText("Enter state", "أدخل الولاية")}
+                className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-600"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-800 mb-2">
+                {getLocalizedText("Postal Code", "الرمز البريدي")}
+              </label>
+              <input
+                type="text"
+                name="postalCode"
+                value={formData.postalCode}
+                onChange={handleInputChange}
+                placeholder={getLocalizedText("Enter postal code", "أدخل الرمز البريدي")}
                 className="w-full px-4 py-3.5 bg-gray-50 border-0 rounded-lg text-sm text-gray-600"
               />
             </div>
@@ -176,6 +313,5 @@ export default function EditProfile() {
         </button>
       </div>
     </div>
-    // <FootballRegistrationForm />
   );
 }

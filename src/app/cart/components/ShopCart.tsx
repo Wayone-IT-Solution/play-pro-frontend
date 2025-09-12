@@ -30,7 +30,13 @@ const ShoeCartComponent = ({
   // ------------------ Pay Now ------------------
   const router = useRouter();
   const [paymentMethod] = useState("COD");
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState({
+    street: "",
+    city: "",
+    state: "",
+    postalCode: "",
+    country: "",
+  });
 
   const handlePayNow = async () => {
     try {
@@ -215,18 +221,58 @@ const ShoeCartComponent = ({
           <label className="block mb-2 font-medium text-gray-700">
             {getLocalizedText("Add Address", "أضف العنوان")}
           </label>
-          <input
-            type="text"
-            value={address}
-            style={{ backgroundColor: "#fff" }}
-            placeholder={getLocalizedText(
-              "Enter delivery address",
-              "أدخل عنوان التوصيل"
-            )}
-            onChange={(e) => setAddress(e.target.value)}
-            className="w-full border-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA] transition-colors"
-          />
+          <div className="grid grid-cols-2 gap-4 ">
+            {/* Street */}
+            <input
+              type="text"
+              value={address.street}
+              onChange={(e) => setAddress({ ...address, street: e.target.value })}
+              placeholder={getLocalizedText("Street", "الشارع")}
+              className="w-full mb-3 border-2 col-span-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA]"
+              required
+            />
+
+            {/* City */}
+            <input
+              type="text"
+              value={address.city}
+              onChange={(e) => setAddress({ ...address, city: e.target.value })}
+              placeholder={getLocalizedText("City", "المدينة")}
+              className="w-full mb-3 border-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA]"
+              required
+            />
+
+            {/* State (optional) */}
+            <input
+              type="text"
+              value={address.state}
+              onChange={(e) => setAddress({ ...address, state: e.target.value })}
+              placeholder={getLocalizedText("State", "المحافظة")}
+              className="w-full mb-3 border-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA]"
+            />
+
+            {/* Postal Code */}
+            <input
+              type="text"
+              value={address.postalCode}
+              onChange={(e) => setAddress({ ...address, postalCode: e.target.value })}
+              placeholder={getLocalizedText("Postal Code", "الرمز البريدي")}
+              className="w-full mb-3 border-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA]"
+              required
+            />
+
+            {/* Country */}
+            <input
+              type="text"
+              value={address.country}
+              onChange={(e) => setAddress({ ...address, country: e.target.value })}
+              placeholder={getLocalizedText("Country", "الدولة")}
+              className="w-full mb-3 border-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA]"
+              required
+            />
+          </div>
         </div>
+
 
         <div className="flex flex-wrap lg:flex-nowrap gap-2 items-center justify-between mt-6 px-4 w-full border-t pt-4">
           <div className="flex items-center justify-between w-full gap-3">

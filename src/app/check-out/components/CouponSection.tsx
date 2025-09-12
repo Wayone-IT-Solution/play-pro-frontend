@@ -259,6 +259,7 @@ export default function CouponSection({ handleBooking, setOrderData }: { handleB
                                 const isApplied = appliedCoupon?.couponId === coupon._id;
                                 return (
                                     <motion.div
+
                                         key={coupon._id}
                                         className={`relative group overflow-hidden rounded-2xl transition-all duration-300 ${isApplied
                                             ? 'border-gray-400/50 bg-gray-500/10'
@@ -288,6 +289,7 @@ export default function CouponSection({ handleBooking, setOrderData }: { handleB
                                                                 {coupon.code}
                                                             </h4>
                                                             <button
+                                                                disabled={true}
                                                                 onClick={() => copyCode(coupon.code)}
                                                                 className="text-gray-500 transition-colors p-1"
                                                                 title="Copy code"
@@ -321,7 +323,8 @@ export default function CouponSection({ handleBooking, setOrderData }: { handleB
                                             {/* Action Button */}
                                             <motion.button
                                                 type="button"
-                                                disabled={isApplied}
+                                                // disabled={isApplied}
+                                                disabled={true}
                                                 onClick={() => handleApply(coupon.code)}
                                                 className={`w-full p-3 rounded-xl cursor-pointer font-semibold transition-all ${isApplied
                                                     ? 'bg-gray-500/20 text-gray-400 cursor-not-allowed border border-gray-500/30'

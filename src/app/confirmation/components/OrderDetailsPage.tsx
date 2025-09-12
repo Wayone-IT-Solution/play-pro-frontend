@@ -44,6 +44,14 @@ interface User {
     userProfile: UserProfile;
 }
 
+export interface IAddress {
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+}
+
 interface OrderData {
     _id: string;
     user: User;
@@ -53,7 +61,7 @@ interface OrderData {
     paymentMethod: string;
     paymentStatus: string;
     orderStatus: string;
-    address: string;
+    address: IAddress;
     createdAt: string;
     updatedAt: string;
 }
@@ -193,9 +201,21 @@ const OrderDetailsPage = ({ data }: { data: OrderData }) => {
                                     <FiPhone className="w-4 h-4 text-gray-400" />
                                     <span className="text-sm text-gray-900">{data.user.phoneNumber}</span>
                                 </div>
-                                <div className="flex items-start gap-3">
-                                    <FiMapPin className="w-4 h-4 text-gray-400 mt-0.5" />
-                                    <span className="text-sm text-gray-900">{data.address}</span>
+                                <div className="flex items-start text-left gap-3">
+                                    <div className='w-5'>
+                                        <FiMapPin className="w-4 h-4 text-gray-400 mt-0.5" />
+                                    </div>
+                                    <span className='text-sm'>
+                                        {[
+                                            data.address.street,
+                                            data.address.city,
+                                            data.address.state,
+                                            data.address.postalCode,
+                                            data.address.country,
+                                        ]
+                                            .filter(Boolean)
+                                            .join(", ")}
+                                    </span>
                                 </div>
                             </div>
                         </div>

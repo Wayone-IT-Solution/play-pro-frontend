@@ -72,6 +72,48 @@ export default function RootLayout({
           `}
         </Script>
 
+        <Script id="whatsapp-widget-init" strategy="afterInteractive">
+          {`
+              var url = 'https://wati-integration-prod-service.clare.ai/v2/watiWidget.js?95632';
+              var s = document.createElement('script');
+              s.type = 'text/javascript';
+              s.async = true;
+              s.src = url;
+
+              var options = {
+                "enabled": true,
+                "chatButtonSetting": {
+                  "backgroundColor": "#00e785",
+                  "ctaText": "Chat with us",
+                  "borderRadius": "25",
+                  "marginLeft": "0",
+                  "marginRight": "20",
+                  "marginBottom": "20",
+                  "ctaIconWATI": false,
+                  "position": "right"
+                },
+                "brandSetting": {
+                  "brandName": "Wayone",
+                  "brandSubTitle": "undefined",
+                  "brandImg": "https://playprodammam.com/assets/images/logo.png",
+                  "welcomeText": "Hi there!\\nHow can I help you?",
+                  "messageText": "Hello, I have query ",
+                  "backgroundColor": "#00e785",
+                  "ctaText": "Chat with us",
+                  "borderRadius": "25",
+                  "autoShow": false,
+                  "phoneNumber": "+966500330888"
+                }
+              };
+
+              s.onload = function () {
+                CreateWhatsappChatWidget(options);
+              };
+
+              var x = document.getElementsByTagName('script')[0];
+              x.parentNode.insertBefore(s, x);
+            `}
+        </Script>
         <Navbar />
         {/* <Sidebar /> */}
         <div className="min-h-screen flex">

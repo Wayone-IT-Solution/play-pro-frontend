@@ -200,8 +200,8 @@ const SignupPage: React.FC = () => {
                 <option value="" disabled>
                   {getLocalizedText("eg: Owner, Player", "مثال: مالك، لاعب")}
                 </option>
-                <option value="Owner">{getLocalizedText("Owner", "مالك")}</option>
-                <option value="Player">{getLocalizedText("Player", "لاعب")}</option>
+                <option value="ground_owner">{getLocalizedText("Owner", "مالك")}</option>
+                <option value="player">{getLocalizedText("Player", "لاعب")}</option>
               </select>
             </div>
 

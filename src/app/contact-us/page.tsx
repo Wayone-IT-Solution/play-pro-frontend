@@ -109,12 +109,12 @@ const ContactUsPage: React.FC = () => {
             {
               icon: <Phone className="w-6 h-6" />,
               title: getLocalizedText("Call Us", "اتصل بنا"),
-              text: "+91 98765 43210",
+              text: "+966 500330888",
             },
             {
               icon: <Mail className="w-6 h-6" />,
               title: getLocalizedText("Email Us", "راسلنا عبر البريد"),
-              text: "support@footybook.com",
+              text: "info@playprodammam.com",
             },
             {
               icon: <Headphones className="w-6 h-6" />,

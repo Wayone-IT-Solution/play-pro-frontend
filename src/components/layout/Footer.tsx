@@ -4,13 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useState } from "react";
 import {
-  FaFigma,
-  FaGithub,
-  FaTwitter,
   FaFacebookF,
-  FaInstagram,
-  FaTelegramPlane,
-} from "react-icons/fa";
+  FaTwitter,
+  FaSnapchatGhost,
+  FaTiktok,
+  FaInstagram
+} from 'react-icons/fa';
+
 import { getLocalizedText } from "@/hooks/general";
 
 const Footer: React.FC = () => {
@@ -23,13 +23,13 @@ const Footer: React.FC = () => {
   };
 
   const socialIcons = [
-    FaFacebookF,
-    FaTwitter,
-    FaGithub,
-    FaTelegramPlane,
-    FaInstagram,
-    FaFigma,
+    { Icon: FaInstagram, link: 'https://www.instagram.com/playprodammam/' },
+    { Icon: FaTwitter, link: 'https://x.com/PlayproDammam' },
+    { Icon: FaSnapchatGhost, link: 'https://www.snapchat.com/@playprodammam' },
+    { Icon: FaTiktok, link: 'https://www.tiktok.com/@playprodammam?lang=en' },
+    { Icon: FaFacebookF, link: 'https://www.facebook.com/profile.php?id=61578259051409' },
   ];
+
 
   return (
     <footer className="bg-[#6D0E8233] relative text-black mt-20">
@@ -125,11 +125,11 @@ const Footer: React.FC = () => {
 
             {/* Social Icons */}
             <div className="flex gap-4 mb-8">
-              {socialIcons.map((Icon, idx) => (
+              {socialIcons.map(({ Icon, link }: any, idx) => (
                 <Link
-                  href="#"
+                  href={link}
                   key={idx}
-                  className="w-10 h-10 border border-black rounded-lg flex items-center justify-center hover:bg-black hover:text-white transition"
+                  target="blank"                  className="w-10 h-10 border border-black rounded-lg flex items-center justify-center hover:bg-black hover:text-white transition"
                 >
                   <Icon className="text-lg" />
                 </Link>
