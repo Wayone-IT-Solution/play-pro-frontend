@@ -452,6 +452,9 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
               {getLocalizedText("Dhs", "د.إ")} {totalAmount || groundData.pricePerHour}
             </span>
           </div>
+          <span className="font-semibold text-gray-900  text-right px-4 pt-2 inline-block w-full">
+            {getLocalizedText("Platform Fee: 25 SAR", "رسوم المنصة: 25 ر.س")}
+          </span>
         </div>
 
         <button

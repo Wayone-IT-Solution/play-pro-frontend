@@ -64,10 +64,12 @@ const PlayProBanner = ({ banners }: { banners?: any }) => {
 
             {/* Button */}
             <Link
-              href="/grounds"
+              // href="/grounds"
+              href={'/'}
               className="inline-block bg-[#6D0E82] text-white px-8 py-3 rounded-full font-medium text-sm sm:text-base hover:opacity-90 transition"
             >
-              {getLocalizedText("Check PlayPro fields", "تحقق من ملاعب PlayPro")}
+              {getLocalizedText("Join PlayPro Academy", "انضم إلى أكاديمية PlayPro")}
+
             </Link>
           </div>
         </div>

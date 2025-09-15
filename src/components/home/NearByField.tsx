@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import GroundCard from "../common/GroundCard";
 import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
 
-const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
+const NearByField = ({ nextSlots, titleEn, titleAr, descShow = true }: { nextSlots?: any, titleEn?: string, titleAr?: string, descShow?: boolean }) => {
   const fields = nextSlots ?? [];
   const swiperRef = useRef<any>(null);
 
@@ -27,11 +27,11 @@ const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 pt-8">
           <div>
             <h2 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-              {getLocalizedText("Nearby Fields", "الملاعب القريبة")}
+              {getLocalizedText(titleEn || "PlayPro Fields", titleAr || "ملاعب PlayPro")}
             </h2>
-            <p className="text-gray-600 text-base sm:text-lg">
+            {descShow && <p className="text-gray-600 text-base sm:text-lg">
               {getLocalizedText("Explore fields around you", "استكشف الملاعب من حولك")}
-            </p>
+            </p>}
           </div>
 
           {/* Custom Navigation Button */}
@@ -100,7 +100,7 @@ const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
           }
         `}</style>
       </div>
-    </div>
+    </div >
   );
 };
 

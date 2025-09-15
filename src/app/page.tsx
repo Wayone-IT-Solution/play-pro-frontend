@@ -48,7 +48,8 @@ export default async function Page() {
       <SearchField />
       <PlayProBanner />
       <AuthGuard2>
-        <NearByField nextSlots={nextSlots} />
+        <NearByField descShow={false} nextSlots={nextSlots} />
+        <NearByField titleEn="Nearby Fields" titleAr="الملاعب القريبة" nextSlots={nextSlots} />
         <StadiumBrowser />
         {football?.length > 0 &&
           <NextAvailableSlot football={football} />
