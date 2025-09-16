@@ -43,13 +43,11 @@ const BookingForm = () => {
     }
     const fetchUser = async () => {
       try {
-        const token = await localStorage.getItem("accessToken");
-        console.log(token)
+        const token = localStorage.getItem("accessToken");
         if (!token) {
           router.push("/login");
           return;
         }
-        console.log('first')
         const res: any = await Fetch("/api/user", {}, 500, true, false);
         if (res.success) setUser(res.data);
       } catch (error) {

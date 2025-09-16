@@ -56,7 +56,7 @@ export default function BannerSwiper({ banners }: BannerSwiperProps) {
                   height={100}
                   priority
                   unoptimized
-                  className="object-fill w-full h-96"
+                  className="object-fill w-full"
                 />
               </Link>
             </div>

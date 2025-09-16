@@ -42,7 +42,7 @@ export default async function Page() {
   const nextSlots = nextSlotResponse?.data?.result ?? [];
   const testimonials = testimonialResponse?.data?.result ?? [];
   const sponsors = sponsorResponse?.data?.result ?? [];
-  console.log(nextSlots, football)
+
   return (
     <div className="w-screen lg:w-auto">
       <SearchField />

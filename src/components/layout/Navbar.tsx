@@ -124,26 +124,26 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="flex justify-center items-center w-full mx-auto">
-            <div className="hidden lg:flex items-center gap-8">
-              <Link href="/" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
+            <div className="hidden lg:flex items-center gap-6">
+              <Link href="/" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
                 {getLocalizedText("Home", "الرئيسية")}
               </Link>
-              <Link href="/about-us" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
+              <Link href="/about-us" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
                 {getLocalizedText("About Us", "معلومات عنا")}
               </Link>
-              <Link href="/grounds" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
+              <Link href="/grounds" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
                 {getLocalizedText("Search Fields", "البحث عن الملاعب")}
               </Link>
-              <Link href="/product" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
+              <Link href="/product" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
                 {getLocalizedText("Play Pro Shop", "متجر بلاي برو")}
               </Link>
-              <Link href="/contact-us" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
+              <Link href="/contact-us" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
                 {getLocalizedText("Contact Us", "اتصل بنا")}
               </Link>
-              <Link href="/news" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
+              <Link href="/news" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
                 {getLocalizedText("News", "الأخبار")}
               </Link>
-              <Link href="/gallery" className="text-[#6D0E82] font-inter text-sm font-bold hover:text-gray-900">
+              <Link href="/gallery" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
                 {getLocalizedText("Gallery", "المعرض")}
               </Link>
             </div>
@@ -162,7 +162,7 @@ export default function Navbar() {
           ) : isLoggedIn ? (
             <Link
               href="/update-profile"
-              className="hidden lg:flex items-center gap-2 text-white px-4 py-2 rounded-lg text-sm font-inter font-medium hover:opacity-90"
+              className="hidden lg:flex items-center gap-2 text-white px-4 py-2 rounded-lg text-xs font-inter font-medium hover:opacity-90"
               style={{ backgroundColor: "#6D0E82" }}
             >
               <FaUserCircle className="text-base" />
@@ -171,7 +171,7 @@ export default function Navbar() {
           ) : (
             <Link href="/login">
               <button
-                className="px-4 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-medium hover:opacity-90"
+                className="px-4 py-2 rounded-lg cursor-pointer text-white font-inter text-xs font-medium hover:opacity-90"
                 style={{ backgroundColor: "#6D0E82" }}
                 onClick={handleLogin}
               >
@@ -182,7 +182,7 @@ export default function Navbar() {
 
           <Link href="/cart" passHref className="hidden lg:block">
             <button
-              className="px-4 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-medium hover:opacity-90"
+              className="px-4 py-2 rounded-lg cursor-pointer text-white font-inter text-xs font-medium hover:opacity-90"
               style={{ backgroundColor: "#6D0E82" }}
             >
               {getLocalizedText("My Cart", "سلة التسوق")}
@@ -191,7 +191,7 @@ export default function Navbar() {
 
           <Link href="/sign-up" passHref className="hidden lg:block">
             <button
-              className="px-4 py-2 rounded-lg cursor-pointer text-white font-inter text-sm font-medium hover:opacity-90"
+              className="px-4 py-2 rounded-lg cursor-pointer text-white font-inter text-xs font-medium hover:opacity-90"
               style={{ backgroundColor: "#6D0E82" }}
             >
               {getLocalizedText("Register Your Field", "سجل ملعبك")}

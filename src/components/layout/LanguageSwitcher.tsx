@@ -40,14 +40,14 @@ export const LanguageSwitcher = () => {
     return (
         <motion.button
             onClick={toggleLang}
-            className="relative flex cursor-pointer items-center w-20 h-8 rounded-full bg-[#6D0E82] shadow-md overflow-hidden"
+            className="relative flex cursor-pointer items-center w-[72px] h-7 rounded-full bg-[#6D0E82] shadow-md overflow-hidden"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             disabled={isAnimating}
         >
             {/* Animated Background Indicator */}
             <motion.div
-                className="absolute w-10 h-7 bg-white rounded-full shadow-lg"
+                className="absolute w-8 h-6 bg-white rounded-full shadow-lg"
                 initial={false}
                 animate={{
                     x: lang === "en" ? 2 : 50,
@@ -62,7 +62,7 @@ export const LanguageSwitcher = () => {
 
             {/* Animated Language Text on the Indicator */}
             <motion.div
-                className="absolute w-10 h-7 flex items-center justify-center font-bold text-gray-800 pointer-events-none"
+                className="absolute w-8 h-6 flex items-center justify-center font-bold text-gray-800 pointer-events-none"
                 initial={false}
                 animate={{
                     x: lang === "en" ? 2 : 50,

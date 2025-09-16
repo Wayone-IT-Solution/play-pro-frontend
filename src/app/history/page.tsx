@@ -81,7 +81,7 @@ const BookingHistory = () => {
 
   return (
     <AuthGuard>
-      <div className="relative min-h-screen mb-20 flex flex-col justify-between">
+      <div className="relative max-w-7xl mx-auto overflow-hidden min-h-screen mb-20 flex flex-col justify-between">
         {/* Background */}
         <div className="absolute inset-0">
           <Image
@@ -149,7 +149,7 @@ const BookingHistory = () => {
                         </div>
 
                         {/* Location */}
-                        <div className="flex items-center gap-2 mt-1 flex-wrap">
+                        <div className="flex items-center gap-2 mt-1">
                           <svg
                             width="16"
                             height="16"
@@ -160,7 +160,7 @@ const BookingHistory = () => {
                             <path d="M6 0C3.515 0 1.5 2.015 1.5 4.5c0 3.375 4.5 7.5 4.5 7.5s4.5-4.125 4.5-7.5C10.5 2.015 8.485 0 6 0zm0 6.75c-1.243 0-2.25-1.007-2.25-2.25S4.757 2.25 6 2.25s2.25 1.007 2.25 2.25S7.243 6.75 6 6.75z" />
                           </svg>
                           <span
-                            className="text-lg font-semibold truncate"
+                            className="text-sm w-2/3 text-wrap"
                             style={{ color: "#000000" }}
                           >
                             {updatedBooking?.address || "Unknown Address"}
