@@ -411,7 +411,7 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
         <div className="mb-6">
           <div className="flex flex-wrap gap-4 justify-between items-center mb-4 w-full">
             <span className="text-2xl font-bold">
-              {getLocalizedText("Dhs", "د.إ")}{" "}
+              ${getLocalizedText("SAR", "ريال سعودي")}{" "}
               {totalAmount || groundData.pricePerHour || "300"}/
               {getLocalizedText("hr", "ساعة")}
             </span>
@@ -449,7 +449,7 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
             </span>
             <span className="flex-1 border-t-2 border-dashed border-[#932AAA] mx-4"></span>
             <span className="font-semibold text-gray-900">
-              {getLocalizedText("Dhs", "د.إ")} {totalAmount || groundData.pricePerHour}
+              ${getLocalizedText("SAR", "ريال سعودي")} {totalAmount || groundData.pricePerHour}
             </span>
           </div>
           <span className="font-semibold text-gray-900  text-right px-4 pt-2 inline-block w-full">

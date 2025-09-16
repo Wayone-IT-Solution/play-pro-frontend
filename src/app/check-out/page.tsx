@@ -50,7 +50,7 @@ const BookingForm = () => {
           return;
         }
         console.log('first')
-        const res: any = await Fetch("/api/user", {}, 500, true, false);  
+        const res: any = await Fetch("/api/user", {}, 500, true, false);
         if (res.success) setUser(res.data);
       } catch (error) {
         console.log("Error fetching user:", error);
@@ -179,7 +179,7 @@ const BookingForm = () => {
 
                 <div className="bg-gray-50 px-4 py-2 rounded-lg">
                   <span className="text-lg font-semibold text-gray-900">
-                    {getLocalizedText("Dhs", "درهم")} {bookingData.price}
+                    ${getLocalizedText("SAR", "ريال سعودي")} {bookingData.price}
                   </span>
                 </div>
               </div>
