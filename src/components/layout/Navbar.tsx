@@ -140,7 +140,7 @@ export default function Navbar() {
               <Link href="/contact-us" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
                 {getLocalizedText("Contact Us", "اتصل بنا")}
               </Link>
-              <Link href="/news" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
+              <Link href="/blogs" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
                 {getLocalizedText("News", "الأخبار")}
               </Link>
               <Link href="/gallery" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">

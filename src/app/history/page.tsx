@@ -5,6 +5,8 @@ import { Fetch } from "@/utils/axios";
 import React, { useEffect, useState } from "react";
 import { getLocalizedValues } from "@/hooks/general";
 import AuthGuard from "@/components/layout/AuthGuard";
+import Link from "next/link";
+import { ReviewModal } from "@/components/modals/ReviewModal";
 
 interface Slot {
   date: string;
@@ -32,8 +34,9 @@ interface Booking {
 }
 
 const BookingHistory = () => {
-  const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [selectedBooking, setSelectedBooking] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -100,6 +103,7 @@ const BookingHistory = () => {
             ) : (
               bookings.map((booking: any) => {
                 const updatedBooking = getLocalizedValues(booking?.groundId);
+                const url = `https://www.google.com/maps/dir/?api=1&destination=${booking?.groundId?.location?.coordinates?.[0]},${booking?.groundId?.location?.coordinates?.[1]}`;
                 return (
                   <div
                     key={booking._id}
@@ -213,16 +217,23 @@ const BookingHistory = () => {
                             ? "Pending"
                             : booking.paymentStatus}
                         </button>
-                        <button
+                        <Link
+                          href={url}
+                          target="_blank"
                           className="px-4 py-2 rounded-full text-white text-sm font-medium flex-shrink-0"
                           style={{ backgroundColor: "#6D0E82" }}
                         >
                           See On Map
-                        </button>
+                        </Link>
                       </div>
-                      {/* <div className="text-lg font-medium lg:mt-2" style={{ color: "#000000" }}>
-                      Paid: {booking.finalAmount} SAR
-                    </div> */}
+                      {!booking?.isReviewed &&
+                        <button
+                          onClick={() => setSelectedBooking(booking._id)}
+                          className="px-4 cursor-pointer py-2 bg-white text-[#014999] border border-[#014999] rounded-full hover:text-white hover:bg-[#014999]"
+                        >
+                          Write a Review
+                        </button>
+                      }
                     </div>
                   </div>
                 );
@@ -231,6 +242,13 @@ const BookingHistory = () => {
           </div>
         </div>
       </div>
+      {selectedBooking && (
+        <ReviewModal
+          isOpen={!!selectedBooking}
+          bookingId={selectedBooking}
+          onClose={() => setSelectedBooking(null)}
+        />
+      )}
     </AuthGuard>
   );
 };

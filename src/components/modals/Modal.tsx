@@ -25,7 +25,7 @@ const Modal: React.FC<ModalProps> = ({
 
   return ReactDOM.createPortal(
     <div className="fixed inset-0 flex items-center justify-center z-[1001]">
-      <div className="fixed inset-0 bg-black backdrop-blur-lg bg-opacity-10"></div>
+      <div className="fixed inset-0 bg-black/10 backdrop-blur-lg bg-opacity-10"></div>
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}

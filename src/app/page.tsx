@@ -43,13 +43,18 @@ export default async function Page() {
   const testimonials = testimonialResponse?.data?.result ?? [];
   const sponsors = sponsorResponse?.data?.result ?? [];
 
+  const isNearByPlaceSlots = nextSlots.filter((ground: any) => ground?.isNearByPlace === "active");
+  const isHigherRankedSlots = nextSlots.filter((ground: any) => ground?.isHigherRanked === "active");
+
   return (
     <div className="w-screen lg:w-auto">
       <SearchField />
       <PlayProBanner />
       <AuthGuard2>
         <NearByField descShow={false} nextSlots={nextSlots} />
-        <NearByField titleEn="Nearby Fields" titleAr="الملاعب القريبة" nextSlots={nextSlots} />
+        {isNearByPlaceSlots?.length > 0 &&
+          <NearByField titleEn="Nearby Fields" titleAr="الملاعب القريبة" nextSlots={isNearByPlaceSlots} />
+        }
         <StadiumBrowser />
         {football?.length > 0 &&
           <NextAvailableSlot football={football} />
@@ -57,7 +62,9 @@ export default async function Page() {
         {crickets?.length > 0 &&
           <RecommendedField crickets={crickets} />
         }
-        <HighRankingField nextSlots={nextSlots} />
+        {isHigherRankedSlots?.length > 0 &&
+          <HighRankingField nextSlots={isHigherRankedSlots} />
+        }
         <ProductsForYou products={products} />
         <div className="mt-10 w-screen lg:w-auto max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
           <BannerSwiper banners={banners} />
