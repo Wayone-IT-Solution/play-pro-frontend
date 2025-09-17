@@ -37,26 +37,30 @@ const StadiumBrowser = () => {
 
   const sports = [
     { key: "football", icon: "/assets/football1.png" },
-    { key: "cricket", icon: "/assets/cricket.png" },
-    { key: "hockey", icon: "/assets/field-hockey.png" },
-    { key: "badminton", icon: "/assets/badminton.png" },
-    { key: "tennis", icon: "/assets/tennis.png" },
+    { key: "paddles", icon: "/assets/paddles.jfif" },
     { key: "volleyball", icon: "/assets/volleyball.png" },
+    { key: "basketball", icon: "/assets/baseketball.jfif" },
+    { key: "cricket", icon: "/assets/cricket.png" },
+    { key: "tennis", icon: "/assets/tennis.png" },
   ];
 
   const sportNamesAr: Record<string, string> = {
-    football: "كرة القدم",
-    cricket: "كريكيت",
-    hockey: "هوكي",
-    badminton: "بادمينتون",
     tennis: "تنس",
+    basketball: "كرة السلة",
+    cricket: "كريكيت",
+    football: "كرة القدم",
+    paddles: "بادل",
     volleyball: "كرة الطائرة",
   };
 
-  const countMap: Record<string, number> = {};
+  const countMap: Record<string, { label: string; count: number }> = {};
+
   counts.forEach((item) => {
-    const typeKey = lang === "ar" ? item.type_ar.toLowerCase() : item.type_en.toLowerCase();
-    countMap[typeKey] = item.count;
+    const key = item.type_en.toLowerCase(); // use EN key for consistency
+    countMap[key] = {
+      label: lang === "ar" ? item.type_ar : item.type_en, // text shown as per lang
+      count: item.count, // count stays same (from EN side)
+    };
   });
 
   return (
@@ -90,7 +94,7 @@ const StadiumBrowser = () => {
                   )}
                 </h3>
                 <p className="text-gray-600 font-inter">
-                  {countMap[sport.key] || 0} {getLocalizedText("Stadium", "ملعب")}
+                  {countMap[sport.key]?.count || 0} {countMap[sport.key]?.label || ""}
                 </p>
               </div>
             </div>
