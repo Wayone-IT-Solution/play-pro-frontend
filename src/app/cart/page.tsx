@@ -7,13 +7,13 @@ import BestProducts from "./components/BestProducts";
 import { useCallback, useEffect, useState } from "react";
 
 type CartItemType = {
-  brand: string;
   name: string;
+  brand: string;
   price: number;
   image: string;
-  productId: string;
   category: string;
   quantity: number;
+  productId: string;
   description: string;
 };
 

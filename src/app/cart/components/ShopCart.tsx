@@ -27,16 +27,7 @@ const ShoeCartComponent = ({
   items: any;
   setItems: any;
 }) => {
-  // ------------------ Pay Now ------------------
   const router = useRouter();
-  const [paymentMethod] = useState("COD");
-  const [address, setAddress] = useState({
-    street: "",
-    city: "",
-    state: "",
-    postalCode: "",
-    country: "",
-  });
 
   const handlePayNow = async () => {
     try {
@@ -45,16 +36,11 @@ const ShoeCartComponent = ({
         toast.warn("Please login to proceed");
         return router.push("/login");
       }
-      if (!address) return toast.warn("Please Provide Addresss!");
-      const orderPayload = {
-        paymentMethod,
-        address,
-      };
       if (items.length === 0) return toast.warn("Please add products in your cart!")
-      const res: any = await Post("/api/order", orderPayload, 5000);
+      const res: any = await Post("/api/order", {}, 5000);
       if (res?.success) {
         localStorage.setItem("productOrderId", res?.data?._id);
-        return router.replace("/confirmation");
+        return router.push("/checkout");
       } else {
         console.log("Order failed:", res);
         toast.error(res?.message || "Failed to place order", {
@@ -140,7 +126,7 @@ const ShoeCartComponent = ({
   }) => {
     item = getLocalizedValues(item);
     return <div className="flex items-center gap-4 bg-white rounded-lg mb-4 w-full">
-      <div className="w-24 h-24 lg:w-40 lg:h-40 rounded-lg flex-shrink-0 overflow-hidden">
+      <div className="w-24 h-24 lg:w-40 lg:h-40 border border-gray-200 shadow rounded-lg flex-shrink-0 overflow-hidden">
         <Image
           width={200}
           height={200}
@@ -216,64 +202,6 @@ const ShoeCartComponent = ({
           ))}
         </div>
 
-        {/* Address Field (Single Row Input) */}
-        <div className="mt-4 px-2 w-full">
-          <label className="block mb-2 font-medium text-gray-700">
-            {getLocalizedText("Add Address", "أضف العنوان")}
-          </label>
-          <div className="grid grid-cols-2 gap-4 ">
-            {/* Street */}
-            <input
-              type="text"
-              value={address.street}
-              onChange={(e) => setAddress({ ...address, street: e.target.value })}
-              placeholder={getLocalizedText("Street", "الشارع")}
-              className="w-full mb-3 border-2 col-span-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA]"
-              required
-            />
-
-            {/* City */}
-            <input
-              type="text"
-              value={address.city}
-              onChange={(e) => setAddress({ ...address, city: e.target.value })}
-              placeholder={getLocalizedText("City", "المدينة")}
-              className="w-full mb-3 border-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA]"
-              required
-            />
-
-            {/* State (optional) */}
-            <input
-              type="text"
-              value={address.state}
-              onChange={(e) => setAddress({ ...address, state: e.target.value })}
-              placeholder={getLocalizedText("State", "المحافظة")}
-              className="w-full mb-3 border-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA]"
-            />
-
-            {/* Postal Code */}
-            <input
-              type="text"
-              value={address.postalCode}
-              onChange={(e) => setAddress({ ...address, postalCode: e.target.value })}
-              placeholder={getLocalizedText("Postal Code", "الرمز البريدي")}
-              className="w-full mb-3 border-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA]"
-              required
-            />
-
-            {/* Country */}
-            <input
-              type="text"
-              value={address.country}
-              onChange={(e) => setAddress({ ...address, country: e.target.value })}
-              placeholder={getLocalizedText("Country", "الدولة")}
-              className="w-full mb-3 border-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA]"
-              required
-            />
-          </div>
-        </div>
-
-
         <div className="flex flex-wrap lg:flex-nowrap gap-2 items-center justify-between mt-6 px-4 w-full border-t pt-4">
           <div className="flex items-center justify-between w-full gap-3">
             <span className="text-gray-700 font-medium">
@@ -288,10 +216,10 @@ const ShoeCartComponent = ({
           </div>
           <button
             onClick={handlePayNow}
-            className="px-20 whitespace-nowrap cursor-pointer py-3 w-full md:w-fit rounded-full text-white font-medium text-lg"
+            className="px-10 whitespace-nowrap cursor-pointer py-3 w-full md:w-fit rounded-full text-white font-medium text-lg"
             style={{ backgroundColor: "#932AAA" }}
           >
-            {getLocalizedText("Pay Now", "ادفع الآن")}
+            {getLocalizedText("Go to Checkout", "انتقل إلى الدفع")}
           </button>
         </div>
 

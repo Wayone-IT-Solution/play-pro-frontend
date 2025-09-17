@@ -46,7 +46,7 @@ const successVariants = {
     }
 };
 
-export default function CouponSection({ handleBooking, setOrderData }: { handleBooking: any, setOrderData: any }) {
+export default function CouponSection({ setOrderData }: { setOrderData: any }) {
     const [coupons, setCoupons] = useState([]);
     const [couponInput, setCouponInput] = useState("");
     const [isAnimating, setIsAnimating] = useState(false);
@@ -74,10 +74,9 @@ export default function CouponSection({ handleBooking, setOrderData }: { handleB
     useEffect(() => {
         const fetchBooking = async () => {
             try {
-                const bookingDataStr: any = localStorage.getItem("orderData");
-                if (bookingDataStr) {
-                    const bookingData = JSON.parse(bookingDataStr);
-                    const response: any = await Fetch("/api/booking/" + bookingData?._id, {}, 5000, true, false);
+                const productOrderId: any = localStorage.getItem("productOrderId");
+                if (productOrderId) {
+                    const response: any = await Fetch("/api/order/" + productOrderId, {}, 5000, true, false);
                     if (response?.success && response?.data?.couponId) {
                         const applied: any = coupons.filter((coupon: any) => coupon._id === response?.data?.couponId);
                         setOrderData({ ...response?.data, code: applied?.[0]?.code });
@@ -94,18 +93,14 @@ export default function CouponSection({ handleBooking, setOrderData }: { handleB
     const handleApply = async (code: string) => {
         if (appliedCoupon?.code === code) return;
         try {
-            let booking, bookingDataStr;
-            bookingDataStr = localStorage.getItem("orderData");
-            if (!bookingDataStr) booking = await handleBooking();
-            bookingDataStr = localStorage.getItem("orderData");
-            if (bookingDataStr) {
-                const bookingData = JSON.parse(bookingDataStr);
-                const response: any = await Post("/api/booking/apply", { bookingId: bookingData._id, couponCode: code });
+            const productOrderId = localStorage.getItem("productOrderId");
+            if (productOrderId) {
+                const response: any = await Post("/api/order/apply", { orderId: productOrderId, couponCode: code });
                 if (response?.success) {
                     setIsAnimating(true);
                     setTimeout(() => {
-                        setAppliedCoupon(response?.data);
                         setOrderData(response?.data);
+                        setAppliedCoupon(response?.data);
                         setCouponInput("");
                         setIsAnimating(false);
                     }, 300);
@@ -118,12 +113,12 @@ export default function CouponSection({ handleBooking, setOrderData }: { handleB
 
     const handleRemove = async () => {
         try {
-            const bookingDataStr = localStorage.getItem("orderData");
-            if (bookingDataStr && appliedCoupon) {
-                const bookingData = JSON.parse(bookingDataStr);
-                const response: any = await Post("/api/booking/remove", { bookingId: bookingData._id });
+            const productOrderId = localStorage.getItem("productOrderId");
+            if (productOrderId && appliedCoupon) {
+                const response: any = await Post("/api/order/remove", { orderId: productOrderId });
                 if (response?.success) {
                     setAppliedCoupon(null);
+                    setOrderData(response?.data);
                 }
             }
         } catch (error) {
@@ -222,7 +217,7 @@ export default function CouponSection({ handleBooking, setOrderData }: { handleB
                                         </div>
                                         <div>
                                             <p className="font-semibold text-lg">
-                                                {appliedCoupon.code} Applied!
+                                                {appliedCoupon?.couponId?.code} Applied!
                                             </p>
                                             <p className="text-gray-200 text-sm">
                                                 You saved {formatCurrency(appliedCoupon.discountAmount)}
@@ -232,9 +227,9 @@ export default function CouponSection({ handleBooking, setOrderData }: { handleB
                                     <motion.button
                                         type="button"
                                         onClick={handleRemove}
-                                        className="text-white cursor-pointer hover:text-gray-600 hover:bg-white p-2 rounded-lg transition-all"
-                                        whileHover={{ scale: 1.1 }}
                                         whileTap={{ scale: 0.9 }}
+                                        whileHover={{ scale: 1.1 }}
+                                        className="text-white cursor-pointer hover:text-gray-600 hover:bg-white p-2 rounded-lg transition-all"
                                     >
                                         <FaTimes className="text-lg" />
                                     </motion.button>
@@ -256,7 +251,7 @@ export default function CouponSection({ handleBooking, setOrderData }: { handleB
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {coupons.map((coupon: any, index: number) => {
                                 const IconComponent = getCategoryIcon(coupon.category);
-                                const isApplied = appliedCoupon?.couponId === coupon._id;
+                                const isApplied = appliedCoupon?.couponId?._id === coupon._id || appliedCoupon?.couponId === coupon._id;
                                 return (
                                     <motion.div
 

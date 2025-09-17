@@ -60,6 +60,7 @@ interface OrderData {
     finalAmount: number;
     paymentMethod: string;
     paymentStatus: string;
+    discountAmount: number;
     orderStatus: string;
     address: IAddress;
     createdAt: string;
@@ -233,6 +234,12 @@ const OrderDetailsPage = ({ data }: { data: OrderData }) => {
                                     <span className="text-gray-600">{getLocalizedText("Subtotal", "المجموع الفرعي")}</span>
                                     <span className="text-gray-900">{formatCurrency(data.totalAmount)}</span>
                                 </div>
+                                {data?.discountAmount > 0 && (
+                                    <div className="flex justify-between text-green-600 font-medium">
+                                        <span>{getLocalizedText("Discount", "الخصم")}</span>
+                                        <span>- SAR {data?.discountAmount?.toFixed(2)}</span>
+                                    </div>
+                                )}
                                 <div className="flex justify-between text-sm">
                                     <span className="text-gray-600">{getLocalizedText("Shipping", "الشحن")}</span>
                                     <span className="text-gray-900">{getLocalizedText("Free", "مجاني")}</span>
