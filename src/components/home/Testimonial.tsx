@@ -4,14 +4,17 @@ import Image from "next/image";
 import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+
 import Comma from "./Comma";
 import {
   LiaLongArrowAltLeftSolid,
   LiaLongArrowAltRightSolid,
 } from "react-icons/lia";
+import { getLocalizedValues, getLocalizedText } from "@/hooks/general";
 
 const Testimonials = ({ testimonials }: { testimonials?: any }) => {
   const swiperRef = useRef<any>(null);
@@ -54,21 +57,26 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
           className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium"
           style={{ color: "#6D0E82" }}
         >
-          {rating} Rating
+          {rating} {getLocalizedText("Rating", "تقييم")}
         </span>
       </div>
     );
   };
 
+  if (testimonials?.length === 0) return null;
+
   return (
-    <div className="max-w-6xl mx-auto w-screen lg:w-auto py-10 sm:py-16">
+    <div className="max-w-6xl mx-auto w-screen lg:w-auto py-10 sm:py-16 sm:pb-0">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
         <h2
           className="text-2xl sm:text-4xl font-bold text-center sm:text-left"
           style={{ fontFamily: "Poppins, sans-serif" }}
         >
-          Review & Testimonials
+          {getLocalizedText(
+            "Customer Reviews & Testimonials",
+            "مراجعات العملاء والشهادات"
+          )}
         </h2>
         {/* Arrows */}
         <div className="flex gap-2 sm:gap-3">
@@ -112,61 +120,64 @@ const Testimonials = ({ testimonials }: { testimonials?: any }) => {
           1024: { slidesPerView: 3, spaceBetween: 32 },
         }}
       >
-        {testimonials.map((t: any) => (
-          <SwiperSlide key={t.id}>
-            <div className="relative mt-10 px-2 sm:px-0">
-              <div
-                className="rounded-2xl p-4 sm:p-5 shadow-sm relative bg-white border border-gray-200 flex flex-col"
-                style={{ aspectRatio: "1.4/1" }}
-              >
-                {/* Quote icon */}
-                <div className="absolute -top-3 left-4 sm:left-8">
-                  <Comma />
-                </div>
+        {testimonials.map((t: any) => {
+          t = getLocalizedValues(t);
+          return (
+            <SwiperSlide key={t?.id}>
+              <div className="relative mt-10 px-2 sm:px-0">
+                <div
+                  className="rounded-2xl p-4 sm:p-5 shadow-sm relative bg-white border border-gray-200 flex flex-col"
+                  style={{ aspectRatio: "1.4/1" }}
+                >
+                  {/* Quote icon */}
+                  <div className="absolute -top-3 left-4 sm:left-8">
+                    <Comma />
+                  </div>
 
-                {/* Profile Image */}
-                <div className="absolute -top-6 sm:-top-8 left-1/2 -translate-x-1/2 z-20">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-gray-200 bg-white shadow-md">
-                    <Image
-                      src={t.image}
-                      alt={t.name}
-                      width={64}
-                      height={64}
-                      className="object-cover w-full h-full"
-                    />
+                  {/* Profile Image */}
+                  <div className="absolute -top-6 sm:-top-8 left-1/2 -translate-x-1/2 z-20">
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 border-gray-200 bg-white shadow-md">
+                      <Image
+                        width={64}
+                        height={64}
+                        alt={t?.name}
+                        src={t?.image}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Review */}
+                  <div className="mt-8 mb-3 bg-[#F4F4F4] p-3 rounded-2xl flex-1">
+                    <p
+                      className="text-sm font-semibold leading-relaxed"
+                      style={{
+                        fontFamily: "Poppins, sans-serif",
+                        color: "#6D0E82",
+                      }}
+                    >
+                      {t?.feedback}
+                    </p>
+                  </div>
+
+                  {/* Name & Rating */}
+                  <div className="flex justify-between items-center gap-1 mt-auto">
+                    <h4
+                      className="font-semibold text-xs sm:text-sm"
+                      style={{
+                        fontFamily: "Poppins, sans-serif",
+                        color: "#6D0E82",
+                      }}
+                    >
+                      {t?.name}
+                    </h4>
+                    {renderStars({ rating: t?.rating })}
                   </div>
                 </div>
-
-                {/* Review */}
-                <div className="mt-8 mb-3 bg-[#F4F4F4] p-3 rounded-2xl flex-1">
-                  <p
-                    className="text-sm font-semibold leading-relaxed"
-                    style={{
-                      fontFamily: "Poppins, sans-serif",
-                      color: "#6D0E82",
-                    }}
-                  >
-                    {t.feedback}
-                  </p>
-                </div>
-
-                {/* Name & Rating */}
-                <div className="flex justify-between items-center gap-1 mt-auto">
-                  <h4
-                    className="font-semibold text-xs sm:text-sm"
-                    style={{
-                      fontFamily: "Poppins, sans-serif",
-                      color: "#6D0E82",
-                    }}
-                  >
-                    {t.name}
-                  </h4>
-                  {renderStars({ rating: t.rating })}
-                </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </div>
   );

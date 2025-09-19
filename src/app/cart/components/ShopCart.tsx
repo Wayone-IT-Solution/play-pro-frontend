@@ -2,13 +2,16 @@
 import Image from "next/image";
 import { toast } from "react-toastify";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Delete, Post, Put } from "@/utils/axios";
 import { Plus, Minus, Trash } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
+import { removeFromCart, updateCartQuantity } from "@/utils/cartUtils";
 
 type CartItemType = {
-  brand: string;
+  _id: any;
   name: string;
+  brand: string;
   price: number;
   image: string;
   category: string;
@@ -20,30 +23,26 @@ type CartItemType = {
 const ShoeCartComponent = ({
   items,
   setItems,
-  fetchCartItems,
 }: {
   items: any;
   setItems: any;
-  fetchCartItems?: any;
 }) => {
-  // ------------------ Pay Now ------------------
   const router = useRouter();
-  const [paymentMethod] = useState("COD");
-  const [address, setAddress] = useState("");
 
   const handlePayNow = async () => {
     try {
-      if (!address) return toast.warn("Please Provide Addresss!");
-      const orderPayload = {
-        paymentMethod,
-        address,
-      };
-      const res: any = await Post("/api/order", orderPayload, 5000, true);
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        toast.warn("Please login to proceed");
+        return router.push("/login");
+      }
+      if (items.length === 0) return toast.warn("Please add products in your cart!")
+      const res: any = await Post("/api/order", {}, 5000);
       if (res?.success) {
         localStorage.setItem("productOrderId", res?.data?._id);
-        return router.replace("/confirmation");
+        return router.push("/checkout");
       } else {
-        console.error("Order failed:", res);
+        console.log("Order failed:", res);
         toast.error(res?.message || "Failed to place order", {
           style: {
             background: "#932AAA",
@@ -52,7 +51,7 @@ const ShoeCartComponent = ({
         });
       }
     } catch (err) {
-      console.error("Error placing order:", err);
+      console.log("Error placing order:", err);
       toast.error("Something went wrong!", {
         style: {
           background: "#932AAA",
@@ -63,8 +62,20 @@ const ShoeCartComponent = ({
   };
 
   // ------------------ Update Quantity ------------------
-  const updateQuantity = async (index: number, change: number) => {
+  const updateQuantity = async (index: number, change: number, id: any) => {
     const newQty = Math.max(1, items[index].quantity + change);
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      const newQty = Math.max(1, items[index].quantity + change);
+      const result = updateCartQuantity(id, newQty)
+      if (result?.success) {
+        setItems(result.cart);
+        toast.success(result.message);
+      }
+      return
+    }
+
     try {
       await Put("/api/cart", {
         productId: items[index].productId,
@@ -83,6 +94,16 @@ const ShoeCartComponent = ({
   // ------------------ Delete Item ------------------
   const handleDelete = async (productId: string, index: number) => {
     try {
+      const token = localStorage.getItem("accessToken");
+
+      if (!token) {
+        const result = removeFromCart(productId)
+        if (result?.success) {
+          setItems(result.cart);
+          toast.success(result.message);
+        }
+        return;
+      }
       await Delete("/api/cart/" + productId);
       setItems((prev: any) => prev.filter((_: any, i: any) => i !== index));
     } catch (err) {
@@ -102,9 +123,10 @@ const ShoeCartComponent = ({
   const CartItem: React.FC<{ item: CartItemType; index: number }> = ({
     item,
     index,
-  }) => (
-    <div className="flex items-center gap-4 bg-white rounded-lg mb-4 w-full">
-      <div className="w-24 h-24 lg:w-40 lg:h-40 rounded-lg flex-shrink-0 overflow-hidden">
+  }) => {
+    item = getLocalizedValues(item);
+    return <div className="flex items-center gap-4 bg-white rounded-lg mb-4 w-full">
+      <div className="w-24 h-24 lg:w-40 lg:h-40 border border-gray-200 shadow rounded-lg flex-shrink-0 overflow-hidden">
         <Image
           width={200}
           height={200}
@@ -134,13 +156,13 @@ const ShoeCartComponent = ({
         <div className="flex items-center justify-between mt-3">
           <div className="flex items-center gap-2">
             <span className="text-lg font-semibold text-gray-900">
-              SAR {item.price * item.quantity}
+              SAR {item.price}
             </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center border border-[#932AAA] rounded-lg overflow-hidden h-8">
               <button
-                onClick={() => updateQuantity(index, -1)}
+                onClick={() => updateQuantity(index, -1, item?._id)}
                 className="w-10 h-10 aspect-square rounded-r-xl flex items-center cursor-pointer justify-center text-white"
                 style={{ backgroundColor: "#932AAA" }}
               >
@@ -150,7 +172,7 @@ const ShoeCartComponent = ({
                 {String(item.quantity).padStart(2, "0")}
               </span>
               <button
-                onClick={() => updateQuantity(index, 1)}
+                onClick={() => updateQuantity(index, 1, item?._id)}
                 className="w-10 h-10 aspect-square rounded-l-xl flex items-center cursor-pointer justify-center text-white"
                 style={{ backgroundColor: "#932AAA" }}
               >
@@ -158,7 +180,7 @@ const ShoeCartComponent = ({
               </button>
             </div>
             <button
-              onClick={() => handleDelete(item.productId, index)}
+              onClick={() => handleDelete(item.productId || item._id, index)}
               className="w-8 h-8 flex items-center cursor-pointer justify-center text-white"
               style={{ backgroundColor: "#932AAA" }}
             >
@@ -168,7 +190,7 @@ const ShoeCartComponent = ({
         </div>
       </div>
     </div>
-  );
+  };
 
   // ------------------ Render ------------------
   return (
@@ -180,22 +202,11 @@ const ShoeCartComponent = ({
           ))}
         </div>
 
-        {/* Address Field (Single Row Input) */}
-        <div className="mt-4 px-2 w-full">
-          <label className="block mb-2 font-medium text-gray-700">Add Address</label>
-          <input
-            type="text"
-            value={address}
-            style={{ backgroundColor: "#fff" }}
-            placeholder="Enter delivery address"
-            onChange={(e) => setAddress(e.target.value)}
-            className="w-full border-2 border-gray-200 text-[#932AAA] rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-[#932AAA] transition-colors"
-          />
-        </div>
-
         <div className="flex flex-wrap lg:flex-nowrap gap-2 items-center justify-between mt-6 px-4 w-full border-t pt-4">
           <div className="flex items-center justify-between w-full gap-3">
-            <span className="text-gray-700 font-medium">Grand Total:</span>
+            <span className="text-gray-700 font-medium">
+              {getLocalizedText("Grand Total:", "المجموع الكلي:")}
+            </span>
             <div
               className="px-4 py-2 rounded-full text-white font-semibold"
               style={{ backgroundColor: "#932AAA" }}
@@ -205,12 +216,13 @@ const ShoeCartComponent = ({
           </div>
           <button
             onClick={handlePayNow}
-            className="px-20 whitespace-nowrap cursor-pointer py-3 w-full md:w-fit rounded-full text-white font-medium text-lg"
+            className="px-10 whitespace-nowrap cursor-pointer py-3 w-full md:w-fit rounded-full text-white font-medium text-lg"
             style={{ backgroundColor: "#932AAA" }}
           >
-            Pay Now
+            {getLocalizedText("Go to Checkout", "انتقل إلى الدفع")}
           </button>
         </div>
+
       </div>
     </>
   );

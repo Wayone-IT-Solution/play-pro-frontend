@@ -1,3 +1,5 @@
+"use client";
+
 // import { Variants } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -34,7 +36,7 @@ export const useAuthRedirect = () => {
 
   useEffect(() => {
     const checkAuth = () => {
-      const token = localStorage.getItem("accessToken");
+      const token = typeof window !== "undefined" && localStorage.getItem("accessToken");
       if (!token) {
         router.push("/"); // Redirect to home if not authenticated
       } else {

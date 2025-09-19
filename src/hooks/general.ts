@@ -12,6 +12,40 @@ export function formatDate(inputDate: any) {
   return `${year}-${month}-${day}`;
 }
 
+type LocalizedData = {
+  [key: string]: { en?: string; ar?: string } | any;
+};
+export const getLocalizedValues = (defaultData: LocalizedData) => {
+  if (typeof window !== "undefined") {
+    const lang = (typeof window !== "undefined" && localStorage.getItem("lang") as "en" | "ar") || "en";
+    const stored = JSON.parse(localStorage.getItem("localizedData") || "{}");
+    const result: any = {};
+    for (const key in defaultData) {
+      if (
+        typeof defaultData[key] === "object" &&
+        defaultData[key] !== null &&
+        ("en" in defaultData[key] || "ar" in defaultData[key])
+      ) {
+        if (stored[key] && stored[key][lang]) {
+          result[key] = stored[key][lang];
+        } else {
+          result[key] = defaultData[key][lang] || ""; // fallback
+        }
+      } else result[key] = stored[key] ?? defaultData[key];
+    }
+    return result;
+  }
+}
+
+export const getLocalizedText = (en: string, ar: string): string => {
+  if (typeof window !== "undefined") {
+    const lang = (localStorage.getItem("lang") as "en" | "ar") || "en";
+    if (lang === "ar" && ar) return ar;
+    return en;
+  }
+  return en;
+};
+
 export const getFileCategory = (
   fileNameOrExt: string
 ): "image" | "video" | "document" | "other" => {
@@ -108,14 +142,14 @@ export const populateFormFields = (
           : field.isDisabled;
       return product.hasOwnProperty(field.name)
         ? {
-            ...field,
-            value: product[field.name],
-            isDisabled,
-          }
+          ...field,
+          value: product[field.name],
+          isDisabled,
+        }
         : {
-            ...field,
-            isDisabled,
-          };
+          ...field,
+          isDisabled,
+        };
     });
 };
 
@@ -262,10 +296,10 @@ export const formatIndianCurrency = (amount: number) => {
 export const formatCurrency = (value: number | undefined) =>
   value && !isNaN(value)
     ? new Intl.NumberFormat("en-IN", {
-        style: "currency",
-        currency: "INR",
-        minimumFractionDigits: 2,
-      }).format(value)
+      style: "currency",
+      currency: "SAR",
+      minimumFractionDigits: 2,
+    }).format(value)
     : "SAR0.00";
 
 export const convertTo24Hour = (time: string): string => {

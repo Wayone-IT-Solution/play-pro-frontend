@@ -1,16 +1,19 @@
 import { Fetch } from "@/utils/Server";
+import BannerSwiper from "@/components/common/Banner";
 import SearchField from "@/components/home/SearchField";
-import PlayProBanner from "@/components/home/PlayProBanner";
+import AuthGuard2 from "@/components/layout/AuthGuard2";
 import NearByField from "@/components/home/NearByField";
-import StadiumBrowser from "@/components/home/StadiumBrowser";
-import NextAvailableSlot from "@/components/home/NextAvailableSlot";
-import RecommendedField from "@/components/home/RecommendedField";
-import HighRankingField from "@/components/home/HighRanking";
-import ProductsForYou from "@/components/home/ProductsForYou";
+import BlogSwiper from "@/components/common/BlogSwiper";
 import Testimonials from "@/components/home/Testimonial";
+import PlayProBanner from "@/components/home/PlayProBanner";
+import HighRankingField from "@/components/home/HighRanking";
+import StadiumBrowser from "@/components/home/StadiumBrowser";
+import ProductsForYou from "@/components/home/ProductsForYou";
+import RecommendedField from "@/components/home/RecommendedField";
+import NextAvailableSlot from "@/components/home/NextAvailableSlot";
+import Sponsor from "@/components/home/Sponsor";
 
 export default async function Page() {
-  // Run requests in parallel for performance
   const [
     bannerResponse,
     testimonialResponse,
@@ -18,37 +21,60 @@ export default async function Page() {
     cricketResponse,
     footballResponse,
     productResponse,
+    blogResponse,
+    sponsorResponse,
   ] = await Promise.all([
     Fetch("/api/banner/public"),
     Fetch("/api/testimonial/public"),
     Fetch("/api/ground/public"),
-    Fetch("/api/ground/public?type=Cricket"),
-    Fetch("/api/ground/public?type=Football"),
+    Fetch("/api/ground/public?search=Cricket&searchkey=type.en"),
+    Fetch("/api/ground/public?search=Football&searchkey=type.en"),
     Fetch("/api/product/public"),
+    Fetch("/api/blog/public"),
+    Fetch("/api/sponsor/public"),
   ]);
-
   // Destructure responses safely
+  const blogs = blogResponse?.data?.result ?? [];
   const banners = bannerResponse?.data?.result ?? [];
   const crickets = cricketResponse?.data?.result ?? [];
   const products = productResponse?.data?.result ?? [];
   const football = footballResponse?.data?.result ?? [];
   const nextSlots = nextSlotResponse?.data?.result ?? [];
   const testimonials = testimonialResponse?.data?.result ?? [];
+  const sponsors = sponsorResponse?.data?.result ?? [];
+
+  const isNearByPlaceSlots = nextSlots.filter((ground: any) => ground?.isNearByPlace === "active");
+  const isHigherRankedSlots = nextSlots.filter((ground: any) => ground?.isHigherRanked === "active");
 
   return (
-    <div>
+    <div className="w-screen lg:w-auto">
       <SearchField />
-      <PlayProBanner banners={banners} />
-
-      <NearByField nextSlots={nextSlots} />
-      <StadiumBrowser />
-      <NextAvailableSlot football={football} />
-
-      <RecommendedField crickets={crickets} />
-      <HighRankingField nextSlots={nextSlots} />
-
-      <ProductsForYou products={products} />
-      <Testimonials testimonials={testimonials} />
+      <PlayProBanner />
+      <AuthGuard2>
+        <NearByField descShow={false} nextSlots={nextSlots} />
+        {isNearByPlaceSlots?.length > 0 &&
+          <NearByField titleEn="Nearby Fields" titleAr="الملاعب القريبة" nextSlots={isNearByPlaceSlots} />
+        }
+        <StadiumBrowser />
+        {football?.length > 0 &&
+          <NextAvailableSlot football={football} />
+        }
+        {crickets?.length > 0 &&
+          <RecommendedField crickets={crickets} />
+        }
+        {isHigherRankedSlots?.length > 0 &&
+          <HighRankingField nextSlots={isHigherRankedSlots} />
+        }
+        <ProductsForYou products={products} />
+        <div className="mt-10 w-screen lg:w-auto max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
+          <BannerSwiper banners={banners} />
+        </div>
+        <Testimonials testimonials={testimonials} />
+        <Sponsor sponsor={sponsors} />
+        <div className="mt-10 w-screen lg:w-auto max-w-7xl mx-auto px-4">
+          <BlogSwiper blogs={blogs} />
+        </div>
+      </AuthGuard2>
     </div>
   );
 }

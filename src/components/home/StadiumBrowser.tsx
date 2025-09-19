@@ -1,32 +1,31 @@
 "use client";
 
-import { Fetch } from "@/utils/axios";
 import Image from "next/image";
+import { Fetch } from "@/utils/axios";
 import { useEffect, useState } from "react";
+import { getLocalizedText } from "@/hooks/general";
+
+interface GroundCount {
+  count: number;
+  type_en: string;
+  type_ar: string;
+}
 
 const StadiumBrowser = () => {
-  const [counts, setCounts] = useState<{ [key: string]: number }>({});
+  const [counts, setCounts] = useState<GroundCount[]>([]);
+  const [lang, setLang] = useState<"en" | "ar">("en");
 
   useEffect(() => {
+    const storedLang = localStorage.getItem("lang");
+    if (storedLang === "ar" || storedLang === "en") {
+      setLang(storedLang);
+    }
+
     const fetchCounts = async () => {
       try {
-        const res: any = await Fetch(
-          "/api/ground/count",
-          {},
-          5000,
-          true,
-          false
-        );
-
+        const res: any = await Fetch("/api/ground/count", {}, 5000, true, false);
         if (res && res.data) {
-          const mappedCounts: { [key: string]: number } = {};
-          res.data.forEach((item: any) => {
-            const type = item.type?.toLowerCase();
-            if (type) {
-              mappedCounts[type] = item.count;
-            }
-          });
-          setCounts(mappedCounts);
+          setCounts(res.data);
         }
       } catch (err) {
         console.log("Error fetching ground counts:", err);
@@ -37,79 +36,66 @@ const StadiumBrowser = () => {
   }, []);
 
   const sports = [
-    {
-      name: "Football",
-      stadiumCount: `${counts["football"] || 0} Stadium`,
-      icon: "/assets/football1.png",
-      alt: "Football icon",
-    },
-    {
-      name: "Cricket",
-      stadiumCount: `${counts["cricket"] || 0} Stadium`,
-      icon: "/assets/cricket.png",
-      alt: "Cricket icon",
-    },
-    {
-      name: "Hockey",
-      stadiumCount: `${counts["hockey"] || 0} Stadium`,
-      icon: "/assets/field-hockey.png",
-      alt: "Hockey icon",
-    },
-    {
-      name: "Badminton",
-      stadiumCount: `${counts["badminton"] || 0} Stadium`,
-      icon: "/assets/badminton.png",
-      alt: "Badminton icon",
-    },
-    {
-      name: "Tennis",
-      stadiumCount: `${counts["tennis"] || 0} Stadium`,
-      icon: "/assets/tennis.png",
-      alt: "Tennis icon",
-    },
-    {
-      name: "Volleyball",
-      stadiumCount: `${counts["volleyball"] || 0} Stadium`,
-      icon: "/assets/volleyball.png",
-      alt: "Volleyball icon",
-    },
+    { key: "football", icon: "/assets/football1.png" },
+    { key: "paddles", icon: "/assets/paddles.jfif" },
+    { key: "volleyball", icon: "/assets/volleyball.png" },
+    { key: "basketball", icon: "/assets/baseketball.jfif" },
+    { key: "cricket", icon: "/assets/cricket.png" },
+    { key: "tennis", icon: "/assets/tennis.png" },
   ];
 
+  const sportNamesAr: Record<string, string> = {
+    tennis: "تنس",
+    basketball: "كرة السلة",
+    cricket: "كريكيت",
+    football: "كرة القدم",
+    paddles: "بادل",
+    volleyball: "كرة الطائرة",
+  };
+
+  const countMap: Record<string, { label: string; count: number }> = {};
+
+  counts.forEach((item) => {
+    const key = item.type_en.toLowerCase(); // use EN key for consistency
+    countMap[key] = {
+      label: lang === "ar" ? item.type_ar : item.type_en, // text shown as per lang
+      count: item.count, // count stays same (from EN side)
+    };
+  });
+
   return (
-    <div
-      className="py-20 px-5 border-b-1"
-      style={{ backgroundColor: "#0F0B2E1A" }}
-    >
+    <div className="py-20 px-5 border-b-1" style={{ backgroundColor: "#0F0B2E1A" }}>
       <div className="max-w-7xl mx-auto">
-        {/* Title */}
         <h1 className="text-3xl font-bold text-black text-center mb-12 font-inter">
-          Browse Stadiums By Sport
+          {getLocalizedText("Browse Stadiums By Sport", "تصفح الملاعب حسب الرياضة")}
         </h1>
 
-        {/* Sports Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-8 max-w-5xl mx-auto">
           {sports.map((sport, index) => (
             <div
               key={index}
               className="bg-white rounded-2xl p-8 flex items-center gap-5 cursor-pointer hover:transform hover:-translate-y-1 transition-all duration-200 hover:shadow-lg"
             >
-              {/* Sport Icon */}
               <div className="flex-shrink-0">
                 <Image
                   src={sport.icon}
-                  alt={sport.alt}
+                  alt={getLocalizedText(sport.key, sportNamesAr[sport.key])}
                   width={60}
                   height={60}
                   className="w-15 h-15"
                 />
               </div>
 
-              {/* Sport Info */}
               <div className="flex flex-col">
                 <h3 className="text-2xl font-semibold text-black mb-1 font-inter">
-                  {sport.name}
+                  {getLocalizedText(
+                    sport.key.charAt(0).toUpperCase() + sport.key.slice(1),
+                    sportNamesAr[sport.key]
+                  )}
                 </h3>
-                <p className="text-gray-600 font-inter">{sport.stadiumCount}</p>
+                <p className="text-gray-600 font-inter">
+                  {countMap[sport.key]?.count || 0} {countMap[sport.key]?.label || ""}
+                </p>
               </div>
             </div>
           ))}

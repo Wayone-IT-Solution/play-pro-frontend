@@ -12,8 +12,7 @@ export default async function GroundBookingPage(ctx: any) {
   const testimonials = testimonialResponse?.data?.result ?? [];
   return (
     <div className="space-y-6">
-      <GroundBooking groundData={groundData} testimonials={testimonials} />
-      {/* Testimonials */}
+      <GroundBooking groundData={groundData} />
       <div className="mb-6">
         <Testimonials testimonials={testimonials} />
       </div>

@@ -6,20 +6,13 @@ import {
     FiPhone,
     FiMapPin,
     FiPackage,
-    FiCheck,
-    FiClock,
-    FiTruck,
     FiShoppingBag
 } from 'react-icons/fi';
 import {
     MdPayment,
     MdPersonOutline,
-    MdDateRange
 } from 'react-icons/md';
-import {
-    BiDollar,
-    BiTime
-} from 'react-icons/bi';
+import { getLocalizedText, getLocalizedValues } from '@/hooks/general';
 
 interface OrderItem {
     brand: string;
@@ -51,6 +44,14 @@ interface User {
     userProfile: UserProfile;
 }
 
+export interface IAddress {
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+}
+
 interface OrderData {
     _id: string;
     user: User;
@@ -59,8 +60,9 @@ interface OrderData {
     finalAmount: number;
     paymentMethod: string;
     paymentStatus: string;
+    discountAmount: number;
     orderStatus: string;
-    address: string;
+    address: IAddress;
     createdAt: string;
     updatedAt: string;
 }
@@ -96,16 +98,6 @@ const OrderDetailsPage = ({ data }: { data: OrderData }) => {
         }
     };
 
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
-
     const formatCurrency = (amount: number) => {
         return `SAR ${amount.toLocaleString('en-IN')}`;
     };
@@ -116,14 +108,12 @@ const OrderDetailsPage = ({ data }: { data: OrderData }) => {
                 {/* Header */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6 mb-6">
                     <div className="flex items-center justify-between flex-wrap gap-4">
-                        <div>
-                            <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                                Order Details
-                            </h1>
-                            <p className="text-sm text-gray-600">
-                                Order ID: #{data._id.slice(-8).toUpperCase()}
-                            </p>
-                        </div>
+                        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                            {getLocalizedText("Order Details", "تفاصيل الطلب")}
+                        </h1>
+                        <p className="text-sm text-gray-600">
+                            {getLocalizedText("Order ID", "رقم الطلب")}: #{data._id.slice(-8).toUpperCase()}
+                        </p>
                         <div className="flex items-center gap-3">
                             <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(data.orderStatus)}`}>
                                 <FiPackage className="inline mr-1" />
@@ -143,14 +133,16 @@ const OrderDetailsPage = ({ data }: { data: OrderData }) => {
                         {/* Order Items */}
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
                             <div className="p-4 md:p-6 border-b border-gray-200">
+                                {/* Order Items Header */}
                                 <h2 className="text-lg font-semibold text-gray-900 flex items-center">
                                     <FiShoppingBag className="mr-2" />
-                                    Order Items ({data.items.length})
+                                    {getLocalizedText("Order Items", "عناصر الطلب")} ({data.items.length})
                                 </h2>
                             </div>
                             <div className="md:p-6 space-y-4">
-                                {data.items.map((item, index) => (
-                                    <div key={item.productId} className="flex gap-5 items-start space-x-4 p-4 pl-0 border border-gray-100 rounded-xl hover:border-gray-200 transition-colors">
+                                {data.items.map((item) => {
+                                    item = getLocalizedValues(item);
+                                    return <div key={item.productId} className="flex gap-5 items-start space-x-4 p-4 pl-0 border border-gray-100 rounded-xl hover:border-gray-200 transition-colors">
                                         <div className="flex-shrink-0">
                                             <Image
                                                 src={item.image}
@@ -179,7 +171,7 @@ const OrderDetailsPage = ({ data }: { data: OrderData }) => {
                                             </div>
                                         </div>
                                     </div>
-                                ))}
+                                })}
                             </div>
                         </div>
                     </div>
@@ -189,9 +181,10 @@ const OrderDetailsPage = ({ data }: { data: OrderData }) => {
                         {/* Customer Information */}
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
                             <div className="p-4 md:p-6 border-b border-gray-200">
+                                {/* Customer Details Header */}
                                 <h2 className="text-lg font-semibold text-gray-900 flex items-center">
                                     <MdPersonOutline className="mr-2" />
-                                    Customer Details
+                                    {getLocalizedText("Customer Details", "تفاصيل العميل")}
                                 </h2>
                             </div>
                             <div className="p-4 md:p-6 space-y-4">
@@ -209,9 +202,21 @@ const OrderDetailsPage = ({ data }: { data: OrderData }) => {
                                     <FiPhone className="w-4 h-4 text-gray-400" />
                                     <span className="text-sm text-gray-900">{data.user.phoneNumber}</span>
                                 </div>
-                                <div className="flex items-start gap-3">
-                                    <FiMapPin className="w-4 h-4 text-gray-400 mt-0.5" />
-                                    <span className="text-sm text-gray-900">{data.address}</span>
+                                <div className="flex items-start text-left gap-3">
+                                    <div className='w-5'>
+                                        <FiMapPin className="w-4 h-4 text-gray-400 mt-0.5" />
+                                    </div>
+                                    <span className='text-sm'>
+                                        {[
+                                            data.address.street,
+                                            data.address.city,
+                                            data.address.state,
+                                            data.address.postalCode,
+                                            data.address.country,
+                                        ]
+                                            .filter(Boolean)
+                                            .join(", ")}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -219,32 +224,39 @@ const OrderDetailsPage = ({ data }: { data: OrderData }) => {
                         {/* Order Summary */}
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
                             <div className="p-4 md:p-6 border-b border-gray-200">
+                                {/* Order Summary Header */}
                                 <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                                    Order Summary
+                                    {getLocalizedText("Order Summary", "ملخص الطلب")}
                                 </h2>
                             </div>
                             <div className="p-4 md:p-6 space-y-3">
                                 <div className="flex justify-between text-sm">
-                                    <span className="text-gray-600">Subtotal</span>
+                                    <span className="text-gray-600">{getLocalizedText("Subtotal", "المجموع الفرعي")}</span>
                                     <span className="text-gray-900">{formatCurrency(data.totalAmount)}</span>
                                 </div>
+                                {data?.discountAmount > 0 && (
+                                    <div className="flex justify-between text-green-600 font-medium">
+                                        <span>{getLocalizedText("Discount", "الخصم")}</span>
+                                        <span>- SAR {data?.discountAmount?.toFixed(2)}</span>
+                                    </div>
+                                )}
                                 <div className="flex justify-between text-sm">
-                                    <span className="text-gray-600">Shipping</span>
-                                    <span className="text-gray-900">Free</span>
+                                    <span className="text-gray-600">{getLocalizedText("Shipping", "الشحن")}</span>
+                                    <span className="text-gray-900">{getLocalizedText("Free", "مجاني")}</span>
                                 </div>
                                 <div className="flex justify-between text-sm">
-                                    <span className="text-gray-600">Tax</span>
-                                    <span className="text-gray-900">Included</span>
+                                    <span className="text-gray-600">{getLocalizedText("Tax", "الضريبة")}</span>
+                                    <span className="text-gray-900">{getLocalizedText("Included", "مضمنة")}</span>
                                 </div>
                                 <div className="border-t pt-3">
                                     <div className="flex justify-between font-semibold text-lg">
-                                        <span className="text-gray-900">Total</span>
+                                        <span className="text-gray-900">{getLocalizedText("Total", "الإجمالي")}</span>
                                         <span className="text-gray-900">{formatCurrency(data.finalAmount)}</span>
                                     </div>
                                 </div>
                                 <div className="pt-3 border-t">
                                     <div className="flex items-center justify-between">
-                                        <span className="text-sm text-gray-600">Payment Method</span>
+                                        <span className="text-sm text-gray-600">{getLocalizedText("Payment Method", "طريقة الدفع")}</span>
                                         <span className="text-sm font-medium text-gray-900 bg-gray-100 px-2 py-1 rounded">
                                             {data.paymentMethod}
                                         </span>

@@ -1,15 +1,16 @@
 "use client";
+
 import React, { useRef } from "react";
-import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { LiaLongArrowAltRightSolid } from "react-icons/lia";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import Link from "next/link";
+import GroundCard from "../common/GroundCard";
+import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
 
-const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
+const NearByField = ({ nextSlots, titleEn, titleAr, descShow = true }: { nextSlots?: any, titleEn?: string, titleAr?: string, descShow?: boolean }) => {
   const fields = nextSlots ?? [];
   const swiperRef = useRef<any>(null);
 
@@ -26,11 +27,11 @@ const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 pt-8">
           <div>
             <h2 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2 flex items-center gap-2">
-              Nearby Fields
+              {getLocalizedText(titleEn || "PlayPro Fields", titleAr || "ملاعب PlayPro")}
             </h2>
-            <p className="text-gray-600 text-base sm:text-lg">
-              Explore fields around you{" "}
-            </p>
+            {descShow && <p className="text-gray-600 text-base sm:text-lg">
+              {getLocalizedText("Explore fields around you", "استكشف الملاعب من حولك")}
+            </p>}
           </div>
 
           {/* Custom Navigation Button */}
@@ -78,64 +79,12 @@ const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
             }}
             className="!pb-12"
           >
-            {fields.map((field: any) => (
-              <SwiperSlide key={field._id}>
-                <Link
-                  href={`/grounds/${field._id}`}
-                  passHref
-                  className="relative rounded-2xl border border-gray-200 p-1 overflow-hidden transition-shadow duration-300 bg-white h-full flex flex-col"
-                >
-                  {/* Image */}
-                  <div className="relative w-full aspect-[4/3] sm:aspect-[3/4]">
-                    {field.images && field.images.length > 0 ? (
-                      <Image
-                        src={field.images[0]}
-                        alt="Ground "
-                        fill
-                        unoptimized
-                        className="object-cover rounded-2xl"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-200 rounded-2xl text-gray-500 text-sm">
-                        No Image
-                      </div>
-                    )}
-
-                    {/* Overlay */}
-                    <div className="absolute bottom-0 left-0 right-0 rounded-b-2xl bg-black/60 p-3 text-white">
-                      <h3 className="text-base sm:text-lg font-semibold mb-1">
-                        {field.name}
-                      </h3>
-                      <div className="flex items-center text-xs sm:text-sm text-gray-200">
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 12 12"
-                          fill="currentColor"
-                          className="mr-1 shrink-0"
-                        >
-                          <path d="M6 0C3.515 0 1.5 2.015 1.5 4.5c0 3.375 4.5 7.5 4.5 7.5s4.5-4.125 4.5-7.5C10.5 2.015 8.485 0 6 0zm0 6.75c-1.243 0-2.25-1.007-2.25-2.25S4.757 2.25 6 2.25s2.25 1.007 2.25 2.25S7.243 6.75 6 6.75z" />
-                        </svg>
-                        {field.address}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bottom Section */}
-                  <div className="bg-white p-3 sm:p-4 flex justify-between items-center">
-                    <div className="text-xs sm:text-sm font-medium text-gray-700">
-                      SAR {field.pricePerHour} / hour
-                    </div>
-                    <button
-                      className="px-4 py-1.5 sm:px-6 sm:py-2 text-white font-medium rounded-lg text-xs sm:text-sm hover:opacity-90 transition-opacity"
-                      style={{ background: "#6D0E82" }}
-                    >
-                      Book Now
-                    </button>
-                  </div>
-                </Link>
+            {fields.map((field: any) => {
+              field = getLocalizedValues(field);
+              return <SwiperSlide key={field._id}>
+                <GroundCard field={field} />
               </SwiperSlide>
-            ))}
+            })}
           </Swiper>
         </div>
 
@@ -151,7 +100,7 @@ const NearByField = ({ nextSlots }: { nextSlots?: any }) => {
           }
         `}</style>
       </div>
-    </div>
+    </div >
   );
 };
 

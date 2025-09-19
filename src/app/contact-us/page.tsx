@@ -11,6 +11,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { getLocalizedText } from "@/hooks/general";
 
 const ContactUsPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -46,7 +47,10 @@ const ContactUsPage: React.FC = () => {
       if (response.success) {
         setStatus({
           type: "success",
-          message: "Thank you! We’ll get back to you soon.",
+          message: getLocalizedText(
+            "Thank you! We’ll get back to you soon.",
+            "شكراً لك! سنتواصل معك قريباً."
+          ),
         });
         setFormData({
           senderName: "",
@@ -57,13 +61,18 @@ const ContactUsPage: React.FC = () => {
       } else {
         setStatus({
           type: "error",
-          message: response.message || "Something went wrong!",
+          message:
+            response.message ||
+            getLocalizedText("Something went wrong!", "حدث خطأ ما!"),
         });
       }
     } catch (error) {
       setStatus({
         type: "error",
-        message: "Failed to send message. Please try again later.",
+        message: getLocalizedText(
+          "Failed to send message. Please try again later.",
+          "فشل إرسال الرسالة. يرجى المحاولة لاحقاً."
+        ),
       });
     } finally {
       setLoading(false);
@@ -83,10 +92,13 @@ const ContactUsPage: React.FC = () => {
           <MessageCircle className="w-12 h-12" />
         </div>
         <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
-          Contact Us
+          {getLocalizedText("Contact Us", "اتصل بنا")}
         </h1>
         <p className="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto leading-relaxed">
-          We’re here to help with your football field booking needs.
+          {getLocalizedText(
+            "We’re here to help with your football field booking needs.",
+            "نحن هنا لمساعدتك في حجز ملاعب كرة القدم."
+          )}
         </p>
       </motion.section>
 
@@ -96,18 +108,18 @@ const ContactUsPage: React.FC = () => {
           {[
             {
               icon: <Phone className="w-6 h-6" />,
-              title: "Call Us",
-              text: "+91 98765 43210",
+              title: getLocalizedText("Call Us", "اتصل بنا"),
+              text: "+966 500330888",
             },
             {
               icon: <Mail className="w-6 h-6" />,
-              title: "Email Us",
-              text: "support@footybook.com",
+              title: getLocalizedText("Email Us", "راسلنا عبر البريد"),
+              text: "info@playprodammam.com",
             },
             {
               icon: <Headphones className="w-6 h-6" />,
-              title: "Live Support",
-              text: "24/7 assistance",
+              title: getLocalizedText("Live Support", "الدعم المباشر"),
+              text: getLocalizedText("24/7 assistance", "المساعدة على مدار الساعة"),
             },
           ].map((method, index) => (
             <motion.div
@@ -136,7 +148,7 @@ const ContactUsPage: React.FC = () => {
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-3xl font-bold mb-8 text-center text-[#6D0E82]">
-            Send Us a Message
+            {getLocalizedText("Send Us a Message", "أرسل لنا رسالة")}
           </h2>
 
           {status && (
@@ -162,19 +174,22 @@ const ContactUsPage: React.FC = () => {
               {
                 name: "senderName",
                 type: "text",
-                placeholder: "Your Name",
+                placeholder: getLocalizedText("Your Name", "اسمك"),
                 value: formData.senderName,
               },
               {
                 name: "senderEmail",
                 type: "email",
-                placeholder: "Your Email",
+                placeholder: getLocalizedText("Your Email", "بريدك الإلكتروني"),
                 value: formData.senderEmail,
               },
               {
                 name: "senderMobile",
                 type: "tel",
-                placeholder: "Your Mobile Number",
+                placeholder: getLocalizedText(
+                  "Your Mobile Number",
+                  "رقم هاتفك"
+                ),
                 value: formData.senderMobile,
               },
             ].map((field) => (
@@ -192,7 +207,7 @@ const ContactUsPage: React.FC = () => {
 
             <textarea
               name="query"
-              placeholder="Your Message"
+              placeholder={getLocalizedText("Your Message", "رسالتك")}
               value={formData.query}
               onChange={handleInputChange}
               rows={5}
@@ -206,7 +221,9 @@ const ContactUsPage: React.FC = () => {
               className="w-full bg-gradient-to-r from-[#6D0E82] to-[#932AAA] text-white py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition disabled:opacity-70"
               whileTap={{ scale: 0.96 }}
             >
-              {loading ? "Sending..." : "Send Message"}
+              {loading
+                ? getLocalizedText("Sending...", "جارٍ الإرسال...")
+                : getLocalizedText("Send Message", "أرسل الرسالة")}
             </motion.button>
           </form>
         </motion.div>

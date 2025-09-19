@@ -1,15 +1,18 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { getLocalizedText } from "@/hooks/general";
 
 const PlayProBanner = ({ banners }: { banners?: any }) => {
   return (
     <div className="relative w-full bg-white font-[Poppins] overflow-hidden">
       {/* Left Player Image */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[300px] sm:w-[380px] lg:w-[460px] h-auto">
+      <div className="absolute left-0 top-[66%] -translate-y-1/2 w-[300px] sm:w-[380px] lg:w-[460px] h-auto">
         <Image
-          src="/assets/player1.png"
-          alt="Football Player Left"
+          src="/assets/profile1.png"
+          alt={getLocalizedText("Football Player Left", "لاعب كرة قدم يسار")}
           width={460}
           height={460}
           priority
@@ -17,10 +20,10 @@ const PlayProBanner = ({ banners }: { banners?: any }) => {
       </div>
 
       {/* Right Player Image */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[300px] sm:w-[380px] lg:w-[460px] h-auto">
+      <div className="absolute right-0 top-[66%] -translate-y-1/2 w-[300px] sm:w-[380px] lg:w-[460px] h-auto">
         <Image
-          src="/assets/player2.png"
-          alt="Football Player Right"
+          src="/assets/profile22.png"
+          alt={getLocalizedText("Football Player Right", "لاعب كرة قدم يمين")}
           width={460}
           height={460}
           priority
@@ -28,15 +31,21 @@ const PlayProBanner = ({ banners }: { banners?: any }) => {
       </div>
 
       {/* Center Content */}
-      <div className="relative z-10 max-w-5xl mx-auto text-center px-4 py-16 sm:py-24">
+      <div className="relative z-10 max-w-5xl mx-auto text-center px-4 pb-16 pt-10">
         {/* Title */}
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-snug mb-28 text-[#2F0D46]">
-          PlayPro simplifies <span className="text-[#2F0D46]">sp</span>
-          <span className="text-gray-300">ort</span>
-          <span className="text-[#2F0D46]">s</span>
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-snug mb-10 text-[#2F0D46]">
+          {getLocalizedText("PlayPro simplifies", "يبسط PlayPro")}{" "}
+          <span className="text-[#2F0D46]">{getLocalizedText("sp", "ال")}</span>
+          <span className="text-[#2F0D46]">
+            {getLocalizedText("ort", "رياض")}
+          </span>
+          <span className="text-[#2F0D46]">{getLocalizedText("s", "ة")}</span>
           <br />
-          for <span className="text-[#2F0D46]">everyon</span>
-          <span className="text-gray-300">e</span>
+          {getLocalizedText("for", "لـ")}{" "}
+          <span className="text-[#2F0D46]">
+            {getLocalizedText("everyon", "الجميع")}
+          </span>
+          <span className="text-[#2F0D46]">{getLocalizedText("e", "")}</span>
         </h1>
 
         {/* Middle Card */}
@@ -46,7 +55,7 @@ const PlayProBanner = ({ banners }: { banners?: any }) => {
             <div className="flex justify-center mb-6">
               <Image
                 src="/assets/newLogo.png"
-                alt="PlayPro Logo"
+                alt={getLocalizedText("PlayPro Logo", "شعار PlayPro")}
                 width={120}
                 height={120}
                 priority
@@ -55,10 +64,12 @@ const PlayProBanner = ({ banners }: { banners?: any }) => {
 
             {/* Button */}
             <Link
-              href="/grounds"
+              // href="/grounds"
+              href={'/'}
               className="inline-block bg-[#6D0E82] text-white px-8 py-3 rounded-full font-medium text-sm sm:text-base hover:opacity-90 transition"
             >
-              Check Play pro fields
+              {getLocalizedText("Join PlayPro Academy", "انضم إلى أكاديمية PlayPro")}
+
             </Link>
           </div>
         </div>

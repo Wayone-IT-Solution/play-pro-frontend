@@ -4,6 +4,7 @@ import { Fetch } from "@/utils/axios";
 import { FiSearch } from "react-icons/fi";
 import Product from "./components/Product";
 import { LuListFilter } from "react-icons/lu";
+import { getLocalizedText } from "@/hooks/general";
 import { useCallback, useEffect, useState } from "react";
 import StadiumBrowser from "../../components/home/StadiumBrowser";
 
@@ -18,8 +19,9 @@ export default function Home() {
       const response: any = await Fetch("/api/product/public", {
         page: 1,
         limit: 100000,
-        searchkey: "name",
-        search: search || undefined,
+        name: search || undefined,
+        // searchkey: "name",
+        // search: search || undefined,
       }, 5000, true, false);
 
       if (response?.success)
@@ -41,9 +43,11 @@ export default function Home() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
           <div>
             <h2 className="font-bold text-2xl md:text-3xl text-gray-900">
-              Best selling Product
+              {getLocalizedText("Best Selling Product", "أفضل المنتجات مبيعاً")}
             </h2>
-            <p className="text-gray-500 mt-1">Exclusive showcase of Fields</p>
+            <p className="text-gray-500 mt-1">
+              {getLocalizedText("Exclusive showcase of Fields", "عرض حصري للحقول")}
+            </p>
           </div>
 
           <div className="flex lg:w-1/2 items-center md:w-auto">
@@ -53,7 +57,10 @@ export default function Home() {
               <input
                 type="text"
                 value={search}
-                placeholder="Search Product by name..."
+                placeholder={getLocalizedText(
+                  "Search Product by name...",
+                  "ابحث عن المنتج بالاسم..."
+                )}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full bg-transparent pl-10 pr-3 py-4 outline-none text-[#932AAA] placeholder-[#932AAA] rounded-2xl"
               />
@@ -62,7 +69,7 @@ export default function Home() {
                 className="flex items-center gap-2 px-5 mr-2 py-2.5 bg-[#932AAA] text-white font-semibold text-sm h-fit rounded-full"
               >
                 <LuListFilter className="w-4 h-4" />
-                Filter
+                {getLocalizedText("Filter", "تصفية")}
               </button>
             </div>
           </div>

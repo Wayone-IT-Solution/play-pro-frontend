@@ -1,13 +1,19 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import { ChevronDown } from "lucide-react";
-import { Fetch } from "@/utils/axios";
+
 import Link from "next/link";
 import Image from "next/image";
+import { Fetch } from "@/utils/axios";
+import { ChevronDown } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
 
 type Ground = {
   _id: string;
   name?: string;
+  type?: string;
+  address?: string;
+  images?: string[];
+  pricePerHour?: number;
 };
 
 export default function FieldSearchBar() {
@@ -30,13 +36,7 @@ export default function FieldSearchBar() {
     async function fetchFilters() {
       setLoadingFilters(true);
       try {
-        const res: any = await Fetch(
-          "/api/ground/filter",
-          {},
-          5000,
-          true,
-          false
-        );
+        const res: any = await Fetch("/api/ground/filter", {}, 5000, true, false);
         if (res?.success) {
           setAddressOptions(res?.data?.addresses || []);
           setTypeOptions(res?.data?.types || []);
@@ -56,16 +56,11 @@ export default function FieldSearchBar() {
     try {
       const query: { name?: string; address?: string; type?: string } = {
         ...(searchTerm && { name: searchTerm.trim() }),
-        ...(selectedCity && { address: selectedCity.trim() }),
+        ...(selectedCity && { city: selectedCity.trim() }),
+        // ...(selectedCity && { address: selectedCity.trim() }),
         ...(selectedFieldType && { type: selectedFieldType.trim() }),
       };
-      const res: any = await Fetch(
-        "/api/ground/filterGround",
-        query,
-        5000,
-        true,
-        false
-      );
+      const res: any = await Fetch("/api/ground/filterGround", query, 5000, true, false);
       setFilteredGrounds(res?.success ? (res.data as Ground[]) || [] : []);
       setShowGroundsList(true);
     } catch {
@@ -93,19 +88,14 @@ export default function FieldSearchBar() {
     const [open, setOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-
     useEffect(() => {
       function handleClickOutside(event: MouseEvent) {
-        if (
-          dropdownRef.current &&
-          !dropdownRef.current.contains(event.target as Node)
-        ) {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
           setOpen(false);
         }
       }
       document.addEventListener("mousedown", handleClickOutside);
-      return () =>
-        document.removeEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
     return (
@@ -122,8 +112,9 @@ export default function FieldSearchBar() {
         {open && !loadingFilters && (
           <ul className="absolute mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto z-20 custom-scrollbar">
             {options.length > 0 ? (
-              options.map((opt) => (
-                <li key={opt}>
+              options.map((opt: any) => {
+                opt = getLocalizedText(opt.en, opt.ar)
+                return <li key={opt}>
                   <button
                     type="button"
                     className="w-full text-left px-5 py-2 hover:bg-purple-50"
@@ -135,9 +126,9 @@ export default function FieldSearchBar() {
                     {titleCase(opt)}
                   </button>
                 </li>
-              ))
+              })
             ) : (
-              <li className="px-5 py-2 text-gray-400">No options</li>
+              <li className="px-5 py-2 text-gray-400">{getLocalizedText("No options", "لا توجد خيارات")}</li>
             )}
           </ul>
         )}
@@ -148,10 +139,7 @@ export default function FieldSearchBar() {
   // Close grounds list if clicked outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        groundsRef.current &&
-        !groundsRef.current.contains(event.target as Node)
-      ) {
+      if (groundsRef.current && !groundsRef.current.contains(event.target as Node)) {
         setShowGroundsList(false);
       }
     }
@@ -168,19 +156,19 @@ export default function FieldSearchBar() {
         <input
           type="text"
           value={searchTerm}
-          placeholder="Search For Fields"
+          placeholder={getLocalizedText("Search For Fields", "ابحث عن الملاعب")}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="flex-1 outline-none bg-white rounded-full px-6 py-3 text-gray-600 font-medium placeholder:font-normal placeholder:text-gray-400 border border-gray-200 focus:ring-2 focus:ring-purple-200 transition-all min-w-[200px]"
         />
         <Dropdown
           value={selectedCity}
           options={addressOptions}
-          placeholder="Select City"
+          placeholder={getLocalizedText("Select City", "اختر المدينة")}
           setValue={setSelectedCity}
         />
         <Dropdown
           options={typeOptions}
-          placeholder="Field Type"
+          placeholder={getLocalizedText("Field Type", "نوع الملعب")}
           value={selectedFieldType}
           setValue={setSelectedFieldType}
         />
@@ -189,7 +177,7 @@ export default function FieldSearchBar() {
           disabled={loadingGrounds}
           className="rounded-full px-8 py-3 cursor-pointer font-semibold text-white text-base bg-[#932AAA] hover:bg-[#7b0d92] transition-colors duration-200 shadow-sm hover:shadow-md disabled:opacity-50"
         >
-          {loadingGrounds ? "Searching..." : "Find"}
+          {loadingGrounds ? getLocalizedText("Searching...", "جاري البحث...") : getLocalizedText("Find", "ابحث")}
         </button>
       </form>
 
@@ -201,13 +189,14 @@ export default function FieldSearchBar() {
         >
           <div className="bg-white rounded-2xl p-4 border border-gray-100">
             <h3 className="font-semibold text-[#932AAA] mb-4 text-lg">
-              Available Grounds
+              {getLocalizedText("Available Grounds", "الملاعب المتاحة")}
             </h3>
 
             {filteredGrounds.length > 0 ? (
               <ul className="max-h-80 overflow-y-auto divide-y divide-gray-100 rounded-xl border border-gray-200 custom-scrollbar">
-                {filteredGrounds.map((ground: any) => (
-                  <li key={ground?._id}>
+                {filteredGrounds.map((ground: any) => {
+                  ground = getLocalizedValues(ground);
+                  return <li key={ground?._id}>
                     <Link
                       href={`/grounds/${ground?._id}`}
                       className="flex items-center gap-4 px-3 py-2 hover:bg-[#932AAA]/10 transition-all duration-200"
@@ -227,21 +216,20 @@ export default function FieldSearchBar() {
                       {/* Details */}
                       <div className="flex-1 min-w-0">
                         <h4 className="font-medium text-gray-800 truncate">
-                          {ground?.name || "Unnamed Ground"}
+                          {ground?.name || getLocalizedText("Unnamed Ground", "ملعب بدون اسم")}
                         </h4>
-                        <p className="text-sm text-gray-500 truncate">
-                          {ground?.address}
-                        </p>
+                        <p className="text-sm text-gray-500 truncate">{ground?.address}</p>
                         <div className="flex items-center gap-3 mt-1 text-xs text-gray-600">
                           <span>{ground?.type}</span>
                           <span className="font-semibold text-[#932AAA]">
-                            SAR {ground?.pricePerHour}/hr
+                            {getLocalizedText("SAR", "ريال")} {ground?.pricePerHour}/
+                            {getLocalizedText("hr", "ساعة")}
                           </span>
                         </div>
                       </div>
                     </Link>
                   </li>
-                ))}
+                })}
               </ul>
             ) : (
               hasSearched &&
@@ -260,9 +248,9 @@ export default function FieldSearchBar() {
                       d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                   </svg>
-                  <p className="font-medium">No grounds found</p>
+                  <p className="font-medium">{getLocalizedText("No grounds found", "لم يتم العثور على ملاعب")}</p>
                   <p className="text-sm text-gray-400 mt-1">
-                    Try adjusting your filters and search again.
+                    {getLocalizedText("Try adjusting your filters and search again.", "حاول تعديل الفلاتر والبحث مرة أخرى.")}
                   </p>
                 </div>
               )

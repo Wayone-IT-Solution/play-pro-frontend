@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { ToastContainer } from "react-toastify";
-import Sidebar from "@/components/layout/Sidebar";
+// import Sidebar from "@/components/layout/Sidebar";
 
 // Existing fonts
 const geistSans = Geist({
@@ -49,7 +49,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar">
+    <html lang="ar" dir="rtsl">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.className} relative font-sans antialiased`}
       >
@@ -64,7 +64,7 @@ export default function RootLayout({
           {`
             function googleTranslateElementInit() {
               new google.translate.TranslateElement({
-                pageLanguage: 'en',
+                pageLanguage: 'ar',
                 includedLanguages: 'en,ar',
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE
               }, 'google_translate_element');
@@ -72,6 +72,48 @@ export default function RootLayout({
           `}
         </Script>
 
+        <Script id="whatsapp-widget-init" strategy="afterInteractive">
+          {`
+              var url = 'https://wati-integration-prod-service.clare.ai/v2/watiWidget.js?95632';
+              var s = document.createElement('script');
+              s.type = 'text/javascript';
+              s.async = true;
+              s.src = url;
+
+              var options = {
+                "enabled": true,
+                "chatButtonSetting": {
+                  "backgroundColor": "#00e785",
+                  "ctaText": "Chat with us",
+                  "borderRadius": "25",
+                  "marginLeft": "0",
+                  "marginRight": "20",
+                  "marginBottom": "20",
+                  "ctaIconWATI": false,
+                  "position": "right"
+                },
+                "brandSetting": {
+                  "brandName": "Wayone",
+                  "brandSubTitle": "undefined",
+                  "brandImg": "https://playprodammam.com/assets/images/logo.png",
+                  "welcomeText": "Hi there!\\nHow can I help you?",
+                  "messageText": "Hello, I have query ",
+                  "backgroundColor": "#00e785",
+                  "ctaText": "Chat with us",
+                  "borderRadius": "25",
+                  "autoShow": false,
+                  "phoneNumber": "+966501802030"
+                }
+              };
+
+              s.onload = function () {
+                CreateWhatsappChatWidget(options);
+              };
+
+              var x = document.getElementsByTagName('script')[0];
+              x.parentNode.insertBefore(s, x);
+            `}
+        </Script>
         <Navbar />
         {/* <Sidebar /> */}
         <div className="min-h-screen flex">
@@ -91,3 +133,8 @@ export default function RootLayout({
     </html>
   );
 }
+
+// Revalidate the page every 15 minutes (900 seconds)
+// This ensures that the page content is updated periodically
+// without needing to redeploy the application.
+export const revalidate = 300;
