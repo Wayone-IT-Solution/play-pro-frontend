@@ -109,7 +109,7 @@ const ContactUsPage: React.FC = () => {
             {
               icon: <Phone className="w-6 h-6" />,
               title: getLocalizedText("Call Us", "اتصل بنا"),
-              text: "+966 500330888",
+              text: "00966501802030",
             },
             {
               icon: <Mail className="w-6 h-6" />,
@@ -119,7 +119,10 @@ const ContactUsPage: React.FC = () => {
             {
               icon: <Headphones className="w-6 h-6" />,
               title: getLocalizedText("Live Support", "الدعم المباشر"),
-              text: getLocalizedText("24/7 assistance", "المساعدة على مدار الساعة"),
+              text: getLocalizedText(
+                "24/7 assistance",
+                "المساعدة على مدار الساعة"
+              ),
             },
           ].map((method, index) => (
             <motion.div
@@ -153,10 +156,11 @@ const ContactUsPage: React.FC = () => {
 
           {status && (
             <motion.div
-              className={`mb-6 flex items-center gap-2 p-4 rounded-lg text-sm font-medium ${status.type === "success"
-                ? "bg-green-100 text-green-700"
-                : "bg-red-100 text-red-700"
-                }`}
+              className={`mb-6 flex items-center gap-2 p-4 rounded-lg text-sm font-medium ${
+                status.type === "success"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+              }`}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
             >

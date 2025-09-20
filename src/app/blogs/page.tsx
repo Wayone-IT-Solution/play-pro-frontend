@@ -28,9 +28,7 @@ export default async function Page() {
   return (
     <div className="overflow-hidden">
       <BannerSwiper banners={banners} />
-      {blogs?.length > 0 &&
-        <BlogPageDiv blogs={blogs} />
-      }
+      {blogs?.length > 0 && <BlogPageDiv blogs={blogs} />}
     </div>
   );
 }

@@ -125,25 +125,46 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="flex justify-center items-center w-full mx-auto">
             <div className="hidden lg:flex items-center gap-6">
-              <Link href="/" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
+              <Link
+                href="/"
+                className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900"
+              >
                 {getLocalizedText("Home", "الرئيسية")}
               </Link>
-              <Link href="/about-us" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
+              <Link
+                href="/about-us"
+                className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900"
+              >
                 {getLocalizedText("About Us", "معلومات عنا")}
               </Link>
-              <Link href="/grounds" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
+              <Link
+                href="/grounds"
+                className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900"
+              >
                 {getLocalizedText("Search Fields", "البحث عن الملاعب")}
               </Link>
-              <Link href="/product" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
+              <Link
+                href="/product"
+                className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900"
+              >
                 {getLocalizedText("Play Pro Shop", "متجر بلاي برو")}
               </Link>
-              <Link href="/contact-us" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
+              <Link
+                href="/contact-us"
+                className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900"
+              >
                 {getLocalizedText("Contact Us", "اتصل بنا")}
               </Link>
-              <Link href="/blogs" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
+              <Link
+                href="/news"
+                className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900"
+              >
                 {getLocalizedText("News", "الأخبار")}
               </Link>
-              <Link href="/gallery" className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900">
+              <Link
+                href="/gallery"
+                className="text-[#6D0E82] font-inter text-[13px] font-bold hover:text-gray-900"
+              >
                 {getLocalizedText("Gallery", "المعرض")}
               </Link>
             </div>
@@ -166,7 +187,9 @@ export default function Navbar() {
               style={{ backgroundColor: "#6D0E82" }}
             >
               <FaUserCircle className="text-base" />
-              <span className="max-w-20 truncate">{formData?.firstName || getLocalizedText("User", "المستخدم")}</span>
+              <span className="max-w-20 truncate">
+                {formData?.firstName || getLocalizedText("User", "المستخدم")}
+              </span>
             </Link>
           ) : (
             <Link href="/login">
@@ -274,7 +297,9 @@ export default function Navbar() {
                   onClick={closeMobileMenu}
                 >
                   <FaUserCircle />
-                  <span>{formData.firstName || getLocalizedText("User", "المستخدم")}</span>
+                  <span>
+                    {formData.firstName || getLocalizedText("User", "المستخدم")}
+                  </span>
                 </Link>
               </>
             ) : (
