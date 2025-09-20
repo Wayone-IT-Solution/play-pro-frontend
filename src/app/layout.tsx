@@ -102,7 +102,7 @@ export default function RootLayout({
                   "ctaText": "Chat with us",
                   "borderRadius": "25",
                   "autoShow": false,
-                  "phoneNumber": "+966501802030"
+                  "phoneNumber": "00966501802030"
                 }
               };
 
