@@ -31,7 +31,7 @@ const BookingForm = () => {
   const [orderData, setOrderData] = useState<any>({});
   const [user, setUser] = useState<User | null>(null);
   const [bookingLoading, setBookingLoading] = useState(false);
-  const [bookingData, setBookingData] = useState<BookingData | null>(null);
+  const [bookingData, setBookingData] = useState<BookingData | any>(null);
 
   useEffect(() => {
     const storedData = localStorage.getItem("bookingData");
@@ -170,14 +170,16 @@ const BookingForm = () => {
                     </svg>
                     <span>
                       {bookingData.slots.length > 0 &&
-                        `${bookingData.slots[0].startTime}–${bookingData.slots[0].endTime}`}
+                        bookingData.slots
+                          .map((slot: any) => `${slot.startTime}–${slot.endTime}`)
+                          .join(", ")}
                     </span>
                   </div>
                 </div>
 
                 <div className="bg-gray-50 px-4 py-2 rounded-lg">
                   <span className="text-lg font-semibold text-gray-900">
-                    ${getLocalizedText("SAR", "ريال سعودي")} {bookingData.price}
+                    {getLocalizedText("SAR", "ريال سعودي")} {bookingData.totalAmount}
                   </span>
                 </div>
               </div>

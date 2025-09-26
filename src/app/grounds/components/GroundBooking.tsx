@@ -158,13 +158,12 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
       date: selectedDate,
       slots: selectedSlots.map((s) => ({
         _id: s._id,
-        startTime: s.startTime,
-        endTime: s.endTime,
         amount: s.amount,
+        endTime: s.endTime,
+        startTime: s.startTime,
       })),
       totalAmount: selectedSlots.reduce((sum, s) => sum + s.amount, 0),
     };
-
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
     localStorage.removeItem("orderData");
     const payload = {

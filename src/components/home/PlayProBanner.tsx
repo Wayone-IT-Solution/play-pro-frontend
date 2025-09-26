@@ -64,12 +64,12 @@ const PlayProBanner = ({ banners }: { banners?: any }) => {
 
             {/* Button */}
             <div className="flex flex-col gap-2">
-              <Link
+              {/* <Link
                 href="/grounds"
                 className="border border-[#6D0E82] text-[#6D0E82] px-8 py-2.5 rounded-full font-medium text-sm sm:text-base hover:bg-[#6D0E82] hover:text-white transition"
               >
                 {getLocalizedText("View Fields", "عرض الحقول")}
-              </Link>
+              </Link> */}
               <Link
                 href={'/academy'}
                 className="bg-[#6D0E82] text-white px-8 py-3 rounded-full font-medium text-sm sm:text-base hover:opacity-90 transition"

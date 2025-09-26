@@ -7,7 +7,8 @@ type MapProps = {
 };
 
 export default function GroundMap({ lat, lng }: MapProps) {
-  const mapSrc = `https://www.google.com/maps?q=${lat},${lng}&hl=en&z=14&output=embed`;
+  const mapSrc = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBfvIZsTphjvYd29lYG_WFbWj2KaG6H_bU&q=${lat},${lng}&zoom=18&maptype=satellite`;
+
   return (
     <div className="rounded-2xl overflow-hidden">
       <iframe

@@ -345,7 +345,7 @@ export default function CouponSection({ handleBooking, setOrderData }: { handleB
                                 );
                             })}
                             {coupons?.length === 0 &&
-                                <div className="flex flex-col items-center justify-center">
+                                <div className="flex col-span-3 flex-col items-center justify-center">
                                     {/* Icon */}
                                     <div className="relative">
                                         <FaTicketAlt className="h-48 w-48 text-gray-400" />

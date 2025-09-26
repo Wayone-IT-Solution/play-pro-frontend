@@ -2,28 +2,49 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { Fetch } from "@/utils/axios";
 import { QRCodeCanvas } from "qrcode.react";
-import { getLocalizedText } from "@/hooks/general";
 import React, { useEffect, useState, useRef } from "react";
+import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
 
 const ThankYouPage: React.FC = () => {
-  const [bookingId, setBookingId] = useState<string | null>(null);
   const qrRef = useRef<HTMLCanvasElement>(null);
+  const [bookingData, setBookingData] = useState<any>(null);
+  const [bookingId, setBookingId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const bookingDataStr = localStorage.getItem("orderData");
-      if (bookingDataStr) {
-        try {
-          const bookingData = JSON.parse(bookingDataStr);
-          setBookingId(bookingData._id || "N/A");
-        } catch {
-          setBookingId("N/A");
-        }
-      } else {
-        setBookingId("N/A");
+    const fetchBooking = async () => {
+      if (typeof window !== "undefined") {
+        const bookingDataStr = localStorage.getItem("orderData");
+        if (bookingDataStr) {
+          try {
+            const bookingData = JSON.parse(bookingDataStr);
+            setBookingId(bookingData?._id || "N/A");
+            const response: any = await Fetch("/api/booking/" + bookingData._id, {}, 5000, true, false);
+            if (response?.success) {
+              const data = response?.data;
+              const slotsData = data?.slots.map((slot: any) => ({
+                date: slot?.date,
+                amount: slot?.amount,
+                endTime: slot?.endTime,
+                startTime: slot?.startTime,
+              }));
+              const qrData = {
+                slots: slotsData,
+                bookingId: data?._id,
+                totalAmount: data?.finalAmount,
+                numberOfGuests: data?.numberOfGuests,
+                groundName: getLocalizedValues(data?.groundId.name),
+              };
+              setBookingData(qrData);
+            }
+          } catch {
+            setBookingId("N/A");
+          }
+        } else setBookingId("N/A");
       }
     }
+    fetchBooking();
   }, []);
 
   // Download QR Code
@@ -100,10 +121,36 @@ const ThankYouPage: React.FC = () => {
             {getLocalizedText("Booking ID", "معرّف الحجز")}: {bookingId || getLocalizedText("Loading...", "جارٍ التحميل...")}
           </p>
 
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-600">Ground:</span>
+            <span className="text-gray-800">{getLocalizedText(bookingData?.groundName?.en, bookingData?.groundName?.ar)}</span>
+          </div>
+
+          <div className="flex justify-between">
+            <span className="font-medium text-gray-600">Total Amount:</span>
+            <span className="text-green-600 font-semibold">
+              SAR{bookingData?.totalAmount}
+            </span>
+          </div>
+
+          {bookingData?.slots.map((slot: any, idx: any) => (
+            <div
+              key={idx}
+              className="mt-2 p-3 rounded-lg bg-gray-50 border flex justify-between flex-row gap-2"
+            >
+              <span className="text-sm text-gray-500">
+                Date: {new Date(slot.date).toLocaleDateString()}
+              </span>
+              <span className="text-sm text-gray-500">
+                Time: {slot.startTime} - {slot.endTime}
+              </span>
+            </div>
+          ))}
+
           {/* Explore More */}
           <Link href="/history" passHref>
             <button
-              className="bg-[#6D0E82] cursor-pointer text-white px-8 sm:px-16 py-3 sm:py-4 rounded-lg font-medium text-base hover:bg-opacity-90 transition-all duration-200 shadow-sm"
+              className="bg-[#6D0E82] mt-5 cursor-pointer text-white px-8 sm:px-16 py-3 sm:py-4 rounded-lg font-medium text-base hover:bg-opacity-90 transition-all duration-200 shadow-sm"
               type="button"
             >
               {getLocalizedText("Explore More", "استكشاف المزيد")}
@@ -116,17 +163,20 @@ const ThankYouPage: React.FC = () => {
           <div className="p-4 bg-[#6D0E82] rounded-xl shadow-lg">
             {bookingId ? (
               <QRCodeCanvas
-                ref={qrRef}
-                value={bookingId}
+                level="H"
                 size={200}
+                ref={qrRef}
                 bgColor="#ffffff"
                 fgColor="#6D0E82"
-                level="H"
                 includeMargin={false}
                 className="rounded-lg"
+                value={bookingId}
+              // value={JSON.stringify(bookingData)}
               />
             ) : (
-              <p className="text-white">{getLocalizedText("Loading QR Code...", "جارٍ تحميل رمز الاستجابة السريعة...")}</p>
+              <p className="text-white">
+                {getLocalizedText("Loading QR Code...", "جارٍ تحميل رمز الاستجابة السريعة...")}
+              </p>
             )}
           </div>
 
