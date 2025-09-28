@@ -2,46 +2,32 @@
 import React from "react";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
+import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
+import Link from "next/link";
 
-export interface Academy {
-  id: string;
-  name: string;
-  description: string;
-  coach: string;
-  timing: string;
-  rating: number;
-  logo: string;
-  primaryColor: string; 
-  secondaryColor: string; 
-}
+interface AcademyCardProps { academy: any }
 
-interface AcademyCardProps {
-  academy: Academy;
-  onRegister?: () => void;
-}
-
-const AcademyCard: React.FC<AcademyCardProps> = ({ academy, onRegister }) => {
+const AcademyCard: React.FC<AcademyCardProps> = ({ academy }) => {
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
       <FaStar
         key={index}
         size={16}
-        className={`${
-          index < rating ? "text-yellow-400" : "text-gray-300"
-        }`}
+        className={`${index < rating ? "text-yellow-400" : "text-gray-300"
+          }`}
       />
     ));
   };
-
+  const coach = getLocalizedValues(academy?.coaches?.[0]);
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden w-full max-w-xs">
+    <div className="bg-white rounded-2xl shadow-xl overflow-hidden w-full">
       {/* Academy Logo */}
-      <div className="relative w-full h-40 bg-gray-100 flex items-center justify-center">
-        {academy.logo ? (
+      <div className="relative w-full h-48 bg-gray-100 flex items-center justify-center">
+        {academy.imageUrl ? (
           <Image
-            src={academy.logo}
-            alt={academy.name}
             layout="fill"
+            alt={academy.name}
+            src={academy.imageUrl}
             objectFit="contain"
             className="p-4" // Add padding to the image itself
           />
@@ -50,40 +36,43 @@ const AcademyCard: React.FC<AcademyCardProps> = ({ academy, onRegister }) => {
         )}
       </div>
 
-      <div className="p-4">
+      <div className="p-4 mb-2">
         {/* Academy Name and Rating */}
         <div className="flex justify-between items-center mb-2">
-          <h3 className="font-semibold text-gray-800 text-base">
+          <h3 className="font-bold line-clamp-1 text-gray-800 text-lg">
             {academy.name}
           </h3>
           <div className="flex items-center gap-1">
-            {renderStars(academy.rating)}
+            {renderStars(academy.rating || 4)}
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-gray-600 text-xs mb-3 line-clamp-2">
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
           {academy.description}
         </p>
 
         {/* Coach Information */}
-        <p className="text-gray-700 font-medium text-xs mb-1">
-          {academy.coach} - Football coach
-        </p>
+        {coach?.name &&
+          <p className="text-gray-700 line-clamp-2 font-medium text-sm mb-1">
+            {coach.name} - {academy?.sports?.join(", ")} coach
+          </p>
+        }
 
         {/* Timing */}
-        <p className="text-gray-600 text-xs mb-4">
-          Slot time - {academy.timing}
+        <p className="text-gray-600 text-sm mb-4">
+          {getLocalizedText("Slot time", "وقت الحجز")} - {academy.startTime} - {academy.endTime}
         </p>
 
         {/* Register Button */}
-        <button
-          onClick={onRegister}
-          className="w-full py-3 rounded-md text-white font-semibold text-sm transition-colors"
-          style={{ backgroundColor: '#932AAA' }} 
+        <Link href={"/academy/" + academy._id}
+          className="w-full py-3 cursor-pointer rounded-md text-white font-semibold text-sm transition-colors"
+          style={{ backgroundColor: '#014999' }}
         >
-          Register Now
-        </button>
+          <button className="w-full">
+            {getLocalizedText("Register Now", "سجّل الآن")}
+          </button>
+        </Link>
       </div>
     </div>
   );

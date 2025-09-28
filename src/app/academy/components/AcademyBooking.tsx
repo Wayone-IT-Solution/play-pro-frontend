@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import GroundMap from "./GroundMap";
+import AcademyMap from "./AcademyMap";
+import { toast } from "react-toastify";
 import { Fetch, Post } from "@/utils/axios";
 import { useRouter } from "next/navigation";
 import GroundImageSwiper from "@/app/grounds/GroundImageSwiper";
 import React, { useCallback, useEffect, useState } from "react";
 import { MapPin, Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { getLocalizedText, getLocalizedValues } from "@/hooks/general";
-import { toast } from "react-toastify";
 
 interface Slot {
   _id: string;
@@ -20,11 +20,11 @@ interface Slot {
   isBooked: boolean;
 }
 
-export default function GroundBookingClient({ groundData }: { groundData: any }) {
-  groundData = getLocalizedValues(groundData);
+export default function AcademyBookingClient({ academyData }: { academyData: any }) {
+  academyData = getLocalizedValues(academyData);
   const today = new Date();
   const router = useRouter();
-  const groundId = groundData?._id;
+  const groundId = academyData?._id;
   const [slots, setSlots] = useState<Slot[]>([]);
   const [selectedSlots, setSelectedSlots] = useState<Slot[]>([]);
 
@@ -151,10 +151,10 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
     }
 
     const bookingData = {
-      groundId: groundData._id,
-      images: groundData?.images,
-      groundName: groundData.name,
-      location: groundData.address,
+      groundId: academyData._id,
+      images: academyData?.images,
+      groundName: academyData.name,
+      location: academyData.address,
       date: selectedDate,
       slots: selectedSlots.map((s) => ({
         _id: s._id,
@@ -177,7 +177,7 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
       return router.push("/check-out");
     }
   };
-
+  const coach = getLocalizedValues(academyData?.coaches?.[0]);
   return (
     <div className="w-screen mt-16 lg:mt-24 max-w-6xl lg:px-4 mx-auto flex flex-col items-center">
       <div className="w-full px-4 py-6">
@@ -186,67 +186,47 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
           <div className="w-full lg:w-3/5">
             <div className="mb-6">
               <h2 className="text-2xl font-semibold mb-2">
-                {groundData.name || "Padel 10"}
+                {academyData.name || "Padel 10"}
               </h2>
-              <div className="flex items-center text-gray-600 mb-1">
+              {/* <div className="flex items-center text-gray-600 mb-1">
                 <MapPin size={16} className="mr-1" />
                 <span className="text-sm">
-                  {groundData.address || "Saudi Arabia, Medina"}
+                  {academyData.address || "Saudi Arabia, Medina"}
                 </span>
-              </div>
-              <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
-                <span>
-                  Pitch Type:{" "}
-                  <span className="font-medium">
-                    {groundData.pitchType || "turf"}
-                  </span>
-                </span>
-                <span>
-                  Venue Type:{" "}
-                  <span className="font-medium">
-                    {groundData.type || "outdoor"}
-                  </span>
-                </span>
-              </div>
+              </div> */}
+
+              {/* Description */}
+              <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                {academyData.description}
+              </p>
+
+              {/* Coach Information */}
+              {coach?.name &&
+                <p className="text-gray-700 line-clamp-2 font-medium text-sm mb-1">
+                  {coach.name} - {academyData?.sports?.join(", ")} coach
+                </p>
+              }
+
               <div className="text-sm text-gray-600 mb-2">
                 {getLocalizedText("Opening Hours:", "ساعات العمل:")}{" "}
                 <span className="font-medium">
-                  {groundData.startTime} - {groundData.endTime}
+                  {academyData.startTime} - {academyData.endTime}
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <Star size={16} className="text-yellow-400" />
                 <span className="text-sm font-medium">
-                  {groundData.rating ?? 4}/5 {getLocalizedText("Rating", "التقييم")}
+                  {academyData.rating ?? 4}/5 {getLocalizedText("Rating", "التقييم")}
                 </span>
               </div>
-              {groundData.sponsored &&
-                <div className="flex items-center text-gray-600 mt-1">
-                  <span className="text-base italic tracking-tighter">
-                    {getLocalizedText("Sponsored By:", "برعاية:")} {groundData.sponsored}
-                  </span>
-                </div>
-              }
             </div>
 
             {/* Ground Image */}
             <div className="rounded-lg mb-6">
-              {Array.isArray(groundData.images) &&
-                groundData.images.length > 0 ? (
-                <GroundImageSwiper
-                  images={groundData.images}
-                  name={groundData.name}
-                />
-              ) : (
-                <div className="relative w-full h-60">
-                  <Image
-                    src="/assets/stadium1.png"
-                    alt="Stadium placeholder"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              )}
+              <GroundImageSwiper
+                name={academyData.name}
+                images={[academyData.imageUrl]}
+              />
             </div>
           </div>
 
@@ -257,7 +237,7 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
               style={{ minWidth: 320 }}
             >
               <h3 className="text-lg font-semibold mb-2">
-                {getLocalizedText("Book a Field on", "احجز ملعب على")} {groundData.name || "PADEL10"}
+                {getLocalizedText("Book a Field on", "احجز ملعب على")} {academyData.name || "PADEL10"}
               </h3>
               <p className="text-sm text-gray-600 mb-4">
                 {getLocalizedText(
@@ -418,7 +398,7 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
           <div className="flex flex-wrap gap-4 justify-between items-center mb-4 w-full">
             <span className="text-2xl font-bold">
               {getLocalizedText("SAR", "ريال سعودي")}{" "}
-              {totalAmount || groundData.pricePerHour || "300"}/
+              {totalAmount || academyData.pricePerHour || "300"}/
               {getLocalizedText("hr", "ساعة")}
             </span>
             <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -454,7 +434,7 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
             </span>
             <span className="flex-1 border-t-2 border-dashed border-[#932AAA] mx-4"></span>
             <span className="font-semibold text-gray-900">
-              {getLocalizedText("SAR", "ريال سعودي")} {totalAmount || groundData.pricePerHour}
+              {getLocalizedText("SAR", "ريال سعودي")} {totalAmount || academyData.pricePerHour}
             </span>
           </div>
           {/* <span className="font-semibold text-gray-900  text-right px-4 pt-2 inline-block w-full">
@@ -470,10 +450,10 @@ export default function GroundBookingClient({ groundData }: { groundData: any })
           {getLocalizedText("Checkout", "الدفع")}
         </button>
 
-        {groundData?.location?.coordinates?.length === 2 && (
-          <GroundMap
-            lat={groundData.location.coordinates[1]}
-            lng={groundData.location.coordinates[0]}
+        {academyData?.location?.coordinates?.length === 2 && (
+          <AcademyMap
+            lat={academyData.location.coordinates[1]}
+            lng={academyData.location.coordinates[0]}
           />
         )}
       </div>
