@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import AcademyMap from "./AcademyMap";
 import { toast } from "react-toastify";
 import { Fetch, Post } from "@/utils/axios";
@@ -140,6 +139,7 @@ export default function AcademyBookingClient({ academyData }: { academyData: any
   };
 
   const handleConfirmSelection = async () => {
+    return router.push("/academy-detail");
     const token = localStorage.getItem("accessToken");
     if (!token) {
       router.push("/login");
@@ -447,7 +447,7 @@ export default function AcademyBookingClient({ academyData }: { academyData: any
           style={{ backgroundColor: "#932AAA" }}
           onClick={handleConfirmSelection}
         >
-          {getLocalizedText("Checkout", "الدفع")}
+          {getLocalizedText("Register Now", "سجّل الآن")}
         </button>
 
         {academyData?.location?.coordinates?.length === 2 && (

@@ -89,17 +89,17 @@ const InsuranceInformationForm: React.FC<{ onNext: () => void; onBack: () => voi
           </div>
           <div className="flex gap-4 pb-2">
             <label className="flex items-center gap-1.5 cursor-pointer">
-              <input 
-                type="checkbox" 
-                className="form-checkbox h-4 w-4 text-purple-600 rounded" 
+              <input
+                type="checkbox"
+                className="form-checkbox h-4 w-4 text-purple-600 rounded"
               />
               <span className="text-sm text-gray-700">Adult</span>
             </label>
             <span className="text-gray-400">OR</span>
             <label className="flex items-center gap-1.5 cursor-pointer">
-              <input 
-                type="checkbox" 
-                className="form-checkbox h-4 w-4 text-purple-600 rounded" 
+              <input
+                type="checkbox"
+                className="form-checkbox h-4 w-4 text-purple-600 rounded"
               />
               <span className="text-sm text-gray-700">Youth</span>
             </label>
@@ -152,10 +152,10 @@ const InsuranceInformationForm: React.FC<{ onNext: () => void; onBack: () => voi
           <option>Premium Coverage</option>
           <option>Comprehensive Coverage</option>
         </FormSelect>
-        
+
         {/* Employer's Name/Address */}
-        <FormInput 
-          label="Employer's Name / Address" 
+        <FormInput
+          label="Employer's Name / Address"
           placeholder="Select a subcategory"
           value={formData.employerNameAddress}
           onChange={e => handleInputChange('employerNameAddress', e.target.value)}
@@ -171,18 +171,18 @@ const InsuranceInformationForm: React.FC<{ onNext: () => void; onBack: () => voi
             <span><strong>Flag</strong> $35.00</span>
           </div>
           <p className="text-xs text-gray-600 mb-4">
-            **Midview Youth Football has not and does not carry medical insurance for participants. I understand that should it be 
+            **Midview Youth Football has not and does not carry medical insurance for participants. I understand that should it be
             necessary, any and all medical expenses for my child are my responsibility.
           </p>
-          
+
           <div className="border-t pt-4">
             <p className="font-semibold text-gray-800 mb-2">PLEASE READ CAREFULLY BEFORE SIGNING</p>
             <p className="text-xs text-gray-600 leading-relaxed">
-              We consent to our child's participation in the Midview Youth Football program. In consideration for permitting our child to participate 
-              in the activities conducted by Midview Youth Football, we release, waive, discharge, covenant and relinquish any and all action or cause of 
-              action against the organization, promoters, officials, staff coaches and/or volunteers for personal injury, death and or property damage occurring 
-              to our child as a result of engaging or receiving instruction in the activities conducted by this organization. We further release all officials, officers, promoters, staff, coaches and/or volunteers from any claim whatsoever on account of first aid, treatment or services rendered to their child 
-              during participation in this organization. We agree to return all equipment, cleaned and in good condition to Midview Youth Football by the 
+              We consent to our child's participation in the Midview Youth Football program. In consideration for permitting our child to participate
+              in the activities conducted by Midview Youth Football, we release, waive, discharge, covenant and relinquish any and all action or cause of
+              action against the organization, promoters, officials, staff coaches and/or volunteers for personal injury, death and or property damage occurring
+              to our child as a result of engaging or receiving instruction in the activities conducted by this organization. We further release all officials, officers, promoters, staff, coaches and/or volunteers from any claim whatsoever on account of first aid, treatment or services rendered to their child
+              during participation in this organization. We agree to return all equipment, cleaned and in good condition to Midview Youth Football by the
               date notified.
             </p>
           </div>
@@ -239,7 +239,7 @@ const RegisterationFlow: React.FC = () => {
   const handleInputChange = (field: string, value: any) => {
     if (field.includes('.')) {
       const [parent, child] = field.split('.');
-      setFormData((prev:any)=> ({
+      setFormData((prev: any) => ({
         ...prev,
         [parent]: {
           ...prev[parent as keyof typeof prev],
@@ -275,8 +275,8 @@ const RegisterationFlow: React.FC = () => {
         <header className="bg-white p-4">
           <h1 className="text-2xl font-bold text-gray-800">
             <span className="text-[#932AAA]">Play</span>
-              <span className="text-gray-500">Pro</span>
-              <span className="text-black ml-1">Academy</span>
+            <span className="text-gray-500">Pro</span>
+            <span className="text-black ml-1">Academy</span>
           </h1>
           <p className="text-sm text-gray-500 mt-1">Aliquam lacinia diam quis lacus euismod</p>
         </header>
@@ -442,7 +442,7 @@ const RegisterationFlow: React.FC = () => {
             <div className="flex justify-center">
               <button
                 onClick={handleNext}
-                className="bg-[#932AAA] text-white px-16 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-opacity"
+                className="bg-[#932AAA] w-full cursor-pointer text-white px-16 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-opacity"
               >
                 Next
               </button>
@@ -452,8 +452,8 @@ const RegisterationFlow: React.FC = () => {
 
         {/* Insurance Form Step */}
         {currentStep === 2 && (
-          <InsuranceInformationForm 
-            onNext={handleInsuranceComplete} 
+          <InsuranceInformationForm
+            onNext={handleInsuranceComplete}
             onBack={handleBackToRegistration}
           />
         )}

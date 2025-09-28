@@ -24,7 +24,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 mt-12">
-      <div className="container mx-auto px-4 md:px-6 lg:px-12">
+      <div className="container mx-auto px-4 md:px-6 lg:px-24">
         {/* Header + Filter Row (as in image) */}
         <header className="flex items-center justify-between mt-4 mb-10">
           <div>
@@ -56,7 +56,7 @@ const HomePage: React.FC = () => {
         </header>
 
         {/* Left-Aligned Card */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {academies?.length > 0 && academies.map((item: any) => {
             item = getLocalizedValues(item);
             return <React.Fragment key={item._id}>
